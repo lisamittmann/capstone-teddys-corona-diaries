@@ -1,8 +1,13 @@
 package de.neuefische.teddyscoronadiaries.service;
 
 import de.neuefische.teddyscoronadiaries.db.RecipeMongoDb;
+import de.neuefische.teddyscoronadiaries.model.recipe.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
+@Service
 public class RecipeService {
 
     private final RecipeMongoDb recipeMongoDb;
@@ -12,4 +17,7 @@ public class RecipeService {
         this.recipeMongoDb = recipeMongoDb;
     }
 
+    public Optional<Recipe> getRecipe(String recipeId) {
+        return recipeMongoDb.findById(recipeId);
+    }
 }
