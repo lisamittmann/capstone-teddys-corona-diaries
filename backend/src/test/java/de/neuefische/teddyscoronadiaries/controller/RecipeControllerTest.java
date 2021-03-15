@@ -82,5 +82,18 @@ class RecipeControllerTest {
                 .build()));
     }
 
+    @Test
+    @DisplayName("Get non existing recipe should return 404 error")
+    public void getRecipeShouldReturnErrorForNonExistingRecipe(){
+        // Given
+        String recipeId = "9999";
+
+        // When
+        ResponseEntity<Void> response = restTemplate.getForEntity(getUrl() + "/" + recipeId, Void.class);
+
+        // Then
+        assertThat(response.getStatusCode(), is(HttpStatus.NOT_FOUND));
+    }
+
 
 }
