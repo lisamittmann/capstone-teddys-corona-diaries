@@ -26,7 +26,7 @@ class RecipeServiceTest {
         when(mockRecipeMongoDb.findById("0001")).thenReturn(
                 Optional.of(Recipe.builder()
                         .id("0001")
-                        .recipeName("Himmerlischer Schokokuchen")
+                        .name("Himmlischer Schokokuchen")
                         .imageUrl("some-image-url")
                         .diaryEntry("wenn absolut nichts mehr geht, dann ist es Zeit für Schokokuchen")
                         .build())
@@ -38,7 +38,7 @@ class RecipeServiceTest {
         // Then
         assertThat(result.get(), is(Recipe.builder()
                 .id("0001")
-                .recipeName("Himmerlischer Schokokuchen")
+                .name("Himmlischer Schokokuchen")
                 .imageUrl("some-image-url")
                 .diaryEntry("wenn absolut nichts mehr geht, dann ist es Zeit für Schokokuchen")
                 .build()));

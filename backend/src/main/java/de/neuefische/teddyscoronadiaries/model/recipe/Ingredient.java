@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Ingredient {
     private String amountAndUnit;
-    private String ingredientName;
+    private String name;
 }

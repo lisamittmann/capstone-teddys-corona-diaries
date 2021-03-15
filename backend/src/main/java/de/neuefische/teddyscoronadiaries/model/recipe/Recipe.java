@@ -18,7 +18,7 @@ public class Recipe {
 
     @Id
     private String id;
-    private String recipeName;
+    private String name;
     private String imageUrl;
     private String diaryEntry;
     private List<Ingredient> ingredients;
