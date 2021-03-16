@@ -1,8 +1,10 @@
 import { createGlobalStyle } from 'styled-components'
 
 export default createGlobalStyle`
+
   html, body {
     font-size: 112.5%;
+    margin: 0;
   }
   
   :root {
@@ -13,5 +15,6 @@ export default createGlobalStyle`
     --color-alabaster: #E3EADB;
     --color-cultured: #FAFAFA;
     --color-silver: #C4C4C4; 
+    --color-battleship-grey: #878787;
   }
 `
