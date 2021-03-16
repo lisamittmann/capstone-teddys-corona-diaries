@@ -18,7 +18,7 @@ export default function RecipePreparation({ingredients, preparationSteps}) {
                     {
                         preparationSteps.sort((oneStep, anotherStep) => oneStep.stepNumber.localeCompare(anotherStep.stepNumber))
                             .map(step => (
-                                <li>{step.stepDescription}</li>
+                                <li key={step.stepNumber}>{step.stepDescription}</li>
                             ))
                     }
                 </ol>
@@ -29,10 +29,17 @@ export default function RecipePreparation({ingredients, preparationSteps}) {
 
 const PreparationGrid = styled.section`
   display: grid;
-  grid-template-columns: 30% 70%;
+  @media (min-width: 500px) {
+    grid-template-columns: 40% 60%;
+  }
   grid-gap: 16px;
   margin-left: 25px;
-  margin-right: 41px;
+  @media (min-width: 500px) {
+    margin-right: 41px;
+  }
+  @media (max-width: 499px){
+    margin-right: 25px; 
+  }
   font-size: 15px;
 
   div {

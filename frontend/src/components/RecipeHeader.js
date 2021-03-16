@@ -2,14 +2,14 @@ import styled from 'styled-components/macro'
 
 export default function RecipeHeader({recipeName, recipeDescription}) {
     return(
-        <Wrapper>
+        <Header>
             <h3>{recipeName}</h3>
             <p>{recipeDescription}</p>
-        </Wrapper>
+        </Header>
     )
 }
 
-const Wrapper = styled.section`
+const Header = styled.section`
   display: grid;
   grid-auto-rows: auto auto;
 

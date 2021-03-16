@@ -13,19 +13,19 @@ export default function RecipePage() {
 
     useEffect(() => {
         getRecipe(recipeId).then(setRecipe)
-    }, [])
+    }, [recipeId])
 
     return (
-        <RecipeWrapper>
+        <section>
             {recipe &&
-            <>
+            <RecipeWrapper>
                 <img src={recipe.imageUrl}/>
                 <RecipeHeader recipeName={recipe.name} recipeDescription={recipe.diaryEntry}/>
                 <RecipeCoronaDetails/>
                 <RecipePreparation ingredients={recipe.ingredients} preparationSteps={recipe.steps}/>
-            </>
+            </RecipeWrapper>
             }
-        </RecipeWrapper>
+        </section>
     )
 }
 
@@ -38,7 +38,7 @@ const RecipeWrapper = styled.section`
   margin-bottom: 16px;
 
   img {
-    object-fit: cover;
+    object-fit: contain;
     width: 100%;
   }
 

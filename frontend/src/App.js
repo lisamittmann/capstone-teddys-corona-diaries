@@ -5,11 +5,9 @@ import RecipePage from "./pages/RecipePage";
 
 function App() {
     return (
-        <div>
-            <Route path="/recipe/:recipeId">
-                <RecipePage/>
-            </Route>
-        </div>
+        <Route path="/recipe/:recipeId">
+            <RecipePage/>
+        </Route>
     );
 }
 
