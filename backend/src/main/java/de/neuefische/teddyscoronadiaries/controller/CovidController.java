@@ -1,7 +1,5 @@
 package de.neuefische.teddyscoronadiaries.controller;
 
-import de.neuefische.teddyscoronadiaries.covid19api.model.ConfirmedCase;
-import de.neuefische.teddyscoronadiaries.covid19api.service.Covid19ApiService;
 import de.neuefische.teddyscoronadiaries.service.CovidService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
