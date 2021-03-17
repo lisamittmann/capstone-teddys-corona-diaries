@@ -1,6 +1,7 @@
 import styled from 'styled-components/macro'
 import {useState, useEffect} from "react";
 import {getSevenDayIncidenceValue} from "../service/covidApiService";
+import IncidenceDetails from "./IncidenceDetails";
 
 export default function RecipeCoronaDetails({quarantineDay}) {
     const [incidenceDetails, setIncidenceDetails] = useState("Keine Ahnung")
@@ -12,7 +13,7 @@ export default function RecipeCoronaDetails({quarantineDay}) {
     return (
         <CoronaBox>
             <p>Quarantäne Tag: {quarantineDay}</p>
-            <p>7-Tage Inzidenz Wert: {incidenceDetails.incidenceValue}</p>
+            <IncidenceDetails incidenceDetails={incidenceDetails}/>
         </CoronaBox>
     )
 }
@@ -27,8 +28,11 @@ const CoronaBox = styled.section`
   
   @media (max-width: 499px) {
     grid-auto-rows: auto;
-    p + p {
+    p:nth-child(2) {
       margin-top: 0px;
+    }
+    span {
+      margin-bottom: 16px;
     }
   }
   
