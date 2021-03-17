@@ -4,6 +4,7 @@ import de.neuefische.teddyscoronadiaries.covid19api.model.ConfirmedCase;
 import de.neuefische.teddyscoronadiaries.covid19api.service.Covid19ApiService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
