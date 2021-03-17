@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -14,7 +13,6 @@ public class Covid19ApiService {
 
     private final RestTemplate restTemplate;
     private final String baseUrl = "https://api.covid19api.com/";
-    private final Instant quarantineStart = Instant.ofEpochSecond(1584230400L);
 
     @Autowired
     public Covid19ApiService(RestTemplate restTemplate) {
@@ -23,8 +21,6 @@ public class Covid19ApiService {
 
     public List<ConfirmedCase> getConfirmedCases(String from, String to){
 
-        //String to = quarantineStart.plus(quarantineDay, ChronoUnit.DAYS).toString();
-        //String from = quarantineStart.plus(quarantineDay-6, ChronoUnit.DAYS).toString();
         String url = baseUrl + "country/germany/status/confirmed/live?from=" + from + "&to=" + to;
 
         try {

@@ -3,10 +3,13 @@ package de.neuefische.teddyscoronadiaries.service;
 import de.neuefische.teddyscoronadiaries.covid19api.model.ConfirmedCase;
 import de.neuefische.teddyscoronadiaries.covid19api.service.Covid19ApiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 
 public class CovidService {
 
@@ -24,14 +27,20 @@ public class CovidService {
         String from = quarantineStart.plus(quarantineDay-6, ChronoUnit.DAYS).toString();
         List<ConfirmedCase> confirmedCases = covid19ApiService.getConfirmedCases(from, to);
 
-        float startValue = confirmedCases.stream()
-                .filter(confirmedCase -> confirmedCase.getDate().equals(from))
-                .findAny().get().getCases();
-        float endValue = confirmedCases.stream()
-                .filter(confirmedCase -> confirmedCase.getDate().equals(to))
-                .findAny().get().getCases();
+        Optional<ConfirmedCase> startValue = getConfirmedCase(confirmedCases, from);
+        Optional<ConfirmedCase> endValue = getConfirmedCase(confirmedCases, to);
 
-        float incidenceValue = (endValue-startValue)/inhabitantsGermany*100000;
+        if(endValue.isEmpty() || startValue.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not retrieve data from CovidAPI");
+        }
+
+        float incidenceValue = (endValue.get().getCases()-startValue.get().getCases())/inhabitantsGermany*100000;
         return (int) incidenceValue;
+    }
+
+    private Optional<ConfirmedCase> getConfirmedCase(List<ConfirmedCase> confirmedCases, String filterCriteria){
+        return confirmedCases.stream()
+                .filter(item -> item.getDate().equals(filterCriteria))
+                .findAny();
     }
 }
