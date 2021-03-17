@@ -16,5 +16,5 @@ public class ConfirmedCase {
     @JsonProperty("Cases")
     private int cases;
     @JsonProperty("Date")
-    private Instant date;
+    private String date;
 }

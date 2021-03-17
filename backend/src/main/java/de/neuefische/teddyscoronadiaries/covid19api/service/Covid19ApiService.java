@@ -22,15 +22,17 @@ public class Covid19ApiService {
         this.restTemplate = restTemplate;
     }
 
-    public List<ConfirmedCase> getConfirmedCases(int quarantineDay){
+    public List<ConfirmedCase> getConfirmedCases(String from, String to){
 
-        String to = quarantineStart.plus(quarantineDay, ChronoUnit.DAYS).toString();
-        String from = quarantineStart.plus(quarantineDay-6, ChronoUnit.DAYS).toString();
+        //String to = quarantineStart.plus(quarantineDay, ChronoUnit.DAYS).toString();
+        //String from = quarantineStart.plus(quarantineDay-6, ChronoUnit.DAYS).toString();
         String url = baseUrl + "country/germany/status/confirmed/live?from=" + from + "&to=" + to;
 
-        ResponseEntity<ConfirmedCase[]> response = restTemplate.getForEntity(url, ConfirmedCase[].class);
-
-        return List.of(response.getBody());
-
+        try {
+            ResponseEntity<ConfirmedCase[]> response = restTemplate.getForEntity(url, ConfirmedCase[].class);
+            return List.of(response.getBody());
+        } catch(Exception e) {
+            return null;
+        }
     }
 }
