@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -32,7 +31,7 @@ public class Covid19ApiService {
             ResponseEntity<ConfirmedCase[]> response = restTemplate.getForEntity(url, ConfirmedCase[].class);
             return List.of(response.getBody());
         } catch(Exception e) {
-            return null;
+            return List.of();
         }
     }
 }

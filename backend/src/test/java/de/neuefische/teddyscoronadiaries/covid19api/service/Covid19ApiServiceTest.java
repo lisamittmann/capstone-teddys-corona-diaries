@@ -1,21 +1,16 @@
 package de.neuefische.teddyscoronadiaries.covid19api.service;
 
 import de.neuefische.teddyscoronadiaries.covid19api.model.ConfirmedCase;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-
-import java.time.Instant;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -50,6 +45,23 @@ class Covid19ApiServiceTest {
                 new ConfirmedCase("Confirmed", 260, "2020-04-25T00:00:00Z"),
                 new ConfirmedCase("Confirmed", 270, "2020-04-26T00:00:00Z")
         )));
+    }
+
+    @Test
+    @DisplayName("get confirmed cases should return empty list when API is unavailable")
+    public void getConfirmedCasesShouldReturnNull(){
+        //Given
+        String from = "2020-04-24T00:00:00Z";
+        String to = "2020-04-26T00:00:00Z";
+        String url = baseUrl + "country/germany/status/confirmed/live?from=" + from + "&to=" + to;
+        when(restTemplate.getForEntity(url, ConfirmedCase[].class))
+                .thenThrow(new RestClientException("404 not found"));
+
+        // When
+        List<ConfirmedCase> result = covid19ApiService.getConfirmedCases(from, to);
+
+        // Then
+        assertThat(result, is(List.of()));
     }
 
 }
