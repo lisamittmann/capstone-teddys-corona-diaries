@@ -4,7 +4,7 @@ import {getSevenDayIncidenceValue} from "../service/covidApiService";
 import IncidenceDetails from "./IncidenceDetails";
 
 export default function RecipeCoronaDetails({quarantineDay}) {
-    const [incidenceDetails, setIncidenceDetails] = useState("Keine Ahnung")
+    const [incidenceDetails, setIncidenceDetails] = useState({incidenceValue: "Keine Ahnung"})
 
     useEffect(() => {
         getSevenDayIncidenceValue(quarantineDay).then(setIncidenceDetails)
