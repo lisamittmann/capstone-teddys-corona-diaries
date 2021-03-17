@@ -3,16 +3,16 @@ import {useState, useEffect} from "react";
 import {getSevenDayIncidenceValue} from "../service/covidApiService";
 
 export default function RecipeCoronaDetails({quarantineDay}) {
-    const [incidence, setIncidence] = useState("Keine Ahnung")
+    const [incidenceDetails, setIncidenceDetails] = useState("Keine Ahnung")
 
     useEffect(() => {
-        getSevenDayIncidenceValue(quarantineDay).then(setIncidence)
+        getSevenDayIncidenceValue(quarantineDay).then(setIncidenceDetails)
     }, [quarantineDay])
 
     return (
         <CoronaBox>
             <p>Quarantäne Tag: {quarantineDay}</p>
-            <p>7-Tage Inzidenz Wert: {incidence}</p>
+            <p>7-Tage Inzidenz Wert: {incidenceDetails.incidenceValue}</p>
         </CoronaBox>
     )
 }

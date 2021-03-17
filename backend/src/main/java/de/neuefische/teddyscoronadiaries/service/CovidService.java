@@ -2,6 +2,8 @@ package de.neuefische.teddyscoronadiaries.service;
 
 import de.neuefische.teddyscoronadiaries.covid19api.model.ConfirmedCase;
 import de.neuefische.teddyscoronadiaries.covid19api.service.Covid19ApiService;
+import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetails;
+import de.neuefische.teddyscoronadiaries.model.covid.IncidenceLevel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,7 @@ public class CovidService {
         this.covid19ApiService = covid19ApiService;
     }
 
-    public int getSevenDayIncidenceForQuarantineDay(int quarantineDay){
+    public IncidenceDetails getSevenDayIncidenceForQuarantineDay(int quarantineDay){
         String to = quarantineStart.plus(quarantineDay, ChronoUnit.DAYS).toString();
         String from = quarantineStart.plus(quarantineDay-6, ChronoUnit.DAYS).toString();
         List<ConfirmedCase> confirmedCases = covid19ApiService.getConfirmedCases(from, to);
@@ -37,12 +39,26 @@ public class CovidService {
         }
 
         float incidenceValue = (endValue.get().getCases()-startValue.get().getCases())/inhabitantsGermany*100000;
-        return (int) incidenceValue;
+
+
+        return new IncidenceDetails((int) incidenceValue, getIncidenceLevel((int) incidenceValue));
     }
 
     private Optional<ConfirmedCase> getConfirmedCase(List<ConfirmedCase> confirmedCases, String filterCriteria){
         return confirmedCases.stream()
                 .filter(item -> item.getDate().equals(filterCriteria))
                 .findAny();
+    }
+
+    private IncidenceLevel getIncidenceLevel(int incidenceValue) {
+        if(incidenceValue <= 35) {
+            return IncidenceLevel.GREEN;
+        } else if (incidenceValue <= 50) {
+            return IncidenceLevel.YELLOW;
+        } else if(incidenceValue <= 100) {
+            return IncidenceLevel.ORANGE;
+        } else {
+            return IncidenceLevel.RED;
+        }
     }
 }

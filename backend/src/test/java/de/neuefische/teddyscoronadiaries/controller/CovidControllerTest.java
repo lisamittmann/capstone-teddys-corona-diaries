@@ -1,6 +1,8 @@
 package de.neuefische.teddyscoronadiaries.controller;
 
 import de.neuefische.teddyscoronadiaries.covid19api.model.ConfirmedCase;
+import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetails;
+import de.neuefische.teddyscoronadiaries.model.covid.IncidenceLevel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,12 +56,11 @@ class CovidControllerTest {
         ));
 
         // When
-        ResponseEntity<Integer> response = testRestTemplate.getForEntity(getUrl() + "/" + quarantineDay, int.class);
+        ResponseEntity<IncidenceDetails> response = testRestTemplate.getForEntity(getUrl() + "/" + quarantineDay, IncidenceDetails.class);
 
         // Then
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
-        assertThat(response.getBody(), is(72));
-
+        assertThat(response.getBody(), is(new IncidenceDetails(72, IncidenceLevel.ORANGE)));
     }
 
 }

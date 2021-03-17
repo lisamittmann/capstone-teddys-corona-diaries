@@ -2,6 +2,8 @@ package de.neuefische.teddyscoronadiaries.service;
 
 import de.neuefische.teddyscoronadiaries.covid19api.model.ConfirmedCase;
 import de.neuefische.teddyscoronadiaries.covid19api.service.Covid19ApiService;
+import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetails;
+import de.neuefische.teddyscoronadiaries.model.covid.IncidenceLevel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Service;
@@ -38,10 +40,10 @@ class CovidServiceTest {
         ));
 
         // When
-        int result = covidService.getSevenDayIncidenceForQuarantineDay(quarantineDay);
+        IncidenceDetails result = covidService.getSevenDayIncidenceForQuarantineDay(quarantineDay);
 
         // Then
-        assertThat(result, is(72));
+        assertThat(result, is(new IncidenceDetails(72, IncidenceLevel.ORANGE)));
     }
 
     @Test
