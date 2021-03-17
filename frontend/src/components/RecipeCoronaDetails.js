@@ -19,15 +19,25 @@ export default function RecipeCoronaDetails({quarantineDay}) {
 
 const CoronaBox = styled.section`
   display: grid;
-  grid-template-columns: 30% 70%;
-  height: 45px;
+  
+  @media (min-width: 500px) {
+    grid-template-columns: 40% 60%;
+    grid-gap: 10px;
+  }
+  
+  @media (max-width: 499px) {
+    grid-auto-rows: auto;
+    p + p {
+      margin-top: 0px;
+    }
+  }
+  
   font-size: 16px;
   background: var(--color-alabaster);
   margin-left: 25px;
   margin-right: 25px;
   align-items: center;
-  grid-gap: 10px;
-
+  
   p {
     padding-left: 16px;
   }

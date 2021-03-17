@@ -16,7 +16,7 @@ export default function RecipePage() {
     }, [recipeId])
 
     return (
-        <section>
+        <>
             {recipe &&
             <RecipeWrapper>
                 <img src={recipe.imageUrl}/>
@@ -25,7 +25,7 @@ export default function RecipePage() {
                 <RecipePreparation ingredients={recipe.ingredients} preparationSteps={recipe.steps}/>
             </RecipeWrapper>
             }
-        </section>
+        </>
     )
 }
 
