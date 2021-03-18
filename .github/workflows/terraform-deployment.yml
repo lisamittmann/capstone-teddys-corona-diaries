@@ -25,7 +25,10 @@ jobs:
       - name: Set Up Credentials
         env:
           SET_UP_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-        run: printf '%s' "$SET_UP_CREDENTIALS" > "$GOOGLE_APPLICATION_CREDENTIALS"
+        run: |
+          pwd
+          ls
+          printf '%s' "$SET_UP_CREDENTIALS" > "$GOOGLE_APPLICATION_CREDENTIALS"
 
       - name: Terraform Init
         run: |
