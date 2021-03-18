@@ -18,6 +18,7 @@ jobs:
       - name: Terraform Init
         run: |
           cd iac/terraform
+          export GOOGLE_APPLICATION_CREDENTIALS=${{ secrets.GOOGLE_CREDENTIALS }}
           terraform init
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
