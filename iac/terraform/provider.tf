@@ -8,7 +8,6 @@ provider "google" {
 
 terraform {
   backend "gcs" {
-    credentials = "/tmp/credentials.json"
     bucket = "teddys-corona-diaries-terraform"
     prefix = "terraform/state"
   }
