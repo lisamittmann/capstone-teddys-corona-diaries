@@ -9,7 +9,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - shell: bash
       - name: Checkout
         uses: actions/checkout@v2
 
