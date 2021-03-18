@@ -16,12 +16,13 @@ jobs:
         uses: hashicorp/setup-terraform@v1
 
       - name: Terraform Init
+        with:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
           cd iac/terraform
-          export GOOGLE_APPLICATION_CREDENTIALS=${{ secrets.GOOGLE_CREDENTIALS }}
+          export GOOGLE_APPLICATION_CREDENTIALS="$GOOGLE_CREDENTIALS"
           terraform init
-        env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+
 
       - name: Terraform Plan
         run: terraform plan
