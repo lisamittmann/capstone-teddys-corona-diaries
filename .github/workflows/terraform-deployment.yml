@@ -28,13 +28,12 @@ jobs:
         run: |
           cd iac/terraform
           printf '%s' "$SET_UP_CREDENTIALS" > "$GOOGLE_APPLICATION_CREDENTIALS"
+          pwd
+          ls
 
       - name: Terraform Init
         run: |
-          cd iac/terraform/tmp
-          pwd
-          ls
-          cd ..
+          cd iac/terraform
           terraform init
 
       - name: Terraform Plan
