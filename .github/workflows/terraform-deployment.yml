@@ -23,9 +23,12 @@ jobs:
       - name: Set Up GCloud
         uses: google-github-actions/setup-gcloud@master
         with:
-          service_account_email: ${{ secrets.GOOGLE_SA }}
-          service_account_key: ${{ secrets.GOOGLE_CREDENTIALS }}
+          service_account_email: $GOOGLE_SA
+          service_account_key: $GOOGLE_KEY
           export_default_credentials: true
+        env:
+          GOOGLE_KEY: ${{ secrets.GOOGLE_CREDENTIALS }}
+          GOOGLE_SA: ${{ secrets.GOOGLE_SA }}
 
       - name: Terraform Init
         run: |
