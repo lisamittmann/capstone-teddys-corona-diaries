@@ -14,23 +14,18 @@ jobs:
 
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
+        with:
+          cli_config_credentials_token: ${{ secrets.GOOGLE_CREDENTIALS }}
 
       - name: Terraform Init
-        env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
           cd iac/terraform
-          echo "$GOOGLE_CREDENTIALS" > "credentials.json"
           terraform init
 
 
       - name: Terraform Plan
         run: terraform plan
-        env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
 
       - name: Terraform Apply
         if: github.event_name == 'push'
         run: terraform apply -auto-approve
-        env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
