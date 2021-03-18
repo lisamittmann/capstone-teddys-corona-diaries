@@ -32,6 +32,9 @@ jobs:
       - name: Terraform Init
         run: |
           cd iac/terraform
+          cd tmp
+          ls -la
+          cd ..
           terraform init
 
       - name: Terraform Plan
