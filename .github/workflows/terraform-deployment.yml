@@ -8,7 +8,7 @@ jobs:
     name: 'Terraform'
     runs-on: ubuntu-latest
     env:
-      GOOGLE_APPLICATION_CREDENTIALS: /iac/terraform/tmp/credentials.json
+      GOOGLE_APPLICATION_CREDENTIALS: /tmp/credentials.json
 
     defaults:
       run:
@@ -26,8 +26,7 @@ jobs:
         env:
           SET_UP_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
-          pwd
-          ls
+          cd iac/terraform
           printf '%s' "$SET_UP_CREDENTIALS" > "$GOOGLE_APPLICATION_CREDENTIALS"
 
       - name: Terraform Init
