@@ -16,37 +16,33 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Trying output
-        env:
-          SUPER_SECRET: ${{ secrets.GOOGLE_SA }}
-        run: |
-          echo "$SUPER_SECRET"
-
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
+#
+#      - name: Trying output
+#        env:
+#          SUPER_SECRET: ${{ secrets.GOOGLE_SA }}
+#        run: |
+#          echo "$SUPER_SECRET"
+#
+#      - name: Set up Terraform
+#        uses: hashicorp/setup-terraform@v1
 
       - name: Set Up GCloud
         uses: google-github-actions/setup-gcloud@master
         with:
-          service_account_email: $GOOGLE_SA
-          service_account_key: $GOOGLE_KEY
+          service_account_key: ${{ secrets.GOOGLE_CREDENTIALS }}
           export_default_credentials: true
-        env:
-          GOOGLE_KEY: ${{ secrets.GOOGLE_CREDENTIALS }}
-          GOOGLE_SA: ${{ secrets.GOOGLE_SA }}
 
-      - name: Terraform Init
-        run: |
-          ls
-          pwd
-          echo "$GOOGLE_APPLICATION_CREDENTIALS"
-          cd iac/terraform
-          terraform init
-
-      - name: Terraform Plan
-        run: terraform plan
-
-      - name: Terraform Apply
-        if: github.event_name == 'push'
-        run: terraform apply -auto-approve
+#      - name: Terraform Init
+#        run: |
+#          ls
+#          pwd
+#          echo "$GOOGLE_APPLICATION_CREDENTIALS"
+#          cd iac/terraform
+#          terraform init
+#
+#      - name: Terraform Plan
+#        run: terraform plan
+#
+#      - name: Terraform Apply
+#        if: github.event_name == 'push'
+#        run: terraform apply -auto-approve
