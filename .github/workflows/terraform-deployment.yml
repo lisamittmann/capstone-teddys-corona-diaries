@@ -17,6 +17,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Trying output
+        env:
+          SUPER_SECRET: ${{ secrets.GOOGLE_SA }}
+        run: |
+          echo "$SUPER_SECRET"
+
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
 
