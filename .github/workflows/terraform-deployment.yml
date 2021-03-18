@@ -25,6 +25,7 @@ jobs:
           service_account_email: ${{ secrets.GOOGLE_SA }}
           service_account_key: ${{ secrets.GOOGLE_CREDENTIALS }}
           export_default_credentials: true
+        run: pwd
 
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
