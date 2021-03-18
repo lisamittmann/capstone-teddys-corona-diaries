@@ -8,7 +8,7 @@ provider "google" {
 
 terraform {
   backend "gcs" {
-    project = "capstone-teddys-corona-diaries"
+    credentials = var.google_application_credentials
     bucket = "teddys-corona-diaries-terraform"
     prefix = "terraform/state"
   }
