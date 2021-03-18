@@ -26,7 +26,7 @@ jobs:
         env:
           SET_UP_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
-          printf '%s' "$SET_UP_CREDENTIALS" > "$GOOGLE_APPLICATION_CREDENTIALS"
+          echo -n -e "$SET_UP_CREDENTIALS" > "$GOOGLE_APPLICATION_CREDENTIALS"
           cat /tmp/credentials.json
 
       - name: Terraform Init
