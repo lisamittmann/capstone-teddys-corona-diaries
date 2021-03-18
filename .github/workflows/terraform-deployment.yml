@@ -19,9 +19,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: CD into folder
-        run: cd iac/terraform
-
       - name: Set Up GCloud
         uses: google-github-actions/setup-gcloud@master
         with:
@@ -34,8 +31,7 @@ jobs:
 
       - name: Terraform Init
         run: |
-          pwd
-          ls
+          cd iac/terraform
           terraform init
 
       - name: Terraform Plan
