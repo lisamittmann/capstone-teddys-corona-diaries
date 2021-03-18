@@ -25,9 +25,13 @@ jobs:
       - name: Set Up Credentials
         env:
           SET_UP_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-        run: |
-          echo -n -e "$SET_UP_CREDENTIALS" > "$GOOGLE_APPLICATION_CREDENTIALS"
-          cat /tmp/credentials.json
+        run: printf '%s' "$SET_UP_CREDENTIALS" > "$GOOGLE_APPLICATION_CREDENTIALS"
+
+      - name: Create artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: json-artifact
+          path: /tmp/credentials.json
 
       - name: Terraform Init
         run: |
