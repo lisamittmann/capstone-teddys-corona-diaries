@@ -2,4 +2,4 @@ spring:
   data:
     mongodb:
       database: teddysRecipes
-      uri: #{MONGODBURI}#
+      uri: '#{MONGODBURI}#'
