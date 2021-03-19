@@ -3,8 +3,8 @@ steps:
     entrypoint: mvn
     args: ['--version']
 
-  - name: maven:3-openjdk-15
-    entrypoint: mvn
+  - name: gcr.io/cloud-builders/mvn
+    entrypoint: bash
     args: ['pwd', 'ls', 'cd backend', 'test']
 
   - name: maven:3-openjdk-15
@@ -14,9 +14,6 @@ steps:
   - name: gcr.io/cloud-builders/docker
     entrypoint: 'bash'
     args: ['-c', 'build', '-t', 'gcr.io/capstone-teddys-corona-diaries/corona-diaries', '--build-arg=JAR_FILE=target/teddys-corona-diaries', '.']
-    secretEnv: ['MONGO_DB_CONNECTION']
 
-availableSecrets:
-    secretManager:
-    - versionName: projects/capstone-teddys-corona-diaries/secrets/mongo-db-connection/versions/1
-      env: 'MONGO_DB_CONNECTION'
+
+
