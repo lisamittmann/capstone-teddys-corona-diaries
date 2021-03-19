@@ -11,4 +11,4 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Find and Replace - Using Secrets
-        run: find application.yml -type f -exec sed -i ''s/#{MONGODB_URI}#/${{ secrets.MONGODB_URI }}/g'' \;
+        run: find application.yml -type f -exec sed -i ''s/#{MONGODB_URI}#/${{ secrets.MONGODB_URI }}/g''
