@@ -86,5 +86,5 @@ jobs:
       - name: Build with jib
         run: mvn compile jib:build -Dspring.data.mongodb.uri=$MONGODB_URI
         env:
-          MONGODB_URI: ${{ secret.MONGODB_URI }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
 
