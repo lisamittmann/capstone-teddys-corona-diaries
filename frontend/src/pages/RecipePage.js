@@ -13,7 +13,7 @@ export default function RecipePage() {
 
     useEffect(() => {
         getRecipe(recipeId).then(setRecipe)
-    }, [])
+    }, [recipeId])
 
     return (
         <section>
