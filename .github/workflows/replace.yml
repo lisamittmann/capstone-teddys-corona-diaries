@@ -9,11 +9,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Find and Replace - Using Secrets
         run: |
           cd backend/src/main/resources
-          sed -i ''s/#{MONGODBURI}#/"${{ secrets.MONGODB_URI }}"/g'' application.yml
+          sed -i ''s/#{MONGODBURI}#/${{ secrets.MONGODB_URI }}/g'' application.yml
       - name: Bash - Show XML Contents
         run: |
           cd backend/src/main/resources
