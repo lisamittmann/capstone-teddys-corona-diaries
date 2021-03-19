@@ -80,9 +80,6 @@
                         <image>gcr.io/capstone-teddys-corona-diaries/teddys-corona-diaries</image>
                     </to>
                     <container>
-                        <jvmFlags>
-                            <jvmFlag>-Dspring.data.mongodb.uri=#{CString}#</jvmFlag>
-                        </jvmFlags>
                     </container>
                 </configuration>
             </plugin>
