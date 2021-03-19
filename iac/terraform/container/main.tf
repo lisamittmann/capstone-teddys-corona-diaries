@@ -18,5 +18,5 @@ resource "google_cloudbuild_trigger" "build-trigger" {
     }
   }
 
-  filename = "cloudbuild.yml"
+  filename = "cloudbuild.yaml"
 }
