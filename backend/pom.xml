@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>de.neuefische</groupId>
-    <artifactId>teddyscoronadiaries</artifactId>
+    <artifactId>teddys-corona-diaries</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>teddyscoronadiaries</name>
+    <name>teddys-corona-diaries</name>
     <description>neueFische capstone project</description>
     <properties>
         <java.version>15</java.version>
@@ -54,6 +54,7 @@
     </dependencies>
 
     <build>
+        <finalName>teddys-corona-diaries</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
