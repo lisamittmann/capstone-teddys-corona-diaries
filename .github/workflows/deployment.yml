@@ -68,6 +68,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Find and Replace - Using Secrets
+        run: |
+          cd backend/src/main/resources
+          sed -i ''s/#{MONGODBURI}#/${{ secrets.MONGODB_URI }}/g'' application.yml
       - name: Set up JDK 15
         uses: actions/setup-java@v1
         with:
@@ -84,10 +88,6 @@ jobs:
           export_default_credentials: true
       - name: Configure GCloud docker
         run: gcloud auth configure-docker
-      - name: Find and Replace - Using Secrets
-        run: |
-          cd backend/src/main/resources
-          sed -i ''s/#{MONGODBURI}#/${{ secrets.MONGODB_URI }}/g'' application.yml
       - name: Bash - Show XML Contents
         run: |
           cd backend/src/main/resources
