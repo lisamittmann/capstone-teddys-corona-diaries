@@ -19,7 +19,7 @@ export default function RecipePage() {
         <section>
             {recipe &&
             <RecipeWrapper>
-                <img src={recipe.imageUrl}/>
+                <img src={recipe.imageUrl} alt={recipe.name}/>
                 <RecipeHeader recipeName={recipe.name} recipeDescription={recipe.diaryEntry}/>
                 <RecipeCoronaDetails/>
                 <RecipePreparation ingredients={recipe.ingredients} preparationSteps={recipe.steps}/>
