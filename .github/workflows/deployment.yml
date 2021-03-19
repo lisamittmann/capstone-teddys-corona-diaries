@@ -1,10 +1,10 @@
-name: 'Terraform CI'
+name: 'Deployment to GCP'
 
 on:
   push
 
 jobs:
-  terraform:
+  build-infrastructure:
     name: 'Set up infrastructure'
     runs-on: ubuntu-latest
     env:
@@ -44,6 +44,7 @@ jobs:
 
   build-frontend:
     name: "Build frontend"
+    needs: build-infrastructure
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -63,6 +64,7 @@ jobs:
 
   build-backend:
     name: "Build backend"
+    needs: build-frontend
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
