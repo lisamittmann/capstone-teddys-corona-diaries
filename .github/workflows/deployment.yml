@@ -84,10 +84,17 @@ jobs:
           export_default_credentials: true
       - name: Configure GCloud docker
         run: gcloud auth configure-docker
+      - name: Find and Replace - Using Secrets
+        run: |
+          cd backend/src/main/resources
+          sed -i ''s/#{MONGODB_URI}#/${{ secrets.MONGODB_URI }}/g'' application.yml
+      - name: Bash - Show XML Contents
+        run: |
+          cd backend/src/main/resources
+          cat application.yml
       - name: Build with jib
         run: |
           cd backend
-          mvn compile jib:build -Dspring.data.mongodb.uri=$MONGODB_URI
-        env:
-          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          mvn compile jib:build
+
 

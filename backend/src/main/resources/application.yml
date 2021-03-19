@@ -2,4 +2,4 @@ spring:
   data:
     mongodb:
       database: teddysRecipes
-      uri: mongodb+srv://teddys-super-user:Qlr7Suvt7fUY2mct@cluster0.dzyh3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+      uri: #{MONGODB_URI}#
