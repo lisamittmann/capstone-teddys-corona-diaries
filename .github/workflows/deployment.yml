@@ -1,7 +1,7 @@
 name: 'Deployment to GCP'
 
 on:
-  push
+
 
 jobs:
   build-infrastructure:
