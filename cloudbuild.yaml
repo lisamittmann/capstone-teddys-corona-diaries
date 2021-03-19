@@ -5,7 +5,7 @@ steps:
 
   - name: maven:3-openjdk-15
     entrypoint: mvn
-    args: ['cd backend', 'test']
+    args: ['pwd', 'ls', 'cd backend', 'test']
 
   - name: maven:3-openjdk-15
     entrypoint: mvn
