@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("recipe")
+@RequestMapping("api/recipe")
 public class RecipeController {
 
     private final RecipeService recipeService;
