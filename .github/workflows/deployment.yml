@@ -85,7 +85,9 @@ jobs:
       - name: Configure GCloud docker
         run: gcloud auth configure-docker
       - name: Replace mongoDbUri
-        run: find application.yml -type f -exec sed -i ''s/#{MONGODB_URI}#/${{ secrets.MONGODB_URI }}/g'' {} \;
+        run: |
+          cd backend/src/main/resources
+          find application.yml -type f -exec sed -i ''s/#{MONGODB_URI}#/${{ secrets.MONGODB_URI }}/g'' {} \;
       - name: Build with jib
         run: |
           cd backend
