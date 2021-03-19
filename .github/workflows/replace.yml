@@ -13,8 +13,8 @@ jobs:
       - name: Find and Replace - Using Secrets
         run: |
           cd backend/src/main/resources
-          find *.xml -type f -exec sed -i ''s/#{TEST_SECRET}#/${{ secrets.TEST_SECRET }}/g'' {} \;
+          sed -i ''s/#{TEST_SECRET}#/${{ secrets.TEST_SECRET }}/g'' application.yml
       - name: Bash - Show XML Contents
         run: |
           cd backend/src/main/resources
-          cat example.xml
+          cat application.yml
