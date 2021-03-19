@@ -1,3 +1,21 @@
 steps:
-  - name: 'ubuntu'
-    args: ['echo', 'hello world']
+  - name: maven:3-openjdk-15
+    entrypoint: mvn
+    args: ['--version']
+
+  - name: maven:3-openjdk-15
+    entrypoint: mvn
+    args: ['test']
+
+  - name: maven:3-openjdk-15
+    entrypoint: mvn
+    args: ['package', '-Dmaven.test.skip=true']
+
+  - name: gcr.io/cloud-builders/docker
+    entrypoint: 'bash'
+    args: ['sh', '-c', 'java --spring.data.mongodb.uri=$$MONGO_DB_CONNECTION -jar /app.jar']
+    secretEnv: ['MONGO_DB_CONNECTION']
+  availableSecrets:
+    secretManager:
+      - versionName: projects/capstone-teddys-corona-diaries/secrets/mongo-db-connection/versions/1
+        env: 'MONGO_DB_CONNECTION'
