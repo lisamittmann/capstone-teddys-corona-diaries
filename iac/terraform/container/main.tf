@@ -1,12 +1,22 @@
+resource "google_artifact_registry_repository" "teddys-corona-diaries" {
+  provider = google-beta
+  project = "capstone-teddys-corona-diaries"
+  location = "europe-west1"
+  repository_id = "capstone-teddys-corona-diaries"
+  format = "DOCKER"
+}
+
 resource "google_cloudbuild_trigger" "build-trigger" {
   project = "capstone-teddys-corona-diaries"
-
-  filename = "cloudbuild.yml"
-
+  name = "capstone-build-trigger"
+  description = "Trigger used to build image for Teddys Corona Diaries"
   github {
-    name = "lisamittmann/capstone-teddys-corona-diaries"
+    owner = "lisamittmann"
+    name = "capstone-teddys-corona-diaries"
     push {
       branch =".*"
     }
   }
+
+  filename = "Dockerfile"
 }
