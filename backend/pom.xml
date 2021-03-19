@@ -81,7 +81,7 @@
                     </to>
                     <container>
                         <jvmFlags>
-                            <jvmFlag>-Dspring.data.mongodb.uri</jvmFlag>
+                            <jvmFlag>-Dspring.data.mongodb.uri=#{CString}#</jvmFlag>
                         </jvmFlags>
                     </container>
                 </configuration>
