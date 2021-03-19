@@ -1,11 +1,11 @@
 steps:
-  - name: maven:3-openjdk-15
-    entrypoint: mvn
+  - name: gcr.io/cloud-builders/mvn
+    entrypoint: bash
     args: ['--version']
 
   - name: gcr.io/cloud-builders/mvn
     entrypoint: bash
-    args: ['pwd', 'ls', 'cd backend', 'test']
+    args: ['cd backend', 'test']
 
   - name: maven:3-openjdk-15
     entrypoint: mvn
