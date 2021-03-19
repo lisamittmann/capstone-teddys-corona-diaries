@@ -13,9 +13,10 @@ steps:
 
   - name: gcr.io/cloud-builders/docker
     entrypoint: 'bash'
-    args: ['sh', '-c', 'java --spring.data.mongodb.uri=$$MONGO_DB_CONNECTION -jar /app.jar']
+    args: ['-c', 'build', '-t', 'gcr.io/capstone-teddys-corona-diaries/corona-diaries', '--build-arg=JAR_FILE=target/teddys-corona-diaries', '.']
     secretEnv: ['MONGO_DB_CONNECTION']
-  availableSecrets:
+
+availableSecrets:
     secretManager:
-      - versionName: projects/capstone-teddys-corona-diaries/secrets/mongo-db-connection/versions/1
-        env: 'MONGO_DB_CONNECTION'
+    - versionName: projects/capstone-teddys-corona-diaries/secrets/mongo-db-connection/versions/1
+      env: 'MONGO_DB_CONNECTION'
