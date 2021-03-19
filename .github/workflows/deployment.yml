@@ -77,10 +77,14 @@ jobs:
         with:
           name: frontend-build
           path: backend/src/main/resources/static
-      - name: Build with maven
-        run: mvn -B package --file backend/pom.xml
-      - name: Upload backend
-        uses: actions/upload-artifact@v2
+      - name: Set Up GCloud
+        uses: google-github-actions/setup-gcloud@master
         with:
-          name: teddys-corona-diaries.jar
-          path: backend/target/teddys-corona-diaries.jar
+          service_account_key: ${{ secrets.GOOGLE_CREDENTIALS }}
+      - name: Configure GCloud docker
+        run: gcloud auth configure-docker
+      - name: Build with jib
+        run: mvn compile jib:build -Dspring.data.mongodb.uri=$MONGODB_URI
+        env:
+          MONGODB_URI: ${{ secret.MONGODB_URI }}
+

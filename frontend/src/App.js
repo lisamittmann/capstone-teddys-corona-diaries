@@ -4,9 +4,14 @@ import RecipePage from "./pages/RecipePage";
 
 function App() {
     return (
-        <Route path="/recipe/:recipeId">
-            <RecipePage/>
-        </Route>
+        <div>
+            <Route exact path="/">
+                <p>This is my starter page</p>
+            </Route>
+            <Route path="/recipe/:recipeId">
+                <RecipePage/>
+            </Route>
+        </div>
     );
 }
 
