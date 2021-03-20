@@ -35,6 +35,10 @@ resource "google_cloud_run_service" "cloud-run-service" {
     annotations = {
       "autoscaling.knative.dev/maxScale" = "4"
       "run.googleapis.com/launch-stage" = "BETA"
+      "client.knative.dev/user-image" = "gcr.io/capstone-teddys-corona-diaries/teddys-corona-diaries"
+      "run.googleapis.com/client-name" = "gcloud"
+      "run.googleapis.com/client-version" = "332.0.0"
+      "run.googleapis.com/ingress" = "all"
     }
   }
 
