@@ -5,4 +5,5 @@ module "storage" {
 
 module "container" {
   source = ".//container"
+  mongodburi = var.mongodburi
 }
