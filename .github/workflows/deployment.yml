@@ -40,7 +40,7 @@ jobs:
         if: github.event_name == 'push'
         run: |
           cd iac/terraform
-          terraform apply -auto-approve
+          terraform apply -auto-approve -var 'mongodburi=${{ secrets. MONGODB_URI}}'
 
   build-frontend:
     name: "Build frontend"
