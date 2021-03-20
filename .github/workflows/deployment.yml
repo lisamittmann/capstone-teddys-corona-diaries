@@ -34,7 +34,7 @@ jobs:
       - name: Terraform Plan
         run: |
           cd iac/terraform
-          echo "mongodburi = ${{ secrets.MONGODB_URI }}\n" > terraform.tfvars
+          printf "mongodburi = ${{ secrets.MONGODB_URI }} \n" > terraform.tfvars
           terraform plan
 
       - name: Terraform Apply
