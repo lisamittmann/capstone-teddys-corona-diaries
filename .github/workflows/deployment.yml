@@ -89,5 +89,6 @@ jobs:
         run: |
           cd backend
           mvn compile jib:build
+          gcloud run deploy 'corona-diaries' --image=gcr.io/capstone-teddys-corona-diaries/teddys-corona-diaries --platform=managed --region=europe-west1
 
 

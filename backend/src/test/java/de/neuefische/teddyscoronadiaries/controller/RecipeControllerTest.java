@@ -27,7 +27,7 @@ class RecipeControllerTest {
     private int serverPort;
 
     private String getUrl(){
-        return "http://localhost:" + serverPort + "/recipe";
+        return "http://localhost:" + serverPort + "api/recipe";
     }
 
     @Autowired
