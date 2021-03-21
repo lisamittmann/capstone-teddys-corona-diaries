@@ -2,8 +2,6 @@ name: 'Deployment to GCP'
 
 on:
   push:
-    branches:
-      - main
 
 jobs:
   build-infrastructure:

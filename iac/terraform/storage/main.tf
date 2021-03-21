@@ -6,6 +6,6 @@ resource "google_storage_bucket" "teddys-corona-diaries-images" {
 
 resource "google_storage_bucket_access_control" "public_access_rule" {
   bucket = google_storage_bucket.teddys-corona-diaries-images.name
-  role   = "READER"
+  role   = "roles/storage.legacyObjectReader"
   entity = "allUsers"
 }
