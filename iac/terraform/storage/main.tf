@@ -6,6 +6,12 @@ resource "google_storage_bucket" "teddys-corona-diaries-images" {
 
 resource "google_storage_bucket_access_control" "public_access_rule" {
   bucket = google_storage_bucket.teddys-corona-diaries-images.name
-  role   = "roles/storage.legacyObjectReader"
+  role   = "READER"
   entity = "allUsers"
+}
+
+resource "google_storage_bucket_iam_member" "get-images" {
+  bucket = google_storage_bucket.teddys-corona-diaries-images.name
+  role = "roles/storage.legacyObjectReader"
+  member = "allUsers"
 }
