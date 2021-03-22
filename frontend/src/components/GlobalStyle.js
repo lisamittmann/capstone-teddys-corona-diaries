@@ -16,5 +16,9 @@ export default createGlobalStyle`
     --color-cultured: #FAFAFA;
     --color-silver: #C4C4C4; 
     --color-battleship-grey: #878787;
+    --color-incidence-green: #94CBB1;
+    --color-incidence-yellow: #FFEF97;
+    --color-incidence-orange: #FAB779;
+    --color-incidence-red: #E39FAB;
   }
 `

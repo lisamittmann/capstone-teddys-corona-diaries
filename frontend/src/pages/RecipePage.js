@@ -16,16 +16,16 @@ export default function RecipePage() {
     }, [recipeId])
 
     return (
-        <section>
+        <>
             {recipe &&
             <RecipeWrapper>
-                <img src={recipe.imageUrl}/>
+                <img src={recipe.imageUrl} alt={recipe.name}/>
                 <RecipeHeader recipeName={recipe.name} recipeDescription={recipe.diaryEntry}/>
-                <RecipeCoronaDetails/>
+                <RecipeCoronaDetails quarantineDay={recipe.quarantineDay}/>
                 <RecipePreparation ingredients={recipe.ingredients} preparationSteps={recipe.steps}/>
             </RecipeWrapper>
             }
-        </section>
+        </>
     )
 }
 
