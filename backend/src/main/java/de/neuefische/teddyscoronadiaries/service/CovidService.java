@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,8 +19,9 @@ import java.util.Optional;
 public class CovidService {
 
     private final Covid19ApiService covid19ApiService;
+    //Start day March 15th 2020
     private final Instant quarantineStart = Instant.ofEpochSecond(1584230400L);
-    private final float inhabitantsGermany = 83100000;
+    private static final float INHABITANTS_GERMANY = 83100000;
 
     @Autowired
     public CovidService(Covid19ApiService covid19ApiService) {
@@ -27,6 +29,16 @@ public class CovidService {
     }
 
     public IncidenceDetails getSevenDayIncidenceForQuarantineDay(int quarantineDay){
+
+        HashMap<String, Integer> startAndEndValue = getStartAndEndValue(quarantineDay);
+
+        int incidenceValue = determineIncidenceValue(startAndEndValue.get("startValue"),
+                startAndEndValue.get("endValue"));
+
+        return new IncidenceDetails(incidenceValue, IncidenceLevel.determineIncidenceLevel(incidenceValue));
+    }
+
+    public HashMap<String, Integer> getStartAndEndValue(int quarantineDay) {
         String to = quarantineStart.plus(quarantineDay, ChronoUnit.DAYS).toString();
         String from = quarantineStart.plus(quarantineDay-6, ChronoUnit.DAYS).toString();
         List<ConfirmedCase> confirmedCases = covid19ApiService.getConfirmedCases(from, to);
@@ -34,14 +46,14 @@ public class CovidService {
         Optional<ConfirmedCase> startValue = getConfirmedCase(confirmedCases, from);
         Optional<ConfirmedCase> endValue = getConfirmedCase(confirmedCases, to);
 
-        if(endValue.isEmpty() || startValue.isEmpty()) {
+        if(startValue.isEmpty() || endValue.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not retrieve data from CovidAPI");
         }
 
-        float incidenceValue = (endValue.get().getCases()-startValue.get().getCases())/inhabitantsGermany*100000;
-
-
-        return new IncidenceDetails((int) incidenceValue, getIncidenceLevel((int) incidenceValue));
+        return new HashMap<>() {{
+            put("startValue", startValue.get().getCases());
+            put("endValue", endValue.get().getCases());
+        }};
     }
 
     private Optional<ConfirmedCase> getConfirmedCase(List<ConfirmedCase> confirmedCases, String filterCriteria){
@@ -50,15 +62,8 @@ public class CovidService {
                 .findAny();
     }
 
-    private IncidenceLevel getIncidenceLevel(int incidenceValue) {
-        if(incidenceValue <= 35) {
-            return IncidenceLevel.GREEN;
-        } else if (incidenceValue <= 50) {
-            return IncidenceLevel.YELLOW;
-        } else if(incidenceValue <= 100) {
-            return IncidenceLevel.ORANGE;
-        } else {
-            return IncidenceLevel.RED;
-        }
+    public int determineIncidenceValue(int startValue, int endValue) {
+        float result = (endValue-startValue)/INHABITANTS_GERMANY*100000;
+        return Math.round(result);
     }
 }
