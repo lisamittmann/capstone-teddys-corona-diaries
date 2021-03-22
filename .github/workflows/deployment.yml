@@ -1,0 +1,100 @@
+name: 'Deployment to GCP'
+
+on:
+  push:
+    branches:
+      - main
+
+
+jobs:
+  build-infrastructure:
+    name: 'Set up infrastructure'
+    runs-on: ubuntu-latest
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: /tmp/credentials.json
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Set Up Credentials
+        env:
+          SET_UP_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        run: printf '%s' "$SET_UP_CREDENTIALS" > "$GOOGLE_APPLICATION_CREDENTIALS"
+
+      - name: Terraform Init
+        run: |
+          cd iac/terraform
+          terraform init
+
+      - name: Terraform Plan
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+        run: |
+          cd iac/terraform
+          printf "mongodburi = \"$MONGODB_URI\"" > terraform.tfvars
+          terraform plan
+
+      - name: Terraform Apply
+        run: |
+          cd iac/terraform
+          terraform apply -auto-approve
+
+  build-frontend:
+    name: "Build frontend"
+    needs: build-infrastructure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: build frontend
+        run: |
+          cd frontend
+          npm ci
+          npm run build
+      - name: upload frontend
+        uses: actions/upload-artifact@v2
+        with:
+          name: frontend-build
+          path: frontend/build/
+
+  build-backend:
+    name: "Build backend"
+    needs: build-frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up JDK 15
+        uses: actions/setup-java@v1
+        with:
+          java-version: 15
+      - name: Download frontend build
+        uses: actions/download-artifact@v2
+        with:
+          name: frontend-build
+          path: backend/src/main/resources/static
+      - name: Set Up GCloud
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          service_account_key: ${{ secrets.GOOGLE_CREDENTIALS }}
+          export_default_credentials: true
+      - name: Configure GCloud docker
+        run: |
+          gcloud auth configure-docker capstone-teddys-corona-diaries
+          gcloud config set project capstone-teddys-corona-diaries
+      - name: Build with jib
+        run: |
+          cd backend
+          mvn compile jib:build
+          gcloud run deploy 'corona-diaries' --image=gcr.io/capstone-teddys-corona-diaries/teddys-corona-diaries --platform=managed --region=europe-west1
+
+
