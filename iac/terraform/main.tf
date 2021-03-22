@@ -1,9 +1,9 @@
 
 module "storage" {
-  source = ".//storage"
+  source = "./storage"
 }
 
 module "container" {
-  source = ".//container"
+  source = "./container"
   mongodburi = var.mongodburi
 }

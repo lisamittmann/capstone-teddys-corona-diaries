@@ -35,13 +35,14 @@ jobs:
           terraform init
 
       - name: Terraform Plan
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
         run: |
           cd iac/terraform
-          printf "mongodburi = \"${{ secrets.MONGODB_URI }}\"" > terraform.tfvars
+          printf "mongodburi = \"$MONGODB_URI\"" > terraform.tfvars
           terraform plan
 
       - name: Terraform Apply
-        if: github.event_name == 'push'
         run: |
           cd iac/terraform
           terraform apply -auto-approve
