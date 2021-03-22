@@ -6,20 +6,17 @@ export default function RecipePreparation({ingredients, preparationSteps}) {
             <div>
                 <ul>
                     <p>Zutaten</p>
-                    {
-                        ingredients.map(ingredient => (
-                            <li key={ingredient.name}>{ingredient.amountAndUnit} {ingredient.name}</li>))
+                    {ingredients.map(ingredient => (
+                            <li key={ingredient.amountAndUnit + ingredient.name}>{ingredient.amountAndUnit} {ingredient.name}</li>))
                     }
                 </ul>
             </div>
             <div>
                 <ol>
                     <p>Zubereitung</p>
-                    {
-                        preparationSteps.sort((oneStep, anotherStep) => oneStep.stepNumber.localeCompare(anotherStep.stepNumber))
+                    {preparationSteps.sort((oneStep, anotherStep) => oneStep.stepNumber.localeCompare(anotherStep.stepNumber))
                             .map(step => (
-                                <li key={step.stepNumber}>{step.stepDescription}</li>
-                            ))
+                                <li key={step.stepNumber}>{step.stepDescription}</li>))
                     }
                 </ol>
             </div>
