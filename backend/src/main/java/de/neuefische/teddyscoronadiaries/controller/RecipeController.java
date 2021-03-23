@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/recipe")
 public class RecipeController {
@@ -25,5 +27,10 @@ public class RecipeController {
     public Recipe getRecipe(@PathVariable String recipeId){
         return recipeService.getRecipe(recipeId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe could not be found"));
+    }
+
+    @GetMapping
+    public List<Recipe> getRecipes() {
+        return recipeService.getRecipes();
     }
 }
