@@ -1,11 +1,11 @@
 import styled from 'styled-components/macro'
 
-export default function RecipePreparation({ingredients, preparationSteps}) {
+export default function RecipePreparation({amountOfPeople, ingredients, preparationSteps}) {
     return (
         <PreparationGrid>
             <div>
                 <ul>
-                    <p>Zutaten</p>
+                    <p>{amountOfPeople}</p>
                     {ingredients.map(ingredient => (
                             <li key={ingredient.amountAndUnit + ingredient.name}>{ingredient.amountAndUnit} {ingredient.name}</li>))
                     }

@@ -52,6 +52,7 @@ class RecipeControllerTest {
                 .imageUrl("some-image-url")
                 .diaryEntry("wenn absolut nichts mehr geht, dann ist es Zeit für Schokokuchen")
                 .quarantineDay(25)
+                .amountOfPeople("Für 20cm SPringform")
                 .ingredients(List.of(
                         new Ingredient("250g", "Butter"),
                         new Ingredient("200g", "Mehl")))
@@ -71,6 +72,7 @@ class RecipeControllerTest {
                 .name("Himmlischer Schokokuchen")
                 .imageUrl("some-image-url")
                 .diaryEntry("wenn absolut nichts mehr geht, dann ist es Zeit für Schokokuchen")
+                .amountOfPeople("Für 20cm SPringform")
                 .quarantineDay(25)
                 .ingredients(List.of(
                         new Ingredient("250g", "Butter"),
