@@ -1,6 +1,7 @@
 package de.neuefische.teddyscoronadiaries.controller;
 
 import de.neuefische.teddyscoronadiaries.model.recipe.Recipe;
+import de.neuefische.teddyscoronadiaries.model.recipe.RecipeCardDetails;
 import de.neuefische.teddyscoronadiaries.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ public class RecipeController {
     }
 
     @GetMapping
-    public List<Recipe> getRecipes() {
+    public List<RecipeCardDetails> getRecipes() {
         return recipeService.getRecipes();
     }
 }
