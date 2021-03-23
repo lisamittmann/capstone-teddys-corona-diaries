@@ -1,25 +1,12 @@
 import styled from 'styled-components/macro'
+import RecipeIngredients from "./RecipeIngredients";
+import RecipeSteps from "./RecipeSteps";
 
-export default function RecipePreparation({amountOfPeople, ingredients, preparationSteps}) {
+export default function RecipePreparation({amountOfPeople, ingredients, steps}) {
     return (
         <PreparationGrid>
-            <div>
-                <ul>
-                    <p>{amountOfPeople}</p>
-                    {ingredients.map(ingredient => (
-                            <li key={ingredient.amountAndUnit + ingredient.name}>{ingredient.amountAndUnit} {ingredient.name}</li>))
-                    }
-                </ul>
-            </div>
-            <div>
-                <ol>
-                    <p>Zubereitung</p>
-                    {preparationSteps.sort((oneStep, anotherStep) => oneStep.stepNumber.localeCompare(anotherStep.stepNumber))
-                            .map(step => (
-                                <li key={step.stepNumber}>{step.stepDescription}</li>))
-                    }
-                </ol>
-            </div>
+            <RecipeIngredients ingredients={ingredients} intendedFor={amountOfPeople}/>
+            <RecipeSteps steps={steps}/>
         </PreparationGrid>
     )
 }
@@ -34,8 +21,8 @@ const PreparationGrid = styled.section`
   @media (min-width: 500px) {
     margin-right: 41px;
   }
-  @media (max-width: 499px){
-    margin-right: 25px; 
+  @media (max-width: 499px) {
+    margin-right: 25px;
   }
   font-size: 15px;
 

@@ -22,7 +22,7 @@ export default function RecipePage() {
                 <img src={recipe.imageUrl} alt={recipe.name}/>
                 <RecipeHeader recipeName={recipe.name} recipeDescription={recipe.diaryEntry}/>
                 <RecipeCoronaDetails quarantineDay={recipe.quarantineDay}/>
-                <RecipePreparation ingredients={recipe.ingredients} preparationSteps={recipe.steps} amountOfPeople={recipe.amountOfPeople}/>
+                <RecipePreparation {...recipe}/>
             </RecipeWrapper>
             }
         </>
@@ -38,7 +38,7 @@ const RecipeWrapper = styled.section`
   margin-bottom: 16px;
 
   img {
-    object-fit: contain;
+    object -fit: contain;
     width: 100%;
   }
 
