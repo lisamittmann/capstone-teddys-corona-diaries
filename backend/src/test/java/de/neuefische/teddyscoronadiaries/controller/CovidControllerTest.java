@@ -26,7 +26,7 @@ class CovidControllerTest {
     private int serverPort;
 
     private String getUrl(){
-        return "http://localhost:" + serverPort + "/covid";
+        return "http://localhost:" + serverPort + "api/covid";
     }
 
     @MockBean
