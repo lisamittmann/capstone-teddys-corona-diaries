@@ -33,7 +33,7 @@ class RecipeServiceTest {
                         .imageUrl("some-image-url")
                         .diaryEntry("wenn absolut nichts mehr geht, dann ist es Zeit für Schokokuchen")
                         .quarantineDay(25)
-                        .amountOfPeople("Für 20cm SPringform")
+                        .amountOfPeople("Für 20cm Springform")
                         .ingredients(List.of(
                                 new Ingredient("250g", "Butter"),
                                 new Ingredient("200g", "Mehl")))
@@ -54,7 +54,7 @@ class RecipeServiceTest {
                 .imageUrl("some-image-url")
                 .diaryEntry("wenn absolut nichts mehr geht, dann ist es Zeit für Schokokuchen")
                 .quarantineDay(25)
-                .amountOfPeople("Für 20cm SPringform")
+                .amountOfPeople("Für 20cm Springform")
                 .ingredients(List.of(
                         new Ingredient("250g", "Butter"),
                         new Ingredient("200g", "Mehl")))
