@@ -2,10 +2,10 @@ import styled from 'styled-components/macro'
 import RecipeIngredients from "./RecipeIngredients";
 import RecipeSteps from "./RecipeSteps";
 
-export default function RecipePreparation({amountOfPeople, ingredients, steps}) {
+export default function RecipePreparation({intendedFor, ingredients, steps}) {
     return (
         <PreparationGrid>
-            <RecipeIngredients ingredients={ingredients} intendedFor={amountOfPeople}/>
+            <RecipeIngredients ingredients={ingredients} intendedFor={intendedFor}/>
             <RecipeSteps steps={steps}/>
         </PreparationGrid>
     )
