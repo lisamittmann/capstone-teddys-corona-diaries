@@ -75,8 +75,8 @@ class RecipeServiceTest {
 
         // Then
         assertThat(result, is(List.of(
-                new RecipeCardDetails("Himmlischer Schokokuchen", "some-image-url"),
-                new RecipeCardDetails("Tofu im Reisflakemantel", "some-image-url2")
+                new RecipeCardDetails("0001", "Himmlischer Schokokuchen", "some-image-url"),
+                new RecipeCardDetails("0002","Tofu im Reisflakemantel", "some-image-url2")
         )));
 
     }

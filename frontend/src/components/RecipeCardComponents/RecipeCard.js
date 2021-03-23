@@ -1,19 +1,19 @@
 import styled from 'styled-components/macro'
 import {Link} from "react-router-dom"
+import RecipeCardImage from "./RecipeCardImage";
 
 export default function RecipeCard({recipeCardDetails}) {
     return (
-        <CardWrapper to="/recipe/day14">
+        <CardWrapper to={`/recipe/${recipeCardDetails.id}`}>
             <p>{recipeCardDetails.name}</p>
-            <img src={recipeCardDetails.imageUrl}/>
-            <span>Rezept-Beschreibung mit coolen Infos so</span>
+            <RecipeCardImage imageUrl={recipeCardDetails.imageUrl}/>
         </CardWrapper>
     )
 }
 
 const CardWrapper = styled(Link)`
   display: grid;
-  grid-template-rows: auto 1fr auto auto;
+  grid-template-rows: auto 1fr;
   vertical-align: middle;
   box-shadow: 0 0 2.5px var(--color-silver);
   text-decoration: none;
@@ -22,24 +22,11 @@ const CardWrapper = styled(Link)`
   p {
     padding-left: 12px;
     padding-right: 12px;
-    height: 50px;
+    height: 60px;
     font-size: 16px;
     margin: 0px;
     display: flex;
     align-items: center;
   }
-
-  span {
-    display: flex;
-    align-items: center;
-    color: var(--color-battleship-grey);
-    font-size: 14px;
-    padding: 12px 12px 12px 12px;
-  }
-
-  img {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
+  
 `

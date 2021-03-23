@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RecipeCardDetails {
 
+    private String id;
     private String name;
     private String imageUrl;
 
