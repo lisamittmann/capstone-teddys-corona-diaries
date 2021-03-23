@@ -5,7 +5,7 @@ export default function RecipeSteps({steps}) {
         <StepsWrapper>
             <p>Zubereitung</p>
             <ol>
-                {steps.sort((oneStep, anotherStep) => oneStep.stepNumber.localeCompare(anotherStep.stepNumber))
+                {steps.slice().sort((oneStep, anotherStep) => oneStep.stepNumber.localeCompare(anotherStep.stepNumber))
                     .map(step => (
                         <li key={step.stepNumber}>{step.stepDescription}</li>))
                 }
