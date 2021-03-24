@@ -20,7 +20,7 @@ const Header = styled.section`
 
   p {
     padding: 10px 25px 10px 25px;
-    font-size: 16px;
+    font-size: var(--standard-font-size);
     color: var(--color-battleship-grey);
     margin: 0;
   }

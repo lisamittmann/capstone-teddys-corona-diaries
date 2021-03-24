@@ -47,8 +47,8 @@ const PreparationGrid = styled.section`
 
   ul {
     list-style: none;
-    padding-right: 16px;
-    padding-left: 16px;
+    padding-right: var(--medium-padding);
+    padding-left: var(--medium-padding);
   }
 
   ol {

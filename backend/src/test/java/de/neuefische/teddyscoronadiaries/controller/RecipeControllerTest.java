@@ -38,7 +38,7 @@ class RecipeControllerTest {
     private TestRestTemplate testRestTemplate;
 
     @BeforeEach
-    public void setUp() {
+    public void setup() {
         recipeMongoDb.deleteAll();
     }
 
