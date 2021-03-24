@@ -9,7 +9,7 @@ function App() {
             <Switch>
                 <Route exact path="/">
                     <p>This is my starter page</p>
-                    <Link to="/recipe/day33">Schokokuchen</Link>
+                    <Link to="/recipes">Rezept-Übersicht</Link>
                 </Route>
                 <Route path="/recipes">
                     <RecipeOverview/>

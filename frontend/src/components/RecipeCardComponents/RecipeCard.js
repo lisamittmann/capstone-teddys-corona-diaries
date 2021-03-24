@@ -4,20 +4,20 @@ import RecipeCardImage from "./RecipeCardImage";
 
 export default function RecipeCard({recipeCardDetails}) {
     return (
-        <CardWrapper to={`/recipe/${recipeCardDetails.id}`}>
+        <CardWrapper to={`/recipe/${recipeCardDetails.id}`} key={recipeCardDetails.id}>
             <p>{recipeCardDetails.name}</p>
-            <RecipeCardImage imageUrl={recipeCardDetails.imageUrl}/>
+            <RecipeCardImage imageUrl={recipeCardDetails.imageUrl} quarantineDay={recipeCardDetails.quarantineDay}/>
         </CardWrapper>
     )
 }
 
 const CardWrapper = styled(Link)`
   display: grid;
-  grid-template-rows: auto 1fr;
-  vertical-align: middle;
+  grid-template-rows: auto auto;
   box-shadow: 0 0 2.5px var(--color-silver);
   text-decoration: none;
   color: black;
+  margin: 2.5px;
 
   p {
     padding-left: 12px;

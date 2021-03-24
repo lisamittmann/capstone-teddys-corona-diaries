@@ -1,25 +1,28 @@
 import styled from 'styled-components/macro'
 
-export default function RecipeCardImage({imageUrl}) {
+export default function RecipeCardImage({imageUrl, quarantineDay}) {
     return (
-        <Wrapper>
-            <img src={imageUrl}/>
-            <span>Tag 24</span>
+        <Wrapper imageUrl={imageUrl}>
+            <span>Tag {quarantineDay}</span>
         </Wrapper>
     )
 }
 
 const Wrapper = styled.div`
-
-  img {
-    width: 100%;
-    position: absolute;
-    height: auto;
-  }
+  position: relative;
+  background-image: ${props => `url(${props.imageUrl})`};
+  padding-top: 66%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
   
   span {
-    position: relative;
+    position: absolute;
     top: 15px; 
-    background: var(--color-turquoise-green);
+    left: 0;
+    background: var(--color-cambridge-blue);
+    width: 15%;
+    padding: 5px 12px 5px 12px;
+    font-size: 12px;
   }
 `
