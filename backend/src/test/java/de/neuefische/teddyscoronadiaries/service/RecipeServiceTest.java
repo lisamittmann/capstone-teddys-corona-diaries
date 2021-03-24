@@ -75,8 +75,8 @@ class RecipeServiceTest {
 
         // Then
         assertThat(result, is(List.of(
-                new RecipeCardDetails("0001", "Himmlischer Schokokuchen", "some-image-url"),
-                new RecipeCardDetails("0002","Tofu im Reisflakemantel", "some-image-url2")
+                new RecipeCardDetails("0001", "Himmlischer Schokokuchen", "some-image-url", 25),
+                new RecipeCardDetails("0002","Tofu im Reisflakemantel", "some-image-url2", 37)
         )));
 
     }
@@ -89,6 +89,7 @@ class RecipeServiceTest {
                         .name("Himmlischer Schokokuchen")
                         .imageUrl("some-image-url")
                         .diaryEntry("wenn absolut nichts mehr geht, dann ist es Zeit für Schokokuchen")
+                        .quarantineDay(25)
                         .ingredients(List.of(
                                 new Ingredient("250g", "Butter"),
                                 new Ingredient("200g", "Mehl")))

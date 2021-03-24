@@ -12,5 +12,6 @@ public class RecipeCardDetails {
     private String id;
     private String name;
     private String imageUrl;
+    private int quarantineDay;
 
 }

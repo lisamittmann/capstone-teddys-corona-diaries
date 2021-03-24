@@ -135,8 +135,8 @@ class RecipeControllerTest {
         //Then
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
         assertThat(response.getBody(), arrayContainingInAnyOrder(
-                new RecipeCardDetails("0001", "Himmlischer Schokokuchen", "some-image-url"),
-                new RecipeCardDetails("0002", "Tofu im Reisflake-Mantel", "some-image-url2")
+                new RecipeCardDetails("0001", "Himmlischer Schokokuchen", "some-image-url", 25),
+                new RecipeCardDetails("0002", "Tofu im Reisflake-Mantel", "some-image-url2", 37)
                 ));
     }
 

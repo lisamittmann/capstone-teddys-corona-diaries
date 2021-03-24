@@ -26,7 +26,7 @@ public class RecipeService {
 
     public List<RecipeCardDetails> getRecipes() {
         return recipeMongoDb.findAll().stream()
-                .map(recipe -> new RecipeCardDetails(recipe.getId(), recipe.getName(), recipe.getImageUrl()))
+                .map(recipe -> new RecipeCardDetails(recipe.getId(), recipe.getName(), recipe.getImageUrl(), recipe.getQuarantineDay()))
                 .collect(Collectors.toList());
     }
 }
