@@ -14,7 +14,7 @@ export default function RecipeOverview() {
 
     return (
         <RecipeOverviewWrapper>
-            <PageHeader headerText={"Rezept Übersicht"}/>
+            <PageHeader>Rezept Übersicht</PageHeader>
             <RecipeList>
                 {recipes &&
                 recipes
