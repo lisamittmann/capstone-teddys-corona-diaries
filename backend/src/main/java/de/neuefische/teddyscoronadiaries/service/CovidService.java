@@ -21,7 +21,7 @@ public class CovidService {
     private final Covid19ApiService covid19ApiService;
     //Start day March 15th 2020
     private final Instant quarantineStart = Instant.ofEpochSecond(1584230400L);
-    private static final float INHABITANTS_GERMANY = 83100000;
+    private static final int INHABITANTS_GERMANY = 83100000;
 
     @Autowired
     public CovidService(Covid19ApiService covid19ApiService) {
@@ -63,7 +63,7 @@ public class CovidService {
     }
 
     public int determineIncidenceValue(int startValue, int endValue) {
-        float result = (endValue-startValue)/INHABITANTS_GERMANY*100000;
+        float result = ((float)(endValue-startValue)/INHABITANTS_GERMANY)*100000;
         return Math.round(result);
     }
 }
