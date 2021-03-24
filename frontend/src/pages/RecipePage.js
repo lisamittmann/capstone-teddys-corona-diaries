@@ -2,9 +2,9 @@ import styled from 'styled-components/macro'
 import {useState, useEffect} from "react";
 import {useParams} from "react-router-dom";
 import {getRecipe} from "../service/recipeApiService";
-import RecipeHeader from "../components/RecipeHeader";
-import RecipeCoronaDetails from "../components/RecipeCoronaDetails";
-import RecipePreparation from "../components/RecipePreparation";
+import RecipeHeader from "../components/RecipePageComponents/RecipeHeader";
+import RecipeCoronaDetails from "../components/RecipePageComponents/RecipeCoronaDetails";
+import RecipePreparation from "../components/RecipePageComponents/RecipePreparation";
 
 
 export default function RecipePage() {
