@@ -1,6 +1,7 @@
 package de.neuefische.teddyscoronadiaries.controller;
 
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetails;
+import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetailsProvince;
 import de.neuefische.teddyscoronadiaries.rkiapi.model.RkiAttributes;
 import de.neuefische.teddyscoronadiaries.rkiapi.model.RkiIncidenceValue;
 import de.neuefische.teddyscoronadiaries.rkiapi.model.RkiIncidenceWrapper;
@@ -31,6 +32,11 @@ public class CovidController {
     @GetMapping("{quarantineDay}")
     public IncidenceDetails getCases(@PathVariable int quarantineDay){
         return covidService.getSevenDayIncidenceForQuarantineDay(quarantineDay);
+    }
+
+    @GetMapping("/province/{province}")
+    public IncidenceDetailsProvince getIncidenceDetailsForProvince(@PathVariable String province){
+        return covidService.getSevenDayIncidenceValueForProvince(province);
     }
 
 }

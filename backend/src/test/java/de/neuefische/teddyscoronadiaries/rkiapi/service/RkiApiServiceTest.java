@@ -29,7 +29,6 @@ class RkiApiServiceTest {
     public void getIncidenceForProvinceShouldReturnIncidenceValue(){
         // Given
         URI url = URI.create("https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/Coronaf%C3%A4lle_in_den_Bundesl%C3%A4ndern/FeatureServer/0/query?where=LAN_ew_GEN%20%3D%20'HAMBURG'&outFields=LAN_ew_GEN%2CLAN_ew_BEZ%2CFallzahl%2CAktualisierung%2Cfaelle_100000_EW%2Ccases7_bl_per_100k%2Ccases7_bl%2Ccases7_bl_per_100k_txt&outSR=4326&f=json&returnGeometry=false");
-
         RkiIncidenceWrapper rkiIncidenceWrapper = new RkiIncidenceWrapper(List.of(
                 new RkiAttributes(
                         new RkiIncidenceValue("Hamburg", 50000, 103.7)
