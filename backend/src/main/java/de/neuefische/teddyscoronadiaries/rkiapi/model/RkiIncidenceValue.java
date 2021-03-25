@@ -14,5 +14,5 @@ public class RkiIncidenceValue {
     @JsonProperty("Fallzahl")
     private int totalCases;
     @JsonProperty("cases7_bl_per_100k")
-    private float sevenDayIncidenceValue;
+    private double sevenDayIncidenceValue;
 }
