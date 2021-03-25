@@ -20,5 +20,7 @@ export default createGlobalStyle`
     --color-incidence-yellow: #FFEF97;
     --color-incidence-orange: #FAB779;
     --color-incidence-red: #E39FAB;
+    --standard-font-size: 16px; 
+    --medium-padding: 16px; 
   }
 `

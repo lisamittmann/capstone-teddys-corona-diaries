@@ -1,6 +1,7 @@
 package de.neuefische.teddyscoronadiaries.controller;
 
 import de.neuefische.teddyscoronadiaries.model.recipe.Recipe;
+import de.neuefische.teddyscoronadiaries.model.recipe.RecipeCardDetails;
 import de.neuefische.teddyscoronadiaries.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/recipe")
@@ -25,5 +28,10 @@ public class RecipeController {
     public Recipe getRecipe(@PathVariable String recipeId){
         return recipeService.getRecipe(recipeId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe could not be found"));
+    }
+
+    @GetMapping
+    public List<RecipeCardDetails> getRecipes() {
+        return recipeService.getRecipes();
     }
 }

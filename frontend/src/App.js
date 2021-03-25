@@ -1,6 +1,7 @@
 import './App.css';
 import {Link, Route, Switch} from "react-router-dom";
 import RecipePage from "./pages/RecipePage";
+import RecipeOverview from "./pages/RecipeOverview";
 
 function App() {
     return (
@@ -8,7 +9,10 @@ function App() {
             <Switch>
                 <Route exact path="/">
                     <p>This is my starter page</p>
-                    <Link to="/recipe/day33">Schokokuchen</Link>
+                    <Link to="/recipes">Rezept-Übersicht</Link>
+                </Route>
+                <Route path="/recipes">
+                    <RecipeOverview/>
                 </Route>
                 <Route path="/recipe/:recipeId">
                     <RecipePage/>

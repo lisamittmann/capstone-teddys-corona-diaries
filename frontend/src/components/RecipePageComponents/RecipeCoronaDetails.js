@@ -36,13 +36,13 @@ const CoronaBox = styled.section`
     }
   }
   
-  font-size: 16px;
+  font-size: var(--standard-font-size);
   background: var(--color-alabaster);
   margin-left: 25px;
   margin-right: 25px;
   align-items: center;
   
   p {
-    padding-left: 16px;
+    padding-left: var(--medium-padding);
   }
 `
