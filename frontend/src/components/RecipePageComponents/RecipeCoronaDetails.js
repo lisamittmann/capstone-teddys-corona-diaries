@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro'
 import {useState, useEffect} from "react";
-import {getSevenDayIncidenceValue} from "../service/covidApiService";
+import {getSevenDayIncidenceValue} from "../../service/covidApiService";
 import IncidenceDetails from "./IncidenceDetails";
 
 export default function RecipeCoronaDetails({quarantineDay}) {

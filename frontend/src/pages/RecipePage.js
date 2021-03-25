@@ -2,9 +2,9 @@ import styled from 'styled-components/macro'
 import {useState, useEffect} from "react";
 import {useParams} from "react-router-dom";
 import {getRecipe} from "../service/recipeApiService";
-import RecipeHeader from "../components/RecipeHeader";
-import RecipeCoronaDetails from "../components/RecipeCoronaDetails";
-import RecipePreparation from "../components/RecipePreparation";
+import RecipeHeader from "../components/RecipePageComponents/RecipeHeader";
+import RecipeCoronaDetails from "../components/RecipePageComponents/RecipeCoronaDetails";
+import RecipePreparation from "../components/RecipePageComponents/RecipePreparation";
 
 
 export default function RecipePage() {
@@ -22,7 +22,7 @@ export default function RecipePage() {
                 <img src={recipe.imageUrl} alt={recipe.name}/>
                 <RecipeHeader recipeName={recipe.name} recipeDescription={recipe.diaryEntry}/>
                 <RecipeCoronaDetails quarantineDay={recipe.quarantineDay}/>
-                <RecipePreparation ingredients={recipe.ingredients} preparationSteps={recipe.steps}/>
+                <RecipePreparation {...recipe}/>
             </RecipeWrapper>
             }
         </>
@@ -38,7 +38,7 @@ const RecipeWrapper = styled.section`
   margin-bottom: 16px;
 
   img {
-    object-fit: contain;
+    object -fit: contain;
     width: 100%;
   }
 

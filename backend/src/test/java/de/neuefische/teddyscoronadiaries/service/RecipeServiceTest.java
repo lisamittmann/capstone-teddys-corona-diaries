@@ -33,6 +33,15 @@ class RecipeServiceTest {
                         .name("Himmlischer Schokokuchen")
                         .imageUrl("some-image-url")
                         .diaryEntry("wenn absolut nichts mehr geht, dann ist es Zeit für Schokokuchen")
+                        .quarantineDay(25)
+                        .intendedFor("Für 20cm Springform")
+                        .ingredients(List.of(
+                                new Ingredient("250g", "Butter"),
+                                new Ingredient("200g", "Mehl")))
+                        .steps(List.of(
+                                new PreparationStep("1", "Schmilz die Butter"),
+                                new PreparationStep("2", "Misch Butter und Mehl")
+                        ))
                         .build())
         );
 
@@ -45,6 +54,15 @@ class RecipeServiceTest {
                 .name("Himmlischer Schokokuchen")
                 .imageUrl("some-image-url")
                 .diaryEntry("wenn absolut nichts mehr geht, dann ist es Zeit für Schokokuchen")
+                .quarantineDay(25)
+                .intendedFor("Für 20cm Springform")
+                .ingredients(List.of(
+                        new Ingredient("250g", "Butter"),
+                        new Ingredient("200g", "Mehl")))
+                .steps(List.of(
+                        new PreparationStep("1", "Schmilz die Butter"),
+                        new PreparationStep("2", "Misch Butter und Mehl")
+                ))
                 .build()));
     }
 

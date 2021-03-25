@@ -21,6 +21,7 @@ public class Recipe {
     private String name;
     private String imageUrl;
     private String diaryEntry;
+    private String intendedFor;
     private List<Ingredient> ingredients;
     private List<PreparationStep> steps;
     private int quarantineDay;

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("covid")
+@RequestMapping("api/covid")
 public class CovidController {
 
     private final CovidService covidService;
