@@ -4,16 +4,18 @@ import de.neuefische.teddyscoronadiaries.covid19api.model.ConfirmedCase;
 import de.neuefische.teddyscoronadiaries.covid19api.service.Covid19ApiService;
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetails;
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceLevel;
+import de.neuefische.teddyscoronadiaries.rkiapi.model.RkiIncidenceValue;
+import de.neuefische.teddyscoronadiaries.rkiapi.service.RkiApiService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -25,7 +27,8 @@ import static org.mockito.Mockito.when;
 class CovidServiceTest {
 
     private final Covid19ApiService covid19ApiService = mock(Covid19ApiService.class);
-    private final CovidService covidService = new CovidService(covid19ApiService);
+    private final RkiApiService rkiApiService = mock(RkiApiService.class);
+    private final CovidService covidService = new CovidService(covid19ApiService, rkiApiService);
     private static final int quarantineDay = 42;
 
     @Test
@@ -157,6 +160,34 @@ class CovidServiceTest {
                 Arguments.of(230000, 500000, 325),
                 Arguments.of(210000, 340000, 156)
         );
+    }
+
+    @Test
+    @DisplayName("Get seven day incidence value for province should return incidence details")
+    public void getSevenIncidenceValueShouldReturnIncidenceValue(){
+        // Given
+        String province = "Hamburg";
+        when(rkiApiService.getIncidenceValueForProvince("Hamburg"))
+                .thenReturn(Optional.of(new RkiIncidenceValue("Hamburg", 50000, 103.7)));
+
+        // When
+        IncidenceDetails result = covidService.getSevenDayIncidenceValueForProvince(province);
+
+        // Then
+        assertThat(result, is(new IncidenceDetails(104, IncidenceLevel.RED)));
+    }
+
+    @Test
+    @DisplayName("Get seven day incidence for province should throw error when endpoint unavailable")
+    public void getSevenDayIncidenceForProvinceShouldThrowException(){
+        // Given
+        String province = "Hamburg";
+        when(rkiApiService.getIncidenceValueForProvince(province)).thenReturn(Optional.empty());
+
+        // Then
+        assertThrows(ResponseStatusException.class, () -> {
+            covidService.getSevenDayIncidenceValueForProvince(province);
+        });
     }
 
 }
