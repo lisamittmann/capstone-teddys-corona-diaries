@@ -3,6 +3,7 @@ package de.neuefische.teddyscoronadiaries.service;
 import de.neuefische.teddyscoronadiaries.covid19api.model.ConfirmedCase;
 import de.neuefische.teddyscoronadiaries.covid19api.service.Covid19ApiService;
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetails;
+import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetailsProvince;
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceLevel;
 import de.neuefische.teddyscoronadiaries.rkiapi.model.RkiIncidenceValue;
 import de.neuefische.teddyscoronadiaries.rkiapi.service.RkiApiService;
@@ -171,10 +172,10 @@ class CovidServiceTest {
                 .thenReturn(Optional.of(new RkiIncidenceValue("Hamburg", 50000, 103.7)));
 
         // When
-        IncidenceDetails result = covidService.getSevenDayIncidenceValueForProvince(province);
+        IncidenceDetailsProvince result = covidService.getSevenDayIncidenceValueForProvince(province);
 
         // Then
-        assertThat(result, is(new IncidenceDetails(104, IncidenceLevel.RED)));
+        assertThat(result, is(new IncidenceDetailsProvince("Hamburg", 50000, 104, IncidenceLevel.RED)));
     }
 
     @Test

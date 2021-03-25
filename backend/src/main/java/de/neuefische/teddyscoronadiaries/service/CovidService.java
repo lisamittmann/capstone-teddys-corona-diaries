@@ -3,6 +3,7 @@ package de.neuefische.teddyscoronadiaries.service;
 import de.neuefische.teddyscoronadiaries.covid19api.model.ConfirmedCase;
 import de.neuefische.teddyscoronadiaries.covid19api.service.Covid19ApiService;
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetails;
+import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetailsProvince;
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceLevel;
 import de.neuefische.teddyscoronadiaries.rkiapi.model.RkiIncidenceValue;
 import de.neuefische.teddyscoronadiaries.rkiapi.service.RkiApiService;
@@ -42,7 +43,7 @@ public class CovidService {
         return new IncidenceDetails(incidenceValue, IncidenceLevel.determineIncidenceLevel(incidenceValue));
     }
 
-    public IncidenceDetails getSevenDayIncidenceValueForProvince(String province) {
+    public IncidenceDetailsProvince getSevenDayIncidenceValueForProvince(String province) {
 
         Optional<RkiIncidenceValue> rkiIncidenceValue = rkiApiService.getIncidenceValueForProvince(province);
 
@@ -50,7 +51,9 @@ public class CovidService {
 
         int incidenceValue = (int)Math.round(rkiIncidenceValue.get().getSevenDayIncidenceValue());
 
-        return new IncidenceDetails(incidenceValue, IncidenceLevel.determineIncidenceLevel(incidenceValue));
+        return new IncidenceDetailsProvince(rkiIncidenceValue.get().getProvince()
+                , rkiIncidenceValue.get().getTotalCases()
+                ,incidenceValue, IncidenceLevel.determineIncidenceLevel(incidenceValue));
 
     }
 
