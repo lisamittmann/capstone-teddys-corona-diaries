@@ -4,6 +4,7 @@ import RecipePage from "./pages/RecipePage";
 import RecipeOverview from "./pages/RecipeOverview";
 import NavigationBar from "./components/NavigationComponents/NavigationBar";
 import PageLayoutWithNavigation from "./components/NavigationComponents/PageLayoutWithNavigation";
+import CoronaOverview from "./pages/CoronaOverview";
 
 function App() {
     return (
@@ -18,6 +19,9 @@ function App() {
                     </Route>
                     <Route path="/recipes">
                         <RecipeOverview/>
+                    </Route>
+                    <Route path="/coronadetails">
+                        <CoronaOverview/>
                     </Route>
                     <NavigationBar/>
                 </PageLayoutWithNavigation>

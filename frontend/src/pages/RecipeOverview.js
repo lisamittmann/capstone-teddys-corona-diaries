@@ -2,7 +2,8 @@ import styled from 'styled-components/macro'
 import {useState, useEffect} from "react";
 import {getRecipes} from "../service/recipeApiService";
 import RecipeCard from "../components/RecipeCardComponents/RecipeCard";
-import PageHeader from "../components/PageHeader";
+import PageHeader from "../components/PageLayoutComponents/PageHeader";
+import OverviewPageLayout from "../components/PageLayoutComponents/OverviewPageLayout";
 
 export default function RecipeOverview() {
     const [recipes, setRecipes] = useState()
@@ -13,7 +14,7 @@ export default function RecipeOverview() {
 
 
     return (
-        <RecipeOverviewWrapper>
+        <OverviewPageLayout>
             <PageHeader>Rezept Übersicht</PageHeader>
             <RecipeList>
                 {recipes &&
@@ -23,7 +24,7 @@ export default function RecipeOverview() {
                     .map(recipe => <RecipeCard recipeCardDetails={recipe}/>)
                 }
             </RecipeList>
-        </RecipeOverviewWrapper>
+        </OverviewPageLayout>
     )
 }
 
