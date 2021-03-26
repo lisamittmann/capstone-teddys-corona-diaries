@@ -2,13 +2,10 @@ import styled from 'styled-components/macro'
 
 export default function CoronaProvinceSelect({provinces, setSelectedProvince}) {
 
-    const selectProvince = (e) => setSelectedProvince(e.target.value)
-
     return (
-
         <SelectWrapper>
             <p>Wähle Deine Region aus:</p>
-            <ProvinceSelector required defaultValue={''} onChange={e => selectProvince(e)}>
+            <ProvinceSelector required defaultValue={''} onChange={e => setSelectedProvince(e.target.value)}>
                 <option value="" disabled hidden>
                     Deine Region
                 </option>
