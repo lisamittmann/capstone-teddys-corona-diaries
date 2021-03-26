@@ -1,6 +1,7 @@
 package de.neuefische.teddyscoronadiaries.controller;
 
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetails;
+import de.neuefische.teddyscoronadiaries.model.covid.Provinces;
 import de.neuefische.teddyscoronadiaries.service.CovidService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,5 +25,10 @@ public class CovidController {
     @GetMapping("{quarantineDay}")
     public IncidenceDetails getCases(@PathVariable int quarantineDay){
         return covidService.getSevenDayIncidenceForQuarantineDay(quarantineDay);
+    }
+
+    @GetMapping("provinces")
+    public List<String> getProvinces() {
+        return Provinces.getProvincesNames();
     }
 }
