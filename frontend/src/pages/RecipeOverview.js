@@ -39,5 +39,5 @@ const RecipeList = styled.section`
 const RecipeOverviewWrapper = styled.div`
   display: grid;
   grid-template-rows: auto 1fr;
-  height: 100vh;
+  height: calc(100vh - var(--navigation-bar-height));
 `

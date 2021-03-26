@@ -22,5 +22,6 @@ export default createGlobalStyle`
     --color-incidence-red: #E39FAB;
     --standard-font-size: 16px; 
     --medium-padding: 16px; 
+    --navigation-bar-height: 50px;
   }
 `
