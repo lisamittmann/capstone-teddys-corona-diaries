@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import {getProvinces} from "../../service/covidApiService";
 import CoronaProvinceCard from "./CoronaProvinceCard";
 
-export default function CoronaDetailsForProvince(){
+export default function CoronaDetailsForProvince() {
 
     const [provinces, setProvinces] = useState()
     const [selectedProvince, setSelectedProvince] = useState()
@@ -13,10 +13,11 @@ export default function CoronaDetailsForProvince(){
         getProvinces().then(setProvinces)
     }, [])
 
-    return(
+    return (
         <ProvinceWrapper>
             {provinces && <CoronaProvinceSelect provinces={provinces} setSelectedProvince={setSelectedProvince}/>}
-            {selectedProvince && <CoronaProvinceCard province={selectedProvince}/>}
+            {selectedProvince &&
+            <CoronaProvinceCard province={selectedProvince}/>}
         </ProvinceWrapper>
     )
 }
@@ -26,7 +27,7 @@ const ProvinceWrapper = styled.section`
   padding-left: var(--medium-padding);
   font-family: Roboto;
   margin-top: 25px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-gap: 25px;
 `

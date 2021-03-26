@@ -7,3 +7,6 @@ export const getSevenDayIncidenceValue = (quarantineDay) =>
 
 export const getProvinces = () =>
     axios.get(`${baseUrl}/provinces`).then(response => response.data)
+
+export const getProvinceDetails = (province) =>
+    axios.get(`${baseUrl}/province/${province}`).then(response => response.data)

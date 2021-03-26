@@ -1,20 +1,43 @@
 import styled from 'styled-components/macro'
-import {ThemeProvider} from "styled-components";
+import {useEffect, useState} from "react";
+import {getProvinceDetails} from "../../service/covidApiService";
+import {getColorCode} from "../../service/incidenceColorService";
 
 export default function CoronaProvinceCard({province}) {
 
-    let theme = {main: "var(--color-silver)"}
+    const [coronaDetails, setCoronaDetails] = useState()
+
+    useEffect(() => {
+        getProvinceDetails(province)
+            .then(setCoronaDetails)
+    }, [province])
 
 
     return (
-        <CoronaCard>
-            <ThemeProvider theme={theme}>
-                <Rectangle/>
-            </ThemeProvider>
-            <p>{province}</p>
-        </CoronaCard>
+        <div>
+            <ProvinceName>{province}</ProvinceName>
+            {coronaDetails &&
+            <CoronaCard>
+                <Rectangle coronaColor={getColorCode(coronaDetails.incidenceLevel)}/>
+                <DetailsList>
+                    <li key={coronaDetails.incidenceValue}>
+                        <span>7-Tage Inzidenzwert: </span>
+                        {coronaDetails.incidenceValue}
+                    </li>
+                    <li key={coronaDetails.totalCases}>
+                        <span>Fallzahl gesamt bisher: </span>
+                        {coronaDetails.totalCases}
+                    </li>
+                </DetailsList>
+            </CoronaCard>}
+        </div>
     )
 }
+
+const ProvinceName = styled.p`
+  font-size: 18px;
+  font-weight: bold;
+`
 
 const CoronaCard = styled.section`
   display: grid;
@@ -35,5 +58,18 @@ const Rectangle = styled.span`
   height: 70%;
   margin-left: 16px;
   box-shadow: 1px 1px 1px var(--color-silver);
-  background: ${props => props.theme.main}
+  background: ${props => props.coronaColor}
+`
+
+const DetailsList = styled.ul`
+  list-style: none;
+  font-size: 14px;
+
+  span {
+    font-weight: bold;
+  }
+
+  li + li {
+    padding-top: 12px;
+  }
 `
