@@ -2,7 +2,11 @@ package de.neuefische.teddyscoronadiaries.controller;
 
 import de.neuefische.teddyscoronadiaries.covid19api.model.ConfirmedCase;
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetails;
+import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetailsProvince;
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceLevel;
+import de.neuefische.teddyscoronadiaries.rkiapi.model.RkiAttributes;
+import de.neuefische.teddyscoronadiaries.rkiapi.model.RkiIncidenceValue;
+import de.neuefische.teddyscoronadiaries.rkiapi.model.RkiIncidenceWrapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +18,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
+import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -76,6 +84,44 @@ class CovidControllerTest {
 
         // When
         ResponseEntity<Void> response = testRestTemplate.getForEntity(getUrl() + "/" + quarantineDay, Void.class);
+
+        // Then
+        assertThat(response.getStatusCode(), is(HttpStatus.NOT_FOUND));
+    }
+
+    @Test
+    @DisplayName("Get seven day incidence value for province should return incidence details for province")
+    public void getSevenDayIncidenceValueForProvinceShouldReturnDetails(){
+        //Given
+        String province = "Hamburg";
+        URI url = URI.create("https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/Coronaf%C3%A4lle_in_den_Bundesl%C3%A4ndern/FeatureServer/0/query?where=LAN_ew_GEN%20%3D%20'HAMBURG'&outFields=LAN_ew_GEN%2CLAN_ew_BEZ%2CFallzahl%2CAktualisierung%2Cfaelle_100000_EW%2Ccases7_bl_per_100k%2Ccases7_bl%2Ccases7_bl_per_100k_txt&outSR=4326&f=json&returnGeometry=false");
+        RkiIncidenceWrapper rkiIncidenceWrapper = new RkiIncidenceWrapper(List.of(
+                new RkiAttributes(
+                        new RkiIncidenceValue("Hamburg", 50000, 103.7)
+                )
+        ));
+
+        when(restTemplate.getForEntity(url, RkiIncidenceWrapper.class)).thenReturn(ResponseEntity.ok(rkiIncidenceWrapper));
+
+        // When
+        ResponseEntity<IncidenceDetailsProvince> response = testRestTemplate.getForEntity(getUrl() + "/province/" + province, IncidenceDetailsProvince.class);
+
+        // Then
+        assertThat(response.getStatusCode(), is(HttpStatus.OK));
+        assertThat(response.getBody(), is(new IncidenceDetailsProvince("Hamburg", 50000, 104, IncidenceLevel.RED)));
+    }
+
+    @Test
+    @DisplayName("get seven day incidence value for province should return error when API not available")
+    public void getSevenDayIncidenceValueForProvinceShouldThrowError() {
+        // Given
+        String province = "Hamburg";
+        URI url = URI.create("https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/Coronaf%C3%A4lle_in_den_Bundesl%C3%A4ndern/FeatureServer/0/query?where=LAN_ew_GEN%20%3D%20'HAMBURG'&outFields=LAN_ew_GEN%2CLAN_ew_BEZ%2CFallzahl%2CAktualisierung%2Cfaelle_100000_EW%2Ccases7_bl_per_100k%2Ccases7_bl%2Ccases7_bl_per_100k_txt&outSR=4326&f=json&returnGeometry=false");
+
+        when(restTemplate.getForEntity(url, RkiIncidenceWrapper.class)).thenThrow(new RestClientException("Not available"));
+
+        // When
+        ResponseEntity<Void> response = testRestTemplate.getForEntity(getUrl() + "/province/" + province, Void.class);
 
         // Then
         assertThat(response.getStatusCode(), is(HttpStatus.NOT_FOUND));
