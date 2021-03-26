@@ -3,7 +3,10 @@ package de.neuefische.teddyscoronadiaries.service;
 import de.neuefische.teddyscoronadiaries.covid19api.model.ConfirmedCase;
 import de.neuefische.teddyscoronadiaries.covid19api.service.Covid19ApiService;
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetails;
+import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetailsProvince;
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceLevel;
+import de.neuefische.teddyscoronadiaries.rkiapi.model.RkiIncidenceValue;
+import de.neuefische.teddyscoronadiaries.rkiapi.service.RkiApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,13 +22,15 @@ import java.util.Optional;
 public class CovidService {
 
     private final Covid19ApiService covid19ApiService;
+    private final RkiApiService rkiApiService;
     //Start day March 15th 2020
     private final Instant quarantineStart = Instant.ofEpochSecond(1584230400L);
     private static final int INHABITANTS_GERMANY = 83100000;
 
     @Autowired
-    public CovidService(Covid19ApiService covid19ApiService) {
+    public CovidService(Covid19ApiService covid19ApiService, RkiApiService rkiApiService) {
         this.covid19ApiService = covid19ApiService;
+        this.rkiApiService = rkiApiService;
     }
 
     public IncidenceDetails getSevenDayIncidenceForQuarantineDay(int quarantineDay){
@@ -36,6 +41,20 @@ public class CovidService {
                 startAndEndValue.get("endValue"));
 
         return new IncidenceDetails(incidenceValue, IncidenceLevel.determineIncidenceLevel(incidenceValue));
+    }
+
+    public IncidenceDetailsProvince getSevenDayIncidenceValueForProvince(String province) {
+
+        Optional<RkiIncidenceValue> rkiIncidenceValue = rkiApiService.getIncidenceValueForProvince(province);
+
+        if(rkiIncidenceValue.isEmpty()){ throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Incidence value not available");}
+
+        int incidenceValue = (int)Math.round(rkiIncidenceValue.get().getSevenDayIncidenceValue());
+
+        return new IncidenceDetailsProvince(rkiIncidenceValue.get().getProvince()
+                , rkiIncidenceValue.get().getTotalCases()
+                ,incidenceValue, IncidenceLevel.determineIncidenceLevel(incidenceValue));
+
     }
 
     public HashMap<String, Integer> getStartAndEndValue(int quarantineDay) {
