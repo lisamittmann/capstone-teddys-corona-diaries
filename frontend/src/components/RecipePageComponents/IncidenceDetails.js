@@ -1,5 +1,4 @@
 import styled from 'styled-components/macro'
-import {ThemeProvider} from "styled-components";
 import {getColorCode} from "../../service/incidenceColorService";
 
 export default function IncidenceDetails({incidenceDetails}) {
