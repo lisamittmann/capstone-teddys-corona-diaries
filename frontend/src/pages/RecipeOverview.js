@@ -36,9 +36,3 @@ const RecipeList = styled.section`
   margin: 40px 20px 25px 20px;
   overflow-y: scroll;
 `
-
-const RecipeOverviewWrapper = styled.div`
-  display: grid;
-  grid-template-rows: auto 1fr;
-  height: calc(100vh - var(--navigation-bar-height));
-`
