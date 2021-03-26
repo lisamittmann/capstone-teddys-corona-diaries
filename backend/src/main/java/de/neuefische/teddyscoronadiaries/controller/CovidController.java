@@ -3,7 +3,6 @@ package de.neuefische.teddyscoronadiaries.controller;
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetails;
 import de.neuefische.teddyscoronadiaries.model.covid.Provinces;
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetailsProvince;
-import de.neuefische.teddyscoronadiaries.rkiapi.service.RkiApiService;
 
 import de.neuefische.teddyscoronadiaries.service.CovidService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ public class CovidController {
     private final CovidService covidService;
 
     @Autowired
-    public CovidController(CovidService covidService, RkiApiService rkiApiService) {
+    public CovidController(CovidService covidService) {
         this.covidService = covidService;
     }
 
@@ -34,7 +33,7 @@ public class CovidController {
 
     @GetMapping("provinces")
     public List<String> getProvinces() {
-        return Provinces.getProvincesNames();
+        return covidService.getProvinces();
     }
 
     @GetMapping("/province/{province}")
