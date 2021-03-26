@@ -106,16 +106,16 @@ class CovidServiceTest {
         HashMap<String, Integer> result = covidService.getStartAndEndValue(quarantineDay);
 
         // Then
-        assertThat(result, is(new HashMap<>(){{
+        assertThat(result, is(new HashMap<>() {{
             put("startValue", 210000);
-            put("endValue",  270000);
+            put("endValue", 270000);
         }}));
 
     }
 
     @Test
     @DisplayName("get start and end value should return error when API returns empty list")
-    public void getStartAndEndValueReturnsErrorWhenApiReturnsEmptyList(){
+    public void getStartAndEndValueReturnsErrorWhenApiReturnsEmptyList() {
         // Given
         // Given
         String from = "2020-04-20T00:00:00Z";
@@ -147,7 +147,7 @@ class CovidServiceTest {
 
     @ParameterizedTest(name = "Calculate incidence value from start value {0} and end value {1} should return {2}")
     @MethodSource("getStartAndEndValues")
-    public void determineIncidenceValueShouldReturnIncidenceValue(int startValue, int endValue, int expected){
+    public void determineIncidenceValueShouldReturnIncidenceValue(int startValue, int endValue, int expected) {
         // When
         int result = covidService.determineIncidenceValue(startValue, endValue);
 
@@ -165,7 +165,7 @@ class CovidServiceTest {
 
     @Test
     @DisplayName("Get seven day incidence value for province should return incidence details")
-    public void getSevenIncidenceValueShouldReturnIncidenceValue(){
+    public void getSevenIncidenceValueShouldReturnIncidenceValue() {
         // Given
         String province = "Hamburg";
         when(rkiApiService.getIncidenceValueForProvince("Hamburg"))
@@ -180,7 +180,7 @@ class CovidServiceTest {
 
     @Test
     @DisplayName("Get seven day incidence for province should throw error when endpoint unavailable")
-    public void getSevenDayIncidenceForProvinceShouldThrowException(){
+    public void getSevenDayIncidenceForProvinceShouldThrowException() {
         // Given
         String province = "Hamburg";
         when(rkiApiService.getIncidenceValueForProvince(province)).thenReturn(Optional.empty());
@@ -189,6 +189,33 @@ class CovidServiceTest {
         assertThrows(ResponseStatusException.class, () -> {
             covidService.getSevenDayIncidenceValueForProvince(province);
         });
+    }
+
+    @Test
+    @DisplayName("Get provinces should return list of provinces")
+    public void getProvincesShouldReturnListOfProvinces() {
+        // When
+        List<String> provinces = covidService.getProvinces();
+
+        // Then
+        assertThat(provinces, is(List.of(
+                "Baden-Württemberg",
+                "Bayern",
+                "Berlin",
+                "Brandenburg",
+                "Bremen",
+                "Hamburg",
+                "Hessen",
+                "Mecklenburg-Vorpommern",
+                "Niedersachsen",
+                "Nordrhein-Westfalen",
+                "Rheinland-Pfalz",
+                "Saarland",
+                "Sachsen",
+                "Sachsen-Anhalt",
+                "Schleswig-Holstein",
+                "Thüringen"
+        )));
     }
 
 }
