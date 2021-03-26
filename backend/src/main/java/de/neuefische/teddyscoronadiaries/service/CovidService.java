@@ -5,6 +5,7 @@ import de.neuefische.teddyscoronadiaries.covid19api.service.Covid19ApiService;
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetails;
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetailsProvince;
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceLevel;
+import de.neuefische.teddyscoronadiaries.model.covid.Provinces;
 import de.neuefische.teddyscoronadiaries.rkiapi.model.RkiIncidenceValue;
 import de.neuefische.teddyscoronadiaries.rkiapi.service.RkiApiService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,10 @@ public class CovidService {
                 , rkiIncidenceValue.get().getTotalCases()
                 ,incidenceValue, IncidenceLevel.determineIncidenceLevel(incidenceValue));
 
+    }
+
+    public List<String> getProvinces() {
+        return Provinces.getProvincesNames();
     }
 
     public HashMap<String, Integer> getStartAndEndValue(int quarantineDay) {

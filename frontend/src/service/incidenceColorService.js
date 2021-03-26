@@ -1,19 +1,7 @@
-export const getTheme = (incidenceDetails) => {
-    let theme
-    switch (incidenceDetails.incidenceLevel) {
-        case "GREEN":
-            theme = {main: "var(--color-incidence-green)"}
-            break
-        case "YELLOW":
-            theme = {main: "var(--color-incidence-yellow)"}
-            break
-        case "ORANGE":
-            theme = {main: "var(--color-incidence-orange)"}
-            break
-        case "RED":
-            theme = {main: "var(--color-incidence-red)"}
-            break
-        default:
-            theme = {main: "var(--color-silver)"}
-    }
+export const getColorCode = (incidenceLevel) => {
+    if (incidenceLevel === "GREEN") {return "var(--color-incidence-green)"}
+    if (incidenceLevel === "YELLOW") {return "var(--color-incidence-yellow)"}
+    if (incidenceLevel === "ORANGE") {return"var(--color-incidence-orange)"}
+    if (incidenceLevel === "RED") {return"var(--color-incidence-red)"}
+    else {return"var(--color-incidence-silver)"}
 }

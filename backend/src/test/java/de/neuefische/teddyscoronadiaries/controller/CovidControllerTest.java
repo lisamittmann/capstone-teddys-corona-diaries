@@ -34,7 +34,7 @@ class CovidControllerTest {
     @LocalServerPort
     private int serverPort;
 
-    private String getUrl(){
+    private String getUrl() {
         return "http://localhost:" + serverPort + "api/covid";
     }
 
@@ -46,7 +46,7 @@ class CovidControllerTest {
 
     @Test
     @DisplayName("Get incidence value should return incidence value")
-    public void getIncidenceValueShouldReturnIncidenceValue(){
+    public void getIncidenceValueShouldReturnIncidenceValue() {
         //Given
         int quarantineDay = 42;
         String from = "2020-04-20T00:00:00Z";
@@ -91,7 +91,7 @@ class CovidControllerTest {
 
     @Test
     @DisplayName("Get seven day incidence value for province should return incidence details for province")
-    public void getSevenDayIncidenceValueForProvinceShouldReturnDetails(){
+    public void getSevenDayIncidenceValueForProvinceShouldReturnDetails() {
         //Given
         String province = "Hamburg";
         URI url = URI.create("https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/Coronaf%C3%A4lle_in_den_Bundesl%C3%A4ndern/FeatureServer/0/query?where=LAN_ew_GEN%20%3D%20'HAMBURG'&outFields=LAN_ew_GEN%2CLAN_ew_BEZ%2CFallzahl%2CAktualisierung%2Cfaelle_100000_EW%2Ccases7_bl_per_100k%2Ccases7_bl%2Ccases7_bl_per_100k_txt&outSR=4326&f=json&returnGeometry=false");
@@ -127,4 +127,31 @@ class CovidControllerTest {
         assertThat(response.getStatusCode(), is(HttpStatus.NOT_FOUND));
     }
 
+    @Test
+    @DisplayName("Get provinces should return list of provinces")
+    public void getprovincesShouldReturnListOfProvinces() {
+        // When
+        ResponseEntity<String[]> response = testRestTemplate.getForEntity(getUrl() + "/provinces", String[].class);
+
+        // Then
+        assertThat(response.getStatusCode(), is(HttpStatus.OK));
+        assertThat(response.getBody(), is(new String[]{
+                "Baden-Württemberg",
+                "Bayern",
+                "Berlin",
+                "Brandenburg",
+                "Bremen",
+                "Hamburg",
+                "Hessen",
+                "Mecklenburg-Vorpommern",
+                "Niedersachsen",
+                "Nordrhein-Westfalen",
+                "Rheinland-Pfalz",
+                "Saarland",
+                "Sachsen",
+                "Sachsen-Anhalt",
+                "Schleswig-Holstein",
+                "Thüringen"
+        }));
+    }
 }

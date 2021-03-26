@@ -1,33 +1,12 @@
 import styled from 'styled-components/macro'
 import {ThemeProvider} from "styled-components";
+import {getColorCode} from "../../service/incidenceColorService";
 
 export default function IncidenceDetails({incidenceDetails}) {
 
-    let theme
-
-    switch (incidenceDetails.incidenceLevel) {
-        case "GREEN":
-            theme = {main: "var(--color-incidence-green)"}
-            break
-        case "YELLOW":
-            theme = {main: "var(--color-incidence-yellow)"}
-            break
-        case "ORANGE":
-            theme = {main: "var(--color-incidence-orange)"}
-            break
-        case "RED":
-            theme = {main: "var(--color-incidence-red)"}
-            break
-        default:
-            theme = {main: "var(--color-silver)"}
-    }
-
-
     return (
         <DetailsGrid>
-            <ThemeProvider theme={theme}>
-                <Circle/>
-            </ThemeProvider>
+            <Circle coronaColor={getColorCode(incidenceDetails.incidenceLevel)}/>
             <p>7-Tage Inzidenz Wert: {incidenceDetails.incidenceValue}</p>
         </DetailsGrid>
     )
@@ -47,5 +26,5 @@ const Circle = styled.span`
   height: 25px;
   margin-left: 16px;
   box-shadow: 1px 1px 1px var(--color-silver);
-  background: ${props => props.theme.main}
+  background: ${props => props.coronaColor}
 `

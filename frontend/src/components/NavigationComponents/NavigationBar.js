@@ -5,7 +5,7 @@ export default function NavigationBar() {
     return (
         <NavigationBarWrapper>
             <NavigationLink to="/recipes">REZEPT ÜBERSICHT</NavigationLink>
-            <NavigationLink to="/">CORONA LAGE</NavigationLink>
+            <NavigationLink to="/coronadetails">CORONA LAGE</NavigationLink>
             <NavigationLink to="/">MEIN BEREICH</NavigationLink>
         </NavigationBarWrapper>
 
