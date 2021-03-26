@@ -38,18 +38,18 @@ public class RkiApiService {
         try {
 
             StringBuilder builder = new StringBuilder(baseUrl);
-            builder.append("?where=");
-            builder.append(provinceParameter);
-            builder.append("&outFields=");
-            builder.append(URLEncoder.encode("LAN_ew_GEN,LAN_ew_BEZ,Fallzahl,Aktualisierung,faelle_100000_EW,cases7_bl_per_100k,cases7_bl,cases7_bl_per_100k_txt", StandardCharsets.UTF_8.toString()));
-            builder.append("&outSR=4326&f=json&returnGeometry=false");
+            builder.append("?where=")
+                    .append(provinceParameter)
+                    .append("&outFields=")
+                    .append(URLEncoder.encode("LAN_ew_GEN,LAN_ew_BEZ,Fallzahl,Aktualisierung,faelle_100000_EW,cases7_bl_per_100k,cases7_bl,cases7_bl_per_100k_txt", StandardCharsets.UTF_8.toString()))
+                    .append("&outSR=4326&f=json&returnGeometry=false");
 
             URI uri = URI.create(builder.toString());
 
             ResponseEntity<RkiIncidenceWrapper> response = restTemplate.getForEntity(uri, RkiIncidenceWrapper.class);
 
             return Optional.of(response.getBody().getFeatures().get(0).getAttributes());
-        } catch(Exception e) {
+        } catch (Exception e) {
             return Optional.empty();
         }
     }
