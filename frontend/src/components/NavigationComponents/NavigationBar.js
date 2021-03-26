@@ -14,7 +14,7 @@ export default function NavigationBar() {
 
 const NavigationWrapper = styled.section`
   background: var(--color-turquoise-green);
-  height: 50px;
+  height: var(--navigation-bar-height);
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 12px;
