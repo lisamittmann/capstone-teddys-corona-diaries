@@ -1,7 +1,6 @@
-import styled from 'styled-components/macro'
 import PageHeader from "../components/PageLayoutComponents/PageHeader";
 import OverviewPageLayout from "../components/PageLayoutComponents/OverviewPageLayout";
-import CoronaDetailsForProvince from "../components/CoronaDetailsForProvince";
+import CoronaDetailsForProvince from "../components/CoronaProvinceComponents/CoronaDetailsForProvince";
 
 export default function CoronaOverview() {
     return (

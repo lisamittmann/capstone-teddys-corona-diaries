@@ -27,8 +27,8 @@ public enum Provinces {
 
     public static List<String> getProvincesNames(){
         List<String> listOfProvinces = new ArrayList<>();
-        for (Provinces label : values()) {
-            listOfProvinces.add(label.name);
+        for (Provinces province : values()) {
+            listOfProvinces.add(province.name);
         }
         return listOfProvinces;
     }

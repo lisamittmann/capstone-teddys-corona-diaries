@@ -1,17 +1,8 @@
 import styled from 'styled-components/macro'
-import {useState} from "react";
 
-export default function CoronaProvinceSelect() {
-    const provinces = [
-        {label: 'Hamburg', value: 'Hamburg'},
-        {label: 'Berlin', value: 'Berlin'},
-        {label: 'Bayern', value: 'Bayern'},
-    ]
-
-    const [selectedProvince, setSelectedProvince] = useState()
+export default function CoronaProvinceSelect({provinces, setSelectedProvince}) {
 
     const selectProvince = (e) => setSelectedProvince(e.target.value)
-
 
     return (
 
@@ -22,10 +13,9 @@ export default function CoronaProvinceSelect() {
                     Deine Region
                 </option>
                 {provinces.map(province => (
-                    <option key={province.label} value={province.value}>{province.label}</option>
+                    <option key={province} value={province}>{province}</option>
                 ))}
             </ProvinceSelector>
-            {selectedProvince && <p>{selectedProvince}</p>}
         </SelectWrapper>
     )
 }
