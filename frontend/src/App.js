@@ -2,8 +2,8 @@ import './App.css';
 import {Link, Route, Switch} from "react-router-dom";
 import RecipePage from "./pages/RecipePage";
 import RecipeOverview from "./pages/RecipeOverview";
-import NavigationWrapper from "./components/NavigationComponents/NavigationWrapper";
 import NavigationBar from "./components/NavigationComponents/NavigationBar";
+import PageLayoutWithNavigation from "./components/NavigationComponents/PageLayoutWithNavigation";
 
 function App() {
     return (
@@ -12,7 +12,7 @@ function App() {
                 <Route path="/recipe/:recipeId">
                     <RecipePage/>
                 </Route>
-                <NavigationWrapper>
+                <PageLayoutWithNavigation>
                     <Route exact path="/">
                         <Link to="/recipes">Rezept-Übersicht</Link>
                     </Route>
@@ -20,7 +20,7 @@ function App() {
                         <RecipeOverview/>
                     </Route>
                     <NavigationBar/>
-                </NavigationWrapper>
+                </PageLayoutWithNavigation>
             </Switch>
         </div>
     )

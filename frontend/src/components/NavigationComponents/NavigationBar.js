@@ -3,16 +3,16 @@ import {Link} from "react-router-dom";
 
 export default function NavigationBar() {
     return (
-        <NavigationWrapper>
+        <NavigationBarWrapper>
             <NavigationLink to="/recipes">REZEPT ÜBERSICHT</NavigationLink>
             <NavigationLink to="/">CORONA LAGE</NavigationLink>
             <NavigationLink to="/">MEIN BEREICH</NavigationLink>
-        </NavigationWrapper>
+        </NavigationBarWrapper>
 
     )
 }
 
-const NavigationWrapper = styled.section`
+const NavigationBarWrapper = styled.section`
   background: var(--color-turquoise-green);
   height: var(--navigation-bar-height);
   display: grid;
