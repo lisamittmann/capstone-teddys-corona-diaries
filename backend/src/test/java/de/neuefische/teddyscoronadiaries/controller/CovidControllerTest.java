@@ -73,6 +73,23 @@ class CovidControllerTest {
     }
 
     @Test
+    @DisplayName("Get incidence value should throw error when API unavailable")
+    public void getIncidenceValueShouldThrowError() {
+        // Given
+        int quarantineDay = 42;
+        String from = "2020-04-20T00:00:00Z";
+        String to = "2020-04-26T00:00:00Z";
+        String mockUrl = "https://api.covid19api.com/country/germany/status/confirmed/live?from=" + from + "&to=" + to;
+        when(restTemplate.getForEntity(mockUrl, ConfirmedCase[].class)).thenThrow(new RestClientException("No data available"));
+
+        // When
+        ResponseEntity<Void> response = testRestTemplate.getForEntity(getUrl() + "/" + quarantineDay, Void.class);
+
+        // Then
+        assertThat(response.getStatusCode(), is(HttpStatus.NOT_FOUND));
+    }
+
+    @Test
     @DisplayName("Get seven day incidence value for province should return incidence details for province")
     public void getSevenDayIncidenceValueForProvinceShouldReturnDetails(){
         //Given
@@ -108,7 +125,6 @@ class CovidControllerTest {
 
         // Then
         assertThat(response.getStatusCode(), is(HttpStatus.NOT_FOUND));
-
     }
 
 }
