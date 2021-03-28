@@ -14,7 +14,7 @@ export default function CoronaProvinceCard({province}) {
 
 
     return (
-        <div>
+        <div data-testid="provinceCard">
             <ProvinceName>{province}</ProvinceName>
             {coronaDetails &&
             <CoronaCard>
