@@ -9,6 +9,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
       - name: Install frontend dependencies
         run: |
           cd frontend
@@ -18,4 +21,5 @@ jobs:
         with:
           install: false
           browser: chrome
+          headless: true
           project: ./frontend
