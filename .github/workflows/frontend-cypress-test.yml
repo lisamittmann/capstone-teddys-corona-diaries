@@ -22,4 +22,4 @@ jobs:
           install: false
           browser: chrome
           headless: true
-          project: ./frontend
+          working-directory: frontend
