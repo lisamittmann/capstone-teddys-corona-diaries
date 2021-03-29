@@ -43,7 +43,7 @@ const buttonStyle = `
   text-decoration: none;
   color: var(--color-cultured);
   font-size: 14px;
-  width: 40%;
+  width: 45%;
   text-align: center;
   padding-top: 14px;
   padding-bottom: 14px;
