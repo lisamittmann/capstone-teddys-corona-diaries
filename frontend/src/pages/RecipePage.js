@@ -41,11 +41,4 @@ const RecipeWrapper = styled.section`
   font-family: Roboto;
   grid-gap: 16px;
   margin-bottom: 16px;
-
-  img {
-    object-fit: contain;
-    width: 100%;
-  }
-
-
 `
