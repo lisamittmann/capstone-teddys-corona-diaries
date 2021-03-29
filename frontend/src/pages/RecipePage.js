@@ -5,11 +5,16 @@ import {getRecipe} from "../service/recipeApiService";
 import RecipeHeader from "../components/RecipePageComponents/RecipeHeader";
 import RecipeCoronaDetails from "../components/RecipePageComponents/RecipeCoronaDetails";
 import RecipePreparation from "../components/RecipePageComponents/RecipePreparation";
+import useQuery from "../hooks/useQuery";
+import RecipeImage from "../components/RecipePageComponents/RecipeImage";
 
 
 export default function RecipePage() {
     const {recipeId} = useParams()
     const [recipe, setRecipe] = useState()
+
+    const query = useQuery()
+    const from = query.get('from')
 
     useEffect(() => {
         getRecipe(recipeId).then(setRecipe)
@@ -19,7 +24,7 @@ export default function RecipePage() {
         <>
             {recipe &&
             <RecipeWrapper>
-                <img src={recipe.imageUrl} alt={recipe.name}/>
+                <RecipeImage imageUrl={recipe.imageUrl} from={from}/>
                 <RecipeHeader recipeName={recipe.name} recipeDescription={recipe.diaryEntry}/>
                 <RecipeCoronaDetails quarantineDay={recipe.quarantineDay}/>
                 <RecipePreparation {...recipe}/>
@@ -38,7 +43,7 @@ const RecipeWrapper = styled.section`
   margin-bottom: 16px;
 
   img {
-    object -fit: contain;
+    object-fit: contain;
     width: 100%;
   }
 

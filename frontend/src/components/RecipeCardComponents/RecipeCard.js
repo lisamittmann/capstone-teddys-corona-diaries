@@ -4,7 +4,7 @@ import RecipeCardImage from "./RecipeCardImage";
 
 export default function RecipeCard({recipeCardDetails}) {
     return (
-        <CardWrapper to={`/recipe/${recipeCardDetails.id}`} key={recipeCardDetails.id}>
+        <CardWrapper to={`/recipe/${recipeCardDetails.id}/?from=recipes`} key={recipeCardDetails.id}>
             <p>{recipeCardDetails.name}</p>
             <RecipeCardImage imageUrl={recipeCardDetails.imageUrl} quarantineDay={recipeCardDetails.quarantineDay}/>
         </CardWrapper>
