@@ -37,7 +37,6 @@ public class WeatherService {
         }
 
         String capitalWoeid = provinceData.get().getCapitalWoeid();
-
         Optional<WeatherData> weatherDataForProvinceCapital = getWeatherDataForProvinceCapital(capitalWoeid);
 
         if(weatherDataForProvinceCapital.isEmpty()) {throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Weather API not available");}
