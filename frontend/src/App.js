@@ -9,28 +9,24 @@ import Homepage from "./pages/Homepage";
 
 function App() {
     return (
-        <div>
-            <Switch>
+        <Switch>
+            <Route exact path="/" component={Homepage}/>
+            <Route path="/recipe/:recipeId">
+                <RecipePage/>
+            </Route>
+            <PageLayoutWithNavigation>
                 <Route exact path="/">
-                    <Homepage/>
+                    <Link to="/recipes">Rezept-Übersicht</Link>
                 </Route>
-                <Route path="/recipe/:recipeId">
-                    <RecipePage/>
+                <Route path="/recipes">
+                    <RecipeOverview/>
                 </Route>
-                <PageLayoutWithNavigation>
-                    <Route exact path="/">
-                        <Link to="/recipes">Rezept-Übersicht</Link>
-                    </Route>
-                    <Route path="/recipes">
-                        <RecipeOverview/>
-                    </Route>
-                    <Route path="/coronadetails">
-                        <CoronaOverview/>
-                    </Route>
-                    <NavigationBar/>
-                </PageLayoutWithNavigation>
-            </Switch>
-        </div>
+                <Route path="/coronadetails">
+                    <CoronaOverview/>
+                </Route>
+                <NavigationBar/>
+            </PageLayoutWithNavigation>
+        </Switch>
     )
         ;
 }

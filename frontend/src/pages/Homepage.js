@@ -51,6 +51,10 @@ const buttonStyle = `
   border-radius: 3px;
   font-family: Roboto;
   font-weight: bold;
+  
+  :visited {
+    color: var(--color-cultured);
+  }
 `
 
 const HomeButton = styled(Link)`${buttonStyle}`;
