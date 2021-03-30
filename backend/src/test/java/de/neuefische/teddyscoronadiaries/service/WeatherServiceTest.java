@@ -5,7 +5,7 @@ import de.neuefische.teddyscoronadiaries.metaweatherapi.model.WeatherData;
 import de.neuefische.teddyscoronadiaries.metaweatherapi.service.MetaWeatherApiService;
 import de.neuefische.teddyscoronadiaries.model.province.ProvinceData;
 import de.neuefische.teddyscoronadiaries.model.weather.ProvinceCapitalWeatherData;
-import org.hamcrest.Matchers;
+import de.neuefische.teddyscoronadiaries.utils.CurrentDateUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +20,8 @@ class WeatherServiceTest {
 
     private final MetaWeatherApiService metaWeatherApiService = mock(MetaWeatherApiService.class);
     private final ProvinceMongoDb provinceMongoDb = mock(ProvinceMongoDb.class);
-    private final WeatherService weatherService = new WeatherService(metaWeatherApiService, provinceMongoDb);
+    private final CurrentDateUtils currentDateUtils = mock(CurrentDateUtils.class);
+    private final WeatherService weatherService = new WeatherService(metaWeatherApiService, provinceMongoDb, currentDateUtils);
 
     @Test
     @DisplayName("get province capital weather data should return weather data")
@@ -29,6 +30,7 @@ class WeatherServiceTest {
         String province = "Hamburg";
         String capitalWoeid = "656958";
 
+        when(currentDateUtils.getCurrentDay()).thenReturn("2021-03-21");
         when(provinceMongoDb.findById(province)).thenReturn(java.util.Optional.of(new ProvinceData("Hamburg", "Hamburg", "656958")));
         when(metaWeatherApiService.getWeatherData(capitalWoeid)).thenReturn(getWeatherDataList());
 

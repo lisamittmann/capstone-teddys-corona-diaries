@@ -16,9 +16,9 @@ public enum WeatherCategories {
 
     private WeatherCategories(String name) {this.name = name;}
 
-    public String getName(WeatherCategories category) {
+    public static String getWeatherCategory(String category) {
         for(WeatherCategories weatherCategory : values()) {
-            if(category.equals(weatherCategory)) {return weatherCategory.name;}
+            if(category.equals(weatherCategory.toString())) {return weatherCategory.name;}
         }
         return null;
     }
