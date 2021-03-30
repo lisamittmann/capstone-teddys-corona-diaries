@@ -1,61 +1,50 @@
-package de.neuefische.teddyscoronadiaries.metaweatherapi.service;
+package de.neuefische.teddyscoronadiaries.service;
 
+import de.neuefische.teddyscoronadiaries.db.ProvinceMongoDb;
 import de.neuefische.teddyscoronadiaries.metaweatherapi.model.WeatherData;
-import de.neuefische.teddyscoronadiaries.metaweatherapi.model.WeatherDataWrapper;
+import de.neuefische.teddyscoronadiaries.metaweatherapi.service.MetaWeatherApiService;
+import de.neuefische.teddyscoronadiaries.model.province.ProvinceData;
+import de.neuefische.teddyscoronadiaries.model.weather.ProvinceCapitalWeatherData;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class MetaWeatherApiServiceTest {
+class WeatherServiceTest {
 
-    private final RestTemplate restTemplate = mock(RestTemplate.class);
-    private static final String baseUrl = "https://www.metaweather.com";
-    private final MetaWeatherApiService metaWeatherApiService = new MetaWeatherApiService(restTemplate);
-
-    @Test
-    @DisplayName("Get weather data returns list of consilidated weather data")
-    public void getWeatherDataReturnsListOfWeatherData() {
-        // Given
-        String woeid = "656958";
-
-        when(restTemplate.getForEntity(baseUrl + "/api/location/" + woeid, WeatherDataWrapper.class))
-                .thenReturn(ResponseEntity.ok(new WeatherDataWrapper(getWeatherDataList())));
-
-        // When
-        List<WeatherData> weatherData = metaWeatherApiService.getWeatherData(woeid);
-
-        // Then
-        assertThat(weatherData, is(getWeatherDataList()));
-
-    }
+    private final MetaWeatherApiService metaWeatherApiService = mock(MetaWeatherApiService.class);
+    private final ProvinceMongoDb provinceMongoDb = mock(ProvinceMongoDb.class);
+    private final WeatherService weatherService = new WeatherService(metaWeatherApiService, provinceMongoDb);
 
     @Test
-    @DisplayName("Get weather data returns empty list when API unavailable")
-    public void getWeatherDataReturnsEmptyList() {
+    @DisplayName("get province capital weather data should return weather data")
+    public void getProvinceCapitalWeatherDataReturnsWeatherData() {
         // Given
-        String woeid = "656958";
+        String province = "Hamburg";
+        String capitalWoeid = "656958";
 
-        when(restTemplate.getForEntity(baseUrl + "/api/location/" + woeid, WeatherDataWrapper.class))
-                .thenThrow(new RestClientException("Service not available"));
+        when(provinceMongoDb.findById(province)).thenReturn(java.util.Optional.of(new ProvinceData("Hamburg", "Hamburg", "656958")));
+        when(metaWeatherApiService.getWeatherData(capitalWoeid)).thenReturn(getWeatherDataList());
 
         // When
-        List<WeatherData> weatherData = metaWeatherApiService.getWeatherData(woeid);
+        ProvinceCapitalWeatherData provinceCapitalWeatherData = weatherService.getProvinceCapitalWeatherData(province);
 
         // Then
-        assertThat(weatherData, is(List.of()));
+        assertThat(provinceCapitalWeatherData, is(new ProvinceCapitalWeatherData(
+                "Hamburg",
+                "Sonnig",
+                6,
+                20,
+                20
+        )));
 
     }
-
 
     private List<WeatherData> getWeatherDataList() {
         return List.of(
