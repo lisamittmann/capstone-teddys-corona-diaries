@@ -14,4 +14,5 @@ public class ProvinceCapitalWeatherData {
     private int minTemperature;
     private int maxTemperature;
     private int currentTemperature;
+    private String weatherIconUrl;
 }

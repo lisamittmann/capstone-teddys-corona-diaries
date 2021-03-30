@@ -42,7 +42,7 @@ public class WeatherService {
 
         if(weatherDataForProvinceCapital.isEmpty()) {throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Weather API not available");}
 
-        return getProvinceCapitalWeatherData(provinceData.get().getCapital(), weatherDataForProvinceCapital.get());
+        return getProvinceCapitalWeatherDataFromWeatherData(provinceData.get().getCapital(), weatherDataForProvinceCapital.get());
     }
 
     public Optional<WeatherData> getWeatherDataForProvinceCapital(String capitalWoeid) {
@@ -53,13 +53,14 @@ public class WeatherService {
         return weatherData.stream().filter(dataSet -> dataSet.getApplicableDate().equals(currentDay)).findAny();
     }
 
-    public ProvinceCapitalWeatherData getProvinceCapitalWeatherData(String capital, WeatherData data) {
+    public ProvinceCapitalWeatherData getProvinceCapitalWeatherDataFromWeatherData(String capital, WeatherData data) {
         return new ProvinceCapitalWeatherData(
                 capital,
                 WeatherCategories.getWeatherCategory(data.getWeatherStateAbbreviation().toUpperCase()),
                 (int)Math.round(data.getMinTemperature()),
                 (int)Math.round(data.getMaxTemperature()),
-                (int)Math.round(data.getCurrentTemperature())
+                (int)Math.round(data.getCurrentTemperature()),
+                "https://www.metaweather.com/static/img/weather/" + data.getWeatherStateAbbreviation() + ".svg"
         );
     }
 }

@@ -43,7 +43,8 @@ class WeatherServiceTest {
                 "Sonnig",
                 6,
                 20,
-                20
+                20,
+                "https://www.metaweather.com/static/img/weather/c.svg"
         )));
 
     }
