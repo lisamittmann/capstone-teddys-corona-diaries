@@ -1,5 +1,7 @@
 package de.neuefische.teddyscoronadiaries.model.weather;
 
+import java.util.Optional;
+
 public enum WeatherCategories {
     SN("Schnee"),
     SL("Schneeregen"),
@@ -16,10 +18,10 @@ public enum WeatherCategories {
 
     private WeatherCategories(String name) {this.name = name;}
 
-    public static String getWeatherCategory(String category) {
+    public static Optional<String> getWeatherCategory(String category) {
         for(WeatherCategories weatherCategory : values()) {
-            if(category.equals(weatherCategory.toString())) {return weatherCategory.name;}
+            if(category.equals(weatherCategory.toString())) {return Optional.of(weatherCategory.name);}
         }
-        return null;
+        return Optional.empty();
     }
 }

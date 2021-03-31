@@ -1,6 +1,5 @@
 package de.neuefische.teddyscoronadiaries.model.weather;
 
-import org.hamcrest.Matchers;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -17,7 +16,7 @@ class WeatherCategoriesTest {
     @MethodSource("getWeatherCategoryValues")
     public void getWeatherCategoryShouldReturnCorrectValue(String apiCategory, String result){
         // When
-        String weatherCategory = WeatherCategories.getWeatherCategory(apiCategory);
+        String weatherCategory = WeatherCategories.getWeatherCategory(apiCategory).get();
 
         // Then
         assertThat(weatherCategory, is(result));

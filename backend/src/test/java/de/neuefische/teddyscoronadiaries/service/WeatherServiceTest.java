@@ -56,7 +56,7 @@ class WeatherServiceTest {
     @DisplayName("Get province capital weather data should throw error when province is unknown")
     public void getProvinceCapitalWeatherdataShouldThrowErrorWhenProvinceIsUnknown() {
         // Given
-        String province = "michGibtsNicht";
+        String province = "Bielefeld";
         when(provinceMongoDb.findById(province)).thenReturn(Optional.empty());
 
         // Then
@@ -112,7 +112,7 @@ class WeatherServiceTest {
 
     @Test
     @DisplayName("Get province capital weather data from weather data should return correct object")
-    public void getProvinceCpitalWeatherDataFromWeatherDataTest() {
+    public void getProvinceCapitalWeatherDataFromWeatherDataTest() {
         // Given
         String capital = "Hamburg";
         WeatherData weatherData = WeatherData.builder()

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -53,9 +54,14 @@ public class WeatherService {
     }
 
     public ProvinceCapitalWeatherData getProvinceCapitalWeatherDataFromWeatherData(String capital, WeatherData data) {
+
+        if(WeatherCategories.getWeatherCategory(data.getWeatherStateAbbreviation().toUpperCase()).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unknown weather category");
+        }
+
         return new ProvinceCapitalWeatherData(
                 capital,
-                WeatherCategories.getWeatherCategory(data.getWeatherStateAbbreviation().toUpperCase()),
+                WeatherCategories.getWeatherCategory(data.getWeatherStateAbbreviation().toUpperCase()).get(),
                 (int)Math.round(data.getMinTemperature()),
                 (int)Math.round(data.getMaxTemperature()),
                 (int)Math.round(data.getCurrentTemperature()),

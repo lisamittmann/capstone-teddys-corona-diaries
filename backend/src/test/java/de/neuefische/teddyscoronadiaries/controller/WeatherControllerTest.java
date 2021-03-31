@@ -82,7 +82,7 @@ class WeatherControllerTest {
     @DisplayName("Get province capital weather data should throw error for unknown province")
     public void getProvinceCapitalWeatherDataShouldThrowErrorForUnknownProvince(){
         // Given
-        String province = "michGibtsNicht";
+        String province = "Bielefeld";
 
         // When
         ResponseEntity<Void> response = testRestTemplate.getForEntity(getUrl() + "/" + province, Void.class);
