@@ -5,12 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Weather {
 
-    private WeatherContent weather;
+    private List<WeatherContent> weather;
     @JsonProperty("main")
     private WeatherTemperature temperature;
 }

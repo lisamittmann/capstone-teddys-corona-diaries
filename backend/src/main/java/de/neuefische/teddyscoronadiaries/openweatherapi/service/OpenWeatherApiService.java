@@ -22,7 +22,7 @@ public class OpenWeatherApiService {
 
     public Optional<Weather> getWeatherForProvinceCapital(String capital) {
         try {
-            String url = baseUrl + "?q=" + capital + "&appid=" + openWeatherKeyConfig.getApiKey() + "&units=metric";
+            String url = baseUrl + "?q=" + capital + "&appid=" + openWeatherKeyConfig.getApiKey() + "&units=metric&lang=DE";
             ResponseEntity<Weather> response = restTemplate.getForEntity(url, Weather.class);
             return Optional.of(response.getBody());
         } catch(Exception e) {

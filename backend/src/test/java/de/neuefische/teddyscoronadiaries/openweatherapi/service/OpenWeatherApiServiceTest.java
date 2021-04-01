@@ -8,12 +8,15 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -31,8 +34,9 @@ class OpenWeatherApiServiceTest {
         String capital = "Hamburg";
 
         when(openWeatherKeyConfig.getApiKey()).thenReturn("awesomeApiKey");
-        when(restTemplate.getForEntity(baseUrl + "?q=" + capital + "&appid=awesomeApiKey&units=metric", Weather.class)).thenReturn(ResponseEntity.ok(
-                new Weather(new WeatherContent("Rain", "Light rain", "01d"),
+        when(restTemplate.getForEntity(baseUrl + "?q=" + capital + "&appid=awesomeApiKey&units=metric&lang=DE", Weather.class))
+                .thenReturn(ResponseEntity.ok(
+                new Weather(List.of(new WeatherContent("Rain", "Leichter Regen", "01d")),
                         new WeatherTemperature(16.56, 18.87, 10.93, 20.34))
         ));
 
@@ -41,10 +45,27 @@ class OpenWeatherApiServiceTest {
 
         // Then
         assertThat(result.get(), is(new Weather(
-                new WeatherContent("Rain", "Light rain", "01d"),
+                List.of(new WeatherContent("Rain", "Leichter Regen", "01d")),
                 new WeatherTemperature(16.56, 18.87, 10.93, 20.34))
         ));
 
+    }
+
+    @Test
+    @DisplayName("Get weather for province capital should return empty optional when API is unavailable")
+    public void getWeatherForProvinceCapitalShouldReturnEmptyOptionalWhenApiUnavailable() {
+        // Given
+        String capital = "Hamburg";
+
+        when(openWeatherKeyConfig.getApiKey()).thenReturn("awesomeApiKey");
+        when(restTemplate.getForEntity(baseUrl + "?q=" + capital + "&appid=awesomeApiKey&units=metric&lang=DE", Weather.class))
+                .thenThrow(new RestClientException("API not available"));
+
+        // When
+        Optional<Weather> result = openWeatherApiService.getWeatherForProvinceCapital(capital);
+
+        // Then
+        assertTrue(result.isEmpty());
     }
 
 }
