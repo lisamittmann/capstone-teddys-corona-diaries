@@ -15,7 +15,7 @@ export default function ProvinceCapitalWeather({province}) {
             {weatherDetails &&
             <>
                 <p>{weatherDetails.capital} ({weatherDetails.weatherState})</p>
-                <img src={weatherDetails.weatherIconUrl}/>
+                <img src={weatherDetails.weatherIconUrl} alt={weatherDetails.weatherState}/>
                 <MinMaxTemp>
                     <p>Min: {weatherDetails.minTemperature}°</p>
                     <p>Max: {weatherDetails.maxTemperature}°</p>
