@@ -15,5 +15,4 @@ public class ProvinceData {
     @Id
     private String name;
     private String capital;
-    private String capitalWoeid;
 }

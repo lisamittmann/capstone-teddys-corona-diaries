@@ -33,7 +33,7 @@ class WeatherServiceTest {
         String province = "Hamburg";
         String capital = "Hamburg";
 
-        when(provinceMongoDb.findById(province)).thenReturn(java.util.Optional.of(new ProvinceData("Hamburg", "Hamburg", "656958")));
+        when(provinceMongoDb.findById(province)).thenReturn(java.util.Optional.of(new ProvinceData("Hamburg", "Hamburg")));
         when(openWeatherApiService.getWeatherForProvinceCapital(capital)).thenReturn(Optional.of(getWeather()));
 
         // When
@@ -72,7 +72,7 @@ class WeatherServiceTest {
         String province = "Hamburg";
         String capital = "Hamburg";
 
-        when(provinceMongoDb.findById(province)).thenReturn(java.util.Optional.of(new ProvinceData("Hamburg", "Hamburg", "656958")));
+        when(provinceMongoDb.findById(province)).thenReturn(java.util.Optional.of(new ProvinceData("Hamburg", "Hamburg")));
         when(openWeatherApiService.getWeatherForProvinceCapital(capital)).thenReturn(Optional.empty());
 
         // Then

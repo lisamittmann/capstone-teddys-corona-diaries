@@ -3,7 +3,6 @@ package de.neuefische.teddyscoronadiaries.service;
 import de.neuefische.teddyscoronadiaries.db.ProvinceMongoDb;
 import de.neuefische.teddyscoronadiaries.model.province.ProvinceData;
 import de.neuefische.teddyscoronadiaries.model.weather.ProvinceCapitalWeatherData;
-import de.neuefische.teddyscoronadiaries.model.weather.WeatherCategories;
 import de.neuefische.teddyscoronadiaries.openweatherapi.model.Weather;
 import de.neuefische.teddyscoronadiaries.openweatherapi.service.OpenWeatherApiService;
 import org.springframework.beans.factory.annotation.Autowired;

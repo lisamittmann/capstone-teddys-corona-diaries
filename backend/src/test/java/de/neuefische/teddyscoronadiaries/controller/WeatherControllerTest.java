@@ -1,8 +1,6 @@
 package de.neuefische.teddyscoronadiaries.controller;
 
 import de.neuefische.teddyscoronadiaries.db.ProvinceMongoDb;
-import de.neuefische.teddyscoronadiaries.metaweatherapi.model.WeatherData;
-import de.neuefische.teddyscoronadiaries.metaweatherapi.model.WeatherDataWrapper;
 import de.neuefische.teddyscoronadiaries.model.province.ProvinceData;
 import de.neuefische.teddyscoronadiaries.model.weather.ProvinceCapitalWeatherData;
 import de.neuefische.teddyscoronadiaries.openweatherapi.model.Weather;
@@ -59,7 +57,7 @@ class WeatherControllerTest {
     public void getProvinceCapitalWeatherDataShouldReturnWeatherData() {
         // Given
         String province = "Hamburg";
-        provinceMongoDb.save(new ProvinceData("Hamburg", "Hamburg", "656958"));
+        provinceMongoDb.save(new ProvinceData("Hamburg", "Hamburg"));
         when(restTemplate.getForEntity("http://api.openweathermap.org/data/2.5/weather?q=Hamburg&appid=awesomeApiKey&units=metric&lang=DE", Weather.class))
                 .thenReturn(ResponseEntity.ok(getWeather()));
 
@@ -97,8 +95,8 @@ class WeatherControllerTest {
     public void getProvinceCapitalWeatherdataShouldThrowErrorWhenApiUnavailable() {
         // Given
         String province = "Hamburg";
-        provinceMongoDb.save(new ProvinceData("Hamburg", "Hamburg", "656958"));
-        when(restTemplate.getForEntity("http://api.openweathermap.org/data/2.5/weather?q=Hamburg&appid=awesomeApiKey&units=metric&lang=DE", WeatherDataWrapper.class))
+        provinceMongoDb.save(new ProvinceData("Hamburg", "Hamburg"));
+        when(restTemplate.getForEntity("http://api.openweathermap.org/data/2.5/weather?q=Hamburg&appid=awesomeApiKey&units=metric&lang=DE", Weather.class))
                 .thenThrow(new RestClientException("API not available"));
 
         // When
