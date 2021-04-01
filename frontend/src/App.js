@@ -6,6 +6,7 @@ import NavigationBar from "./components/NavigationComponents/NavigationBar";
 import PageLayoutWithNavigation from "./components/NavigationComponents/PageLayoutWithNavigation";
 import CoronaOverview from "./pages/CoronaOverview";
 import Homepage from "./pages/Homepage";
+import CoronaActivitiesPage from "./pages/CoronaActivitiesPage";
 
 function App() {
     return (
@@ -23,6 +24,9 @@ function App() {
                 </Route>
                 <Route path="/coronadetails">
                     <CoronaOverview/>
+                </Route>
+                <Route path="/activities">
+                    <CoronaActivitiesPage/>
                 </Route>
                 <NavigationBar/>
             </PageLayoutWithNavigation>
