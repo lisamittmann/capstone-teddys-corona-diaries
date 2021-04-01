@@ -1,33 +1,29 @@
 package de.neuefische.teddyscoronadiaries.service;
 
 import de.neuefische.teddyscoronadiaries.db.ProvinceMongoDb;
-import de.neuefische.teddyscoronadiaries.metaweatherapi.model.WeatherData;
-import de.neuefische.teddyscoronadiaries.metaweatherapi.service.MetaWeatherApiService;
 import de.neuefische.teddyscoronadiaries.model.province.ProvinceData;
 import de.neuefische.teddyscoronadiaries.model.weather.ProvinceCapitalWeatherData;
 import de.neuefische.teddyscoronadiaries.model.weather.WeatherCategories;
-import de.neuefische.teddyscoronadiaries.utils.CurrentDateUtils;
+import de.neuefische.teddyscoronadiaries.openweatherapi.model.Weather;
+import de.neuefische.teddyscoronadiaries.openweatherapi.service.OpenWeatherApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 @Service
 public class WeatherService {
 
-    private final MetaWeatherApiService metaWeatherApiService;
+    private final OpenWeatherApiService openWeatherApiService;
     private final ProvinceMongoDb provinceMongoDb;
-    private final CurrentDateUtils currentDateUtils;
+
 
     @Autowired
-    public WeatherService(MetaWeatherApiService metaWeatherApiService, ProvinceMongoDb provinceMongoDb, CurrentDateUtils currentDateUtils) {
-        this.metaWeatherApiService = metaWeatherApiService;
+    public WeatherService(OpenWeatherApiService openWeatherApiService, ProvinceMongoDb provinceMongoDb) {
+        this.openWeatherApiService = openWeatherApiService;
         this.provinceMongoDb = provinceMongoDb;
-        this.currentDateUtils = currentDateUtils;
     }
 
     public ProvinceCapitalWeatherData getProvinceCapitalWeatherData(String province) {
@@ -37,35 +33,24 @@ public class WeatherService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Province not known");
         }
 
-        String capitalWoeid = provinceData.get().getCapitalWoeid();
-        Optional<WeatherData> weatherDataForProvinceCapital = getWeatherDataForProvinceCapital(capitalWoeid);
+        String capital = provinceData.get().getCapital();
+        Optional<Weather> weatherData = openWeatherApiService.getWeatherForProvinceCapital(capital);
 
-        if(weatherDataForProvinceCapital.isEmpty()) {throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Weather API not available");}
+        if(weatherData.isEmpty()) {throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Weather API not available");}
 
-        return getProvinceCapitalWeatherDataFromWeatherData(provinceData.get().getCapital(), weatherDataForProvinceCapital.get());
+        return getProvinceCapitalWeatherDataFromWeatherData(provinceData.get().getCapital(), weatherData.get());
     }
 
-    public Optional<WeatherData> getWeatherDataForProvinceCapital(String capitalWoeid) {
-        List<WeatherData> weatherData = metaWeatherApiService.getWeatherData(capitalWoeid);
+    public ProvinceCapitalWeatherData getProvinceCapitalWeatherDataFromWeatherData(String capital, Weather data) {
 
-        String currentDay = currentDateUtils.getCurrentDay();
-
-        return weatherData.stream().filter(dataSet -> dataSet.getApplicableDate().equals(currentDay)).findAny();
-    }
-
-    public ProvinceCapitalWeatherData getProvinceCapitalWeatherDataFromWeatherData(String capital, WeatherData data) {
-
-        if(WeatherCategories.getWeatherCategory(data.getWeatherStateAbbreviation().toUpperCase()).isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unknown weather category");
-        }
 
         return new ProvinceCapitalWeatherData(
                 capital,
-                WeatherCategories.getWeatherCategory(data.getWeatherStateAbbreviation().toUpperCase()).get(),
-                (int)Math.round(data.getMinTemperature()),
-                (int)Math.round(data.getMaxTemperature()),
-                (int)Math.round(data.getCurrentTemperature()),
-                "https://www.metaweather.com/static/img/weather/" + data.getWeatherStateAbbreviation() + ".svg"
+                data.getWeather().get(0).getWeatherDescription(),
+                (int)Math.round(data.getTemperature().getMinTemperature()),
+                (int)Math.round(data.getTemperature().getMaxTemperature()),
+                (int)Math.round(data.getTemperature().getCurrentTemperature()),
+                "http://openweathermap.org/img/wn/" + data.getWeather().get(0).getIconId() + "@2x.png"
         );
     }
 }
