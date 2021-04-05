@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Weather {
 
-    private List<WeatherContent> weather;
+    private List<WeatherStatus> weather;
     @JsonProperty("main")
-    private WeatherTemperature temperature;
+    private Temperature temperature;
 }

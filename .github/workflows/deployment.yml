@@ -40,8 +40,8 @@ jobs:
           OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
         run: |
           cd iac/terraform
-          printf "mongodburi = \"$MONGODB_URI\"" > terraform.tfvars
-          printf "openweatherkey = \"OPENWEATHER_API_KEY\"" >> terraform.tfvars
+          echo "mongodburi = \"$MONGODB_URI\"" > terraform.tfvars
+          echo "openweatherkey = \"OPENWEATHER_API_KEY\"" >> terraform.tfvars
           terraform plan
 
       - name: Terraform Apply

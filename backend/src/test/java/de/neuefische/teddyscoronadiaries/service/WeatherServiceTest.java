@@ -4,8 +4,8 @@ import de.neuefische.teddyscoronadiaries.db.ProvinceMongoDb;
 import de.neuefische.teddyscoronadiaries.model.province.ProvinceData;
 import de.neuefische.teddyscoronadiaries.model.weather.ProvinceCapitalWeatherData;
 import de.neuefische.teddyscoronadiaries.openweatherapi.model.Weather;
-import de.neuefische.teddyscoronadiaries.openweatherapi.model.WeatherContent;
-import de.neuefische.teddyscoronadiaries.openweatherapi.model.WeatherTemperature;
+import de.neuefische.teddyscoronadiaries.openweatherapi.model.WeatherStatus;
+import de.neuefische.teddyscoronadiaries.openweatherapi.model.Temperature;
 import de.neuefische.teddyscoronadiaries.openweatherapi.service.OpenWeatherApiService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -106,8 +106,8 @@ class WeatherServiceTest {
 
 
     private Weather getWeather() {
-        return new Weather(List.of(new WeatherContent("Rain", "Leichter Regen", "01d")),
-                new WeatherTemperature(16.56, 18.87, 10.93, 20.34));
+        return new Weather(List.of(new WeatherStatus("Rain", "Leichter Regen", "01d")),
+                new Temperature(16.56, 18.87, 10.93, 20.34));
     }
 
 }

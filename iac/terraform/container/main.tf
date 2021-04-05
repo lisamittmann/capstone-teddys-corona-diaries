@@ -19,7 +19,7 @@ resource "google_cloud_run_service" "cloud-run-service" {
           value = var.mongodburi
         }
         env {
-          name = "openweather.key.api-key"
+          name = "openweather.key"
           value= var.openweatherkey
         }
         ports {

@@ -4,8 +4,8 @@ import de.neuefische.teddyscoronadiaries.db.ProvinceMongoDb;
 import de.neuefische.teddyscoronadiaries.model.province.ProvinceData;
 import de.neuefische.teddyscoronadiaries.model.weather.ProvinceCapitalWeatherData;
 import de.neuefische.teddyscoronadiaries.openweatherapi.model.Weather;
-import de.neuefische.teddyscoronadiaries.openweatherapi.model.WeatherContent;
-import de.neuefische.teddyscoronadiaries.openweatherapi.model.WeatherTemperature;
+import de.neuefische.teddyscoronadiaries.openweatherapi.model.WeatherStatus;
+import de.neuefische.teddyscoronadiaries.openweatherapi.model.Temperature;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,11 +24,10 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(properties = {"openweather.key.apiKey=awesomeApiKey"})
+@TestPropertySource(properties = {"openweather.key=awesomeApiKey"})
 class WeatherControllerTest {
 
     @LocalServerPort
@@ -57,8 +56,9 @@ class WeatherControllerTest {
     public void getProvinceCapitalWeatherDataShouldReturnWeatherData() {
         // Given
         String province = "Hamburg";
+        String openWeatherUrl = "http://api.openweathermap.org/data/2.5/weather?q=Hamburg&appid=awesomeApiKey&units=metric&lang=DE";
         provinceMongoDb.save(new ProvinceData("Hamburg", "Hamburg"));
-        when(restTemplate.getForEntity("http://api.openweathermap.org/data/2.5/weather?q=Hamburg&appid=awesomeApiKey&units=metric&lang=DE", Weather.class))
+        when(restTemplate.getForEntity(openWeatherUrl, Weather.class))
                 .thenReturn(ResponseEntity.ok(getWeather()));
 
         // When
@@ -78,7 +78,7 @@ class WeatherControllerTest {
 
     @Test
     @DisplayName("Get province capital weather data should throw error for unknown province")
-    public void getProvinceCapitalWeatherDataShouldThrowErrorForUnknownProvince(){
+    public void getProvinceCapitalWeatherDataShouldThrowErrorForUnknownProvince() {
         // Given
         String province = "Bielefeld";
 
@@ -95,8 +95,9 @@ class WeatherControllerTest {
     public void getProvinceCapitalWeatherdataShouldThrowErrorWhenApiUnavailable() {
         // Given
         String province = "Hamburg";
+        String openWeatherUrl = "http://api.openweathermap.org/data/2.5/weather?q=Hamburg&appid=awesomeApiKey&units=metric&lang=DE";
         provinceMongoDb.save(new ProvinceData("Hamburg", "Hamburg"));
-        when(restTemplate.getForEntity("http://api.openweathermap.org/data/2.5/weather?q=Hamburg&appid=awesomeApiKey&units=metric&lang=DE", Weather.class))
+        when(restTemplate.getForEntity(openWeatherUrl, Weather.class))
                 .thenThrow(new RestClientException("API not available"));
 
         // When
@@ -108,8 +109,18 @@ class WeatherControllerTest {
 
 
     private Weather getWeather() {
-        return new Weather(List.of(new WeatherContent("Rain", "Leichter Regen", "01d")),
-                new WeatherTemperature(16.56, 18.87, 10.93, 20.34));
+        return new Weather(List.of(
+                WeatherStatus.builder()
+                        .category("Rain")
+                        .description("Leichter Regen")
+                        .iconId("01d")
+                        .build()),
+                Temperature.builder()
+                        .currentTemperature(16.56)
+                        .feelsLikeTemperature(18.87)
+                        .minTemperature(10.93)
+                        .maxTemperature(20.34)
+                        .build());
     }
 
 }

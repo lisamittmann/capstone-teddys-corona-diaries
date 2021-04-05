@@ -33,23 +33,27 @@ public class WeatherService {
         }
 
         String capital = provinceData.get().getCapital();
-        Optional<Weather> weatherData = openWeatherApiService.getWeatherForProvinceCapital(capital);
+        Weather weatherData = openWeatherApiService.getWeatherForProvinceCapital(capital).orElseThrow(() -> {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Weather API not available");
+        });
 
-        if(weatherData.isEmpty()) {throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Weather API not available");}
-
-        return getProvinceCapitalWeatherDataFromWeatherData(provinceData.get().getCapital(), weatherData.get());
+        return getProvinceCapitalWeatherDataFromWeatherData(provinceData.get().getCapital(), weatherData);
     }
 
-    public ProvinceCapitalWeatherData getProvinceCapitalWeatherDataFromWeatherData(String capital, Weather data) {
+    public ProvinceCapitalWeatherData getProvinceCapitalWeatherDataFromWeatherData(String capital, Weather weatherData) {
 
 
         return new ProvinceCapitalWeatherData(
                 capital,
-                data.getWeather().get(0).getWeatherDescription(),
-                (int)Math.round(data.getTemperature().getMinTemperature()),
-                (int)Math.round(data.getTemperature().getMaxTemperature()),
-                (int)Math.round(data.getTemperature().getCurrentTemperature()),
-                "http://openweathermap.org/img/wn/" + data.getWeather().get(0).getIconId() + "@2x.png"
+                weatherData.getWeather().get(0).getDescription(),
+                (int)Math.round(weatherData.getTemperature().getMinTemperature()),
+                (int)Math.round(weatherData.getTemperature().getMaxTemperature()),
+                (int)Math.round(weatherData.getTemperature().getCurrentTemperature()),
+                getIconUrl(weatherData.getWeather().get(0).getIconId())
         );
+    }
+
+    private String getIconUrl(String iconId) {
+        return "http://openweathermap.org/img/wn/" + iconId + "@2x.png";
     }
 }

@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Configuration;
 @AllArgsConstructor
 @NoArgsConstructor
 @Configuration
-@ConfigurationProperties(prefix = "openweather.key")
+@ConfigurationProperties(prefix = "openweather")
 public class OpenWeatherKeyConfig {
 
-    private String apiKey;
+    private String key;
 }

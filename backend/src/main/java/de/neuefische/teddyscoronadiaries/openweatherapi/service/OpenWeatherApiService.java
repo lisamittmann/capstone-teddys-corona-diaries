@@ -13,7 +13,7 @@ public class OpenWeatherApiService {
 
     private final RestTemplate restTemplate;
     private final OpenWeatherKeyConfig openWeatherKeyConfig;
-    private String baseUrl = "http://api.openweathermap.org/data/2.5/weather";
+    private static final String baseUrl = "http://api.openweathermap.org/data/2.5/weather";
 
     public OpenWeatherApiService(RestTemplate restTemplate, OpenWeatherKeyConfig openWeatherKeyConfig) {
         this.restTemplate = restTemplate;
@@ -22,7 +22,7 @@ public class OpenWeatherApiService {
 
     public Optional<Weather> getWeatherForProvinceCapital(String capital) {
         try {
-            String url = baseUrl + "?q=" + capital + "&appid=" + openWeatherKeyConfig.getApiKey() + "&units=metric&lang=DE";
+            String url = baseUrl + "?q=" + capital + "&appid=" + openWeatherKeyConfig.getKey() + "&units=metric&lang=DE";
             ResponseEntity<Weather> response = restTemplate.getForEntity(url, Weather.class);
             return Optional.of(response.getBody());
         } catch(Exception e) {

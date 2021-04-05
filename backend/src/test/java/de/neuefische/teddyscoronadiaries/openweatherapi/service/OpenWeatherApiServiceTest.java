@@ -2,9 +2,8 @@ package de.neuefische.teddyscoronadiaries.openweatherapi.service;
 
 import de.neuefische.teddyscoronadiaries.openweatherapi.config.OpenWeatherKeyConfig;
 import de.neuefische.teddyscoronadiaries.openweatherapi.model.Weather;
-import de.neuefische.teddyscoronadiaries.openweatherapi.model.WeatherContent;
-import de.neuefische.teddyscoronadiaries.openweatherapi.model.WeatherTemperature;
-import org.hamcrest.Matchers;
+import de.neuefische.teddyscoronadiaries.openweatherapi.model.WeatherStatus;
+import de.neuefische.teddyscoronadiaries.openweatherapi.model.Temperature;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +24,7 @@ class OpenWeatherApiServiceTest {
     private final RestTemplate restTemplate = mock(RestTemplate.class);
     private final OpenWeatherKeyConfig openWeatherKeyConfig = mock(OpenWeatherKeyConfig.class);
     private final OpenWeatherApiService openWeatherApiService = new OpenWeatherApiService(restTemplate, openWeatherKeyConfig);
-    private String baseUrl = "http://api.openweathermap.org/data/2.5/weather";
+    private static final String baseUrl = "http://api.openweathermap.org/data/2.5/weather";
 
     @Test
     @DisplayName("Get weather for province capital should return weather")
@@ -33,11 +32,11 @@ class OpenWeatherApiServiceTest {
         // Given
         String capital = "Hamburg";
 
-        when(openWeatherKeyConfig.getApiKey()).thenReturn("awesomeApiKey");
+        when(openWeatherKeyConfig.getKey()).thenReturn("awesomeApiKey");
         when(restTemplate.getForEntity(baseUrl + "?q=" + capital + "&appid=awesomeApiKey&units=metric&lang=DE", Weather.class))
                 .thenReturn(ResponseEntity.ok(
-                new Weather(List.of(new WeatherContent("Rain", "Leichter Regen", "01d")),
-                        new WeatherTemperature(16.56, 18.87, 10.93, 20.34))
+                new Weather(List.of(new WeatherStatus("Rain", "Leichter Regen", "01d")),
+                        new Temperature(16.56, 18.87, 10.93, 20.34))
         ));
 
         // When
@@ -45,8 +44,8 @@ class OpenWeatherApiServiceTest {
 
         // Then
         assertThat(result.get(), is(new Weather(
-                List.of(new WeatherContent("Rain", "Leichter Regen", "01d")),
-                new WeatherTemperature(16.56, 18.87, 10.93, 20.34))
+                List.of(new WeatherStatus("Rain", "Leichter Regen", "01d")),
+                new Temperature(16.56, 18.87, 10.93, 20.34))
         ));
 
     }
@@ -57,7 +56,7 @@ class OpenWeatherApiServiceTest {
         // Given
         String capital = "Hamburg";
 
-        when(openWeatherKeyConfig.getApiKey()).thenReturn("awesomeApiKey");
+        when(openWeatherKeyConfig.getKey()).thenReturn("awesomeApiKey");
         when(restTemplate.getForEntity(baseUrl + "?q=" + capital + "&appid=awesomeApiKey&units=metric&lang=DE", Weather.class))
                 .thenThrow(new RestClientException("API not available"));
 
