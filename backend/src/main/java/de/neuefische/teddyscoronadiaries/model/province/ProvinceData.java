@@ -11,9 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Document(collection = "provinces")
 public class ProvinceData {
-
     @Id
     private String name;
     private String capital;
-    private String capitalWoeid;
 }

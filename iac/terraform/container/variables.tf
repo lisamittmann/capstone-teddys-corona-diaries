@@ -1,2 +1,3 @@
-variable "mongodburi" {
-}
+variable "mongodburi" {}
+
+variable "openweatherkey" {}

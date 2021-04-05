@@ -1,11 +1,11 @@
 package de.neuefische.teddyscoronadiaries.controller;
 
 import de.neuefische.teddyscoronadiaries.db.ProvinceMongoDb;
-import de.neuefische.teddyscoronadiaries.metaweatherapi.model.WeatherData;
-import de.neuefische.teddyscoronadiaries.metaweatherapi.model.WeatherDataWrapper;
 import de.neuefische.teddyscoronadiaries.model.province.ProvinceData;
 import de.neuefische.teddyscoronadiaries.model.weather.ProvinceCapitalWeatherData;
-import de.neuefische.teddyscoronadiaries.utils.CurrentDateUtils;
+import de.neuefische.teddyscoronadiaries.openweatherapi.model.Weather;
+import de.neuefische.teddyscoronadiaries.openweatherapi.model.WeatherStatus;
+import de.neuefische.teddyscoronadiaries.openweatherapi.model.Temperature;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,6 +16,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,10 +24,10 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource(properties = {"openweather.key=awesomeApiKey"})
 class WeatherControllerTest {
 
     @LocalServerPort
@@ -35,9 +36,6 @@ class WeatherControllerTest {
     private String getUrl() {
         return "http://localhost:" + serverPort + "/api/weather";
     }
-
-    @MockBean
-    private CurrentDateUtils currentDateUtils;
 
     @MockBean
     private RestTemplate restTemplate;
@@ -58,10 +56,10 @@ class WeatherControllerTest {
     public void getProvinceCapitalWeatherDataShouldReturnWeatherData() {
         // Given
         String province = "Hamburg";
-        provinceMongoDb.save(new ProvinceData("Hamburg", "Hamburg", "656958"));
-        when(currentDateUtils.getCurrentDay()).thenReturn("2021-03-21");
-        when(restTemplate.getForEntity("https://www.metaweather.com/api/location/656958", WeatherDataWrapper.class))
-                .thenReturn(ResponseEntity.ok(new WeatherDataWrapper(getWeatherDataList())));
+        String openWeatherUrl = "http://api.openweathermap.org/data/2.5/weather?q=Hamburg&appid=awesomeApiKey&units=metric&lang=DE";
+        provinceMongoDb.save(new ProvinceData("Hamburg", "Hamburg"));
+        when(restTemplate.getForEntity(openWeatherUrl, Weather.class))
+                .thenReturn(ResponseEntity.ok(getWeather()));
 
         // When
         ResponseEntity<ProvinceCapitalWeatherData> response = testRestTemplate.getForEntity(getUrl() + "/" + province, ProvinceCapitalWeatherData.class);
@@ -70,17 +68,17 @@ class WeatherControllerTest {
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
         assertThat(response.getBody(), is(new ProvinceCapitalWeatherData(
                 "Hamburg",
-                "Sonnig",
-                6,
+                "Leichter Regen",
+                11,
                 20,
-                20,
-                "https://www.metaweather.com/static/img/weather/c.svg"
+                17,
+                "http://openweathermap.org/img/wn/01d@2x.png"
         )));
     }
 
     @Test
     @DisplayName("Get province capital weather data should throw error for unknown province")
-    public void getProvinceCapitalWeatherDataShouldThrowErrorForUnknownProvince(){
+    public void getProvinceCapitalWeatherDataShouldThrowErrorForUnknownProvince() {
         // Given
         String province = "Bielefeld";
 
@@ -97,9 +95,9 @@ class WeatherControllerTest {
     public void getProvinceCapitalWeatherdataShouldThrowErrorWhenApiUnavailable() {
         // Given
         String province = "Hamburg";
-        provinceMongoDb.save(new ProvinceData("Hamburg", "Hamburg", "656958"));
-        when(currentDateUtils.getCurrentDay()).thenReturn("2021-03-21");
-        when(restTemplate.getForEntity("https://www.metaweather.com/api/location/656958", WeatherDataWrapper.class))
+        String openWeatherUrl = "http://api.openweathermap.org/data/2.5/weather?q=Hamburg&appid=awesomeApiKey&units=metric&lang=DE";
+        provinceMongoDb.save(new ProvinceData("Hamburg", "Hamburg"));
+        when(restTemplate.getForEntity(openWeatherUrl, Weather.class))
                 .thenThrow(new RestClientException("API not available"));
 
         // When
@@ -110,42 +108,19 @@ class WeatherControllerTest {
     }
 
 
-    private List<WeatherData> getWeatherDataList() {
-        return List.of(
-                WeatherData.builder()
-                        .id("123")
-                        .weatherStateName("Clear")
-                        .weatherStateAbbreviation("c")
-                        .applicableDate("2021-03-21")
-                        .minTemperature(5.9865)
-                        .maxTemperature(20.345)
-                        .currentTemperature(20.240000000000002)
-                        .windSpeed(8.930032549754765)
-                        .humidity(50)
-                        .build(),
-                WeatherData.builder()
-                        .id("345")
-                        .weatherStateName("Light Cloud")
-                        .weatherStateAbbreviation("c")
-                        .applicableDate("2021-03-22")
-                        .minTemperature(6.485)
-                        .maxTemperature(16.725)
-                        .currentTemperature(15.93)
-                        .windSpeed(2.884157589803547)
-                        .humidity(70)
-                        .build(),
-                WeatherData.builder()
-                        .id("567")
-                        .weatherStateName("Heavy Cloud")
-                        .weatherStateAbbreviation("hc")
-                        .applicableDate("2021-03-23")
-                        .minTemperature(3.875)
-                        .maxTemperature(13.86)
-                        .currentTemperature(12.065000000000001)
-                        .windSpeed(4.708858778127734)
-                        .humidity(71)
-                        .build()
-        );
+    private Weather getWeather() {
+        return new Weather(List.of(
+                WeatherStatus.builder()
+                        .category("Rain")
+                        .description("Leichter Regen")
+                        .iconId("01d")
+                        .build()),
+                Temperature.builder()
+                        .currentTemperature(16.56)
+                        .feelsLikeTemperature(18.87)
+                        .minTemperature(10.93)
+                        .maxTemperature(20.34)
+                        .build());
     }
 
 }
