@@ -1,6 +1,7 @@
 import styled from "styled-components/macro";
 import {useEffect, useState} from "react";
 import {getWeatherDetails} from "../../service/weatherApiService";
+import {GridPanel} from "./gridPanelCss";
 
 export default function ProvinceCapitalWeather({province}) {
 
@@ -10,29 +11,24 @@ export default function ProvinceCapitalWeather({province}) {
         getWeatherDetails(province).then(setWeatherDetails)
     }, [province])
 
+    if(!weatherDetails) {
+        return <WeatherWrapper/>;
+    }
+
     return (
         <WeatherWrapper>
-            {weatherDetails &&
-            <>
                 <p>{weatherDetails.capital} ({weatherDetails.weatherState})</p>
                 <img src={weatherDetails.weatherIconUrl} alt={weatherDetails.weatherState}/>
                 <MinMaxTemp>
                     <p>Min: {weatherDetails.minTemperature}°</p>
                     <p>Max: {weatherDetails.maxTemperature}°</p>
                 </MinMaxTemp>
-            </>
-            }
         </WeatherWrapper>
     )
 }
 
-const WeatherWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: var(--color-cultured);
-  box-shadow: 2px 2px 2px var(--color-silver);
-  border-radius: 3px;
+const WeatherWrapper = styled.section`
+  ${GridPanel}
 
   img {
     width: 30%;

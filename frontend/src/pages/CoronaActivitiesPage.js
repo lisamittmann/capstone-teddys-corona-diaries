@@ -2,7 +2,7 @@ import OverviewPageLayout from "../components/PageLayoutComponents/OverviewPageL
 import PageHeader from "../components/PageLayoutComponents/PageHeader";
 import CoronaActivitiesDetails from "../components/CoronaActivitiesComponents/CoronaActivitiesDetails";
 
-export default function CoronaActivitiesPage({province, indidenceValue}) {
+export default function CoronaActivitiesPage() {
 
     return(
         <OverviewPageLayout>

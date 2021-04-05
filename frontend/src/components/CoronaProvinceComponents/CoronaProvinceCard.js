@@ -84,14 +84,13 @@ const ActivityButton = styled(Link)`
   font-size: 14px;
   width: auto;
   text-align: center;
-  padding: 14px 20px 14px 20px; 
+  padding: 14px 20px; 
   box-shadow: 2.5px 2.5px 2.5px var(--color-battleship-grey);
   border-radius: 3px;
   font-family: Roboto;
   font-weight: bold;
   float: right;
-  margin-top: 25px; 
-  margin-left: auto; 
+  margin-top: 25px;
 
   :visited {
     color: var(--color-cultured);

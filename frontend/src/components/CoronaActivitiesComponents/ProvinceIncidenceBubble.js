@@ -1,6 +1,7 @@
 import React from "react";
 import styled from 'styled-components/macro'
 import {getColorCode} from "../../service/incidenceColorService";
+import {GridPanel} from "./gridPanelCss";
 
 export default function ProvinceIncidenceBubble({incidenceValue, incidenceLevel, province}) {
     return (
@@ -11,13 +12,10 @@ export default function ProvinceIncidenceBubble({incidenceValue, incidenceLevel,
     )
 }
 
+
+
 const BubbleWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: var(--color-cultured);
-  box-shadow: 2px 2px 2px var(--color-silver);
-  border-radius: 3px;
+  ${GridPanel}
   
   p {
     font-family: Roboto;

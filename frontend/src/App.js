@@ -19,15 +19,9 @@ function App() {
                 <Route exact path="/">
                     <Link to="/recipes">Rezept-Übersicht</Link>
                 </Route>
-                <Route path="/recipes">
-                    <RecipeOverview/>
-                </Route>
-                <Route path="/coronadetails">
-                    <CoronaOverview/>
-                </Route>
-                <Route path="/activities">
-                    <CoronaActivitiesPage/>
-                </Route>
+                <Route path="/recipes" component={RecipeOverview}/>
+                <Route path="/coronadetails" component={CoronaOverview}/>
+                <Route path="/activities" component={CoronaActivitiesPage}/>
                 <NavigationBar/>
             </PageLayoutWithNavigation>
         </Switch>

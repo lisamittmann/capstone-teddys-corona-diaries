@@ -5,16 +5,9 @@ import {withRouter} from "react-router";
 import ProvinceIncidenceBubble from "./ProvinceIncidenceBubble";
 import ProvinceCapitalWeather from "./ProvinceCapitalWeather";
 
-class CoronaActivitiesDetails extends React.Component {
+function CoronaActivitiesDetails({location}) {
 
-    static propTypes = {
-        match: PropTypes.object.isRequired,
-        location: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired
-    };
-
-    render() {
-        const {coronaDetails, province} = this.props.location.state;
+        const {coronaDetails, province} = location.state;
 
         return (
             <div>
@@ -24,14 +17,21 @@ class CoronaActivitiesDetails extends React.Component {
                     <ProvinceCapitalWeather province={province}/>
                 </IncidenceWeatherBox>
             </div>)
-    }
+
+}
+
+export default withRouter(CoronaActivitiesDetails)
+
+CoronaActivitiesDetails.propTypes = {
+    match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
 }
 
 const IncidenceWeatherBox = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  grid-gap: 10px;
   margin: 25px;
 `
 
-export default withRouter(CoronaActivitiesDetails)
