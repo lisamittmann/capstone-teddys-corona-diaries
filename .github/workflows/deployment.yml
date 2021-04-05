@@ -41,7 +41,7 @@ jobs:
         run: |
           cd iac/terraform
           echo "mongodburi = \"$MONGODB_URI\"" > terraform.tfvars
-          echo "openweatherkey = \"OPENWEATHER_API_KEY\"" >> terraform.tfvars
+          echo "openweatherkey = \"$OPENWEATHER_API_KEY\"" >> terraform.tfvars
           terraform plan
 
       - name: Terraform Apply
