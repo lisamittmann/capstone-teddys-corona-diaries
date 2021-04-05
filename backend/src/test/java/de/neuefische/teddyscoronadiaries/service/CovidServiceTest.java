@@ -2,9 +2,11 @@ package de.neuefische.teddyscoronadiaries.service;
 
 import de.neuefische.teddyscoronadiaries.covid19api.model.ConfirmedCase;
 import de.neuefische.teddyscoronadiaries.covid19api.service.Covid19ApiService;
+import de.neuefische.teddyscoronadiaries.db.ProvinceMongoDb;
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetails;
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetailsProvince;
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceLevel;
+import de.neuefische.teddyscoronadiaries.model.province.ProvinceData;
 import de.neuefische.teddyscoronadiaries.rkiapi.model.RkiIncidenceValue;
 import de.neuefische.teddyscoronadiaries.rkiapi.service.RkiApiService;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +31,8 @@ class CovidServiceTest {
 
     private final Covid19ApiService covid19ApiService = mock(Covid19ApiService.class);
     private final RkiApiService rkiApiService = mock(RkiApiService.class);
-    private final CovidService covidService = new CovidService(covid19ApiService, rkiApiService);
+    private final ProvinceMongoDb provinceMongoDb = mock(ProvinceMongoDb.class);
+    private final CovidService covidService = new CovidService(covid19ApiService, rkiApiService, provinceMongoDb);
     private static final int quarantineDay = 42;
 
     @Test
@@ -194,6 +197,13 @@ class CovidServiceTest {
     @Test
     @DisplayName("Get provinces should return list of provinces")
     public void getProvincesShouldReturnListOfProvinces() {
+        // Given
+        when(provinceMongoDb.findAll()).thenReturn(List.of(
+             new ProvinceData("Baden-Württemberg", "Stuttgart"),
+             new ProvinceData("Bayern", "München"),
+             new ProvinceData("Hamburg", "Hamburg")
+        ));
+
         // When
         List<String> provinces = covidService.getProvinces();
 
@@ -201,20 +211,7 @@ class CovidServiceTest {
         assertThat(provinces, is(List.of(
                 "Baden-Württemberg",
                 "Bayern",
-                "Berlin",
-                "Brandenburg",
-                "Bremen",
-                "Hamburg",
-                "Hessen",
-                "Mecklenburg-Vorpommern",
-                "Niedersachsen",
-                "Nordrhein-Westfalen",
-                "Rheinland-Pfalz",
-                "Saarland",
-                "Sachsen",
-                "Sachsen-Anhalt",
-                "Schleswig-Holstein",
-                "Thüringen"
+                "Hamburg"
         )));
     }
 

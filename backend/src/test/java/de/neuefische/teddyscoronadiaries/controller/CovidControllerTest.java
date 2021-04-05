@@ -1,12 +1,15 @@
 package de.neuefische.teddyscoronadiaries.controller;
 
 import de.neuefische.teddyscoronadiaries.covid19api.model.ConfirmedCase;
+import de.neuefische.teddyscoronadiaries.db.ProvinceMongoDb;
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetails;
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetailsProvince;
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceLevel;
+import de.neuefische.teddyscoronadiaries.model.province.ProvinceData;
 import de.neuefische.teddyscoronadiaries.rkiapi.model.RkiAttributes;
 import de.neuefische.teddyscoronadiaries.rkiapi.model.RkiIncidenceValue;
 import de.neuefische.teddyscoronadiaries.rkiapi.model.RkiIncidenceWrapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +45,13 @@ class CovidControllerTest {
     private RestTemplate restTemplate;
 
     @Autowired
+    private ProvinceMongoDb provinceMongoDb;
+
+    @Autowired
     private TestRestTemplate testRestTemplate;
+
+    @BeforeEach
+    public void setUp() {provinceMongoDb.deleteAll();}
 
     @Test
     @DisplayName("Get incidence value should return incidence value")
@@ -129,7 +138,12 @@ class CovidControllerTest {
 
     @Test
     @DisplayName("Get provinces should return list of provinces")
-    public void getprovincesShouldReturnListOfProvinces() {
+    public void getProvincesShouldReturnListOfProvinces() {
+        // Given
+        provinceMongoDb.save(new ProvinceData("Baden-Württemberg", "Stuttgart"));
+        provinceMongoDb.save(new ProvinceData("Bayern", "München"));
+        provinceMongoDb.save(new ProvinceData("Hamburg", "Hamburg"));
+
         // When
         ResponseEntity<String[]> response = testRestTemplate.getForEntity(getUrl() + "/provinces", String[].class);
 
@@ -138,20 +152,7 @@ class CovidControllerTest {
         assertThat(response.getBody(), is(new String[]{
                 "Baden-Württemberg",
                 "Bayern",
-                "Berlin",
-                "Brandenburg",
-                "Bremen",
-                "Hamburg",
-                "Hessen",
-                "Mecklenburg-Vorpommern",
-                "Niedersachsen",
-                "Nordrhein-Westfalen",
-                "Rheinland-Pfalz",
-                "Saarland",
-                "Sachsen",
-                "Sachsen-Anhalt",
-                "Schleswig-Holstein",
-                "Thüringen"
+                "Hamburg"
         }));
     }
 }
