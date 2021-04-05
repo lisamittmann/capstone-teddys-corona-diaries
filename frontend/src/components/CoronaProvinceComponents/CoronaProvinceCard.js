@@ -2,6 +2,7 @@ import styled from 'styled-components/macro'
 import {useEffect, useState} from "react";
 import {getProvinceDetails} from "../../service/covidApiService";
 import {getColorCode} from "../../service/incidenceColorService";
+import {Link} from "react-router-dom";
 
 export default function CoronaProvinceCard({province}) {
 
@@ -30,9 +31,11 @@ export default function CoronaProvinceCard({province}) {
                     </li>
                 </DetailsList>
             </CoronaCard>}
+            <ActivityButton to={{pathname:"/activities", state: {coronaDetails: coronaDetails, province: province}}}>Was kann ich heute machen?</ActivityButton>
         </div>
     )
 }
+
 
 const ProvinceName = styled.p`
   font-size: 18px;
@@ -71,5 +74,25 @@ const DetailsList = styled.ul`
 
   li + li {
     padding-top: 12px;
+  }
+`
+
+const ActivityButton = styled(Link)`
+  background: var(--color-polished-pine);
+  text-decoration: none;
+  color: var(--color-cultured);
+  font-size: 14px;
+  width: auto;
+  text-align: center;
+  padding: 14px 20px; 
+  box-shadow: 2.5px 2.5px 2.5px var(--color-battleship-grey);
+  border-radius: 3px;
+  font-family: Roboto;
+  font-weight: bold;
+  float: right;
+  margin-top: 25px;
+
+  :visited {
+    color: var(--color-cultured);
   }
 `

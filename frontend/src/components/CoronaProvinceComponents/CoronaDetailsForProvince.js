@@ -28,6 +28,6 @@ const ProvinceWrapper = styled.section`
   font-family: Roboto;
   margin-top: 25px;
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto 1fr auto;
   grid-gap: 25px;
 `

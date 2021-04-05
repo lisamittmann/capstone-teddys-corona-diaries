@@ -1,5 +1,6 @@
 import styled from 'styled-components/macro'
 import {Link} from "react-router-dom";
+import {css} from "styled-components";
 
 export default function Homepage() {
     return (
@@ -38,7 +39,7 @@ const HomeLayout = styled.section`
   }
 `
 
-const buttonStyle = `
+const buttonStyle = css`
   background: var(--color-turquoise-green);
   text-decoration: none;
   color: var(--color-cultured);
