@@ -26,6 +26,10 @@ resource "google_cloud_run_service" "cloud-run-service" {
           name = "google.auth.client-id"
           value= var.googleauthclientid
         }
+        env {
+          name = "security.jwt.secret"
+          value = var.jwtsecret
+        }
         ports {
           container_port = "8080"
         }

@@ -8,4 +8,5 @@ module "container" {
   mongodburi = var.mongodburi
   openweatherkey = var.openweatherkey
   googleauthclientid = var.googleauthclientid
+  jwtsecret = var.jwtsecret
 }

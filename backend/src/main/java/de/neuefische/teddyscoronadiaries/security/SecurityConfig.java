@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/**").permitAll()
-                .antMatchers("auth/login/google/clientid").permitAll()
+                .antMatchers("/auth/login/**").permitAll()
                 .antMatchers("/auth/user/**").authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

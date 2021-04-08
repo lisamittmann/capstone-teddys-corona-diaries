@@ -39,11 +39,13 @@ jobs:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
           OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: |
           cd iac/terraform
           echo "mongodburi = \"$MONGODB_URI\"" > terraform.tfvars
           echo "openweatherkey = \"$OPENWEATHER_API_KEY\"" >> terraform.tfvars
           echo "googleauthclientid = \"$GOOGLE_CLIENT_ID\"" >> terraform.tfvars
+          echo "jwtsecret = \"$JWT_SECRET\"" >> terraform.tfvars
           terraform plan
 
       - name: Terraform Apply

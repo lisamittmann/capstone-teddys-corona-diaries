@@ -62,20 +62,29 @@ public class LoginService {
 
         appUserMongoDb.findById(appUser.getGoogleId()).orElse(appUserMongoDb.save(appUser));
 
-        return jwtUtils.createToken(appUser.getGoogleId(), new HashMap<>(Map.of(
-                "name", appUser.getName(),
-                "emailSha", appUser.getEmailSha256()
-        )));
+        return jwtUtils.createToken(appUser.getGoogleId(), new HashMap<>());
 
     }
 
     public String getEmailSha(String email) {
         try {
-            final MessageDigest digest = MessageDigest.getInstance("SHA3-256");
-            return digest.digest(email.getBytes(StandardCharsets.UTF_8)).toString();
+            final MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            return bytesToHex(digest.digest(email.getBytes(StandardCharsets.UTF_8)));
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot hash email");
         }
+    }
+
+    private static String bytesToHex(byte[] hash) {
+        StringBuilder hexString = new StringBuilder(2 * hash.length);
+        for (int i = 0; i < hash.length; i++) {
+            String hex = Integer.toHexString(0xff & hash[i]);
+            if(hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
     }
 
 }

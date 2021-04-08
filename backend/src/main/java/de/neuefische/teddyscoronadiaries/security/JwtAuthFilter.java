@@ -22,7 +22,6 @@ import java.util.List;
 @Slf4j
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-
     private final JwtConfig jwtConfig;
     private final TimeUtils timeUtils;
 
