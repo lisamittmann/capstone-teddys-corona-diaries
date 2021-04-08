@@ -8,7 +8,7 @@ export default function Homepage() {
             <h1>Teddys Corona Diaries</h1>
             <HomeButton to="/recipes">REZEPTE</HomeButton>
             <HomeButton to="/coronadetails">AKTUELLE LAGE</HomeButton>
-            <HomeButton to="/">LOGIN</HomeButton>
+            <HomeButton to="/login">LOGIN</HomeButton>
             <ExternalLink href="https://drive.google.com/drive/folders/16O8ecfl5gzHCjY4jLVWMUXsUTDzN84dm?usp=sharing" target="_blank">HOL DIR DAS EBOOK</ExternalLink>
         </HomeLayout>
     )
