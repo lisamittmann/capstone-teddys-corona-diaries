@@ -45,12 +45,7 @@ public class LoginService {
 
         VerifyTokenResponse verifiedToken = tokenResponse.get();
 
-        //TODO create new method
-        if (!verifiedToken.getClientId().equals(googleOAuthConfig.getClientId()) ||
-                !verifiedToken.getGoogleId().equals(userDTO.getProfile().getGoogleId()) ||
-                !verifiedToken.getEmail().equals(userDTO.getProfile().getEmail()) ||
-                !verifiedToken.getName().equals(userDTO.getProfile().getName())
-        ) {
+        if (!compareVerifiedTokenAndUser(userDTO, verifiedToken)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unverified user or client ID");
         }
 
@@ -63,6 +58,14 @@ public class LoginService {
         appUserMongoDb.findById(appUser.getGoogleId()).orElse(appUserMongoDb.save(appUser));
 
         return jwtUtils.createToken(appUser.getGoogleId(), new HashMap<>());
+
+    }
+
+    public boolean compareVerifiedTokenAndUser(GoogleOAuthUserDTO userDTO, VerifyTokenResponse verifiedToken) {
+        return verifiedToken.getClientId().equals(googleOAuthConfig.getClientId())
+                && verifiedToken.getGoogleId().equals(userDTO.getProfile().getGoogleId())
+                && verifiedToken.getEmail().equals(userDTO.getProfile().getEmail())
+                && verifiedToken.getName().equals(userDTO.getProfile().getName());
 
     }
 

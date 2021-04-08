@@ -4,20 +4,17 @@ import LoginWithGoogle from "../components/LoginComponents/LoginWithGoogle";
 import LogoutWithGoogle from "../components/LoginComponents/LogoutWithGoogle";
 import styled from 'styled-components/macro'
 import {useState} from "react";
+import {useAuth} from "../components/LoginComponents/AuthContext";
 
 export default function LoginPage() {
 
-    const [imageUrl, setImageUrl] = useState()
-
+    const { token, setToken } = useAuth()
 
 
     return (
         <OverviewPageLayout>
             <PageHeader>Mein Bereich</PageHeader>
             <section>
-                {imageUrl &&
-                <img src={imageUrl}/>
-                }
                 <LoginButtonWrapper>
                     <LoginWithGoogle setImageUrl={setImageUrl}/>
                     <LogoutWithGoogle setImageUrl={setImageUrl}/>

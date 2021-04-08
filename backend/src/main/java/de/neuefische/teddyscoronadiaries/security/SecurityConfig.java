@@ -29,13 +29,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    //TODO change antMatchers pattern
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/**").permitAll()
-                .antMatchers("/auth/login/**").permitAll()
+                .antMatchers("/api/**", "/auth/login/**").permitAll()
                 .antMatchers("/auth/user/**").authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

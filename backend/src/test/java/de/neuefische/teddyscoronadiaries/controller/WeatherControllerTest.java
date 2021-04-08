@@ -27,7 +27,7 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(properties = {"openweather.key=awesomeApiKey"})
+@TestPropertySource(properties = {"openweather.key=awesomeApiKey", "security.jwt.secret=supertestsecret"})
 class WeatherControllerTest {
 
     @LocalServerPort
@@ -92,7 +92,7 @@ class WeatherControllerTest {
 
     @Test
     @DisplayName("Get province capital weather data should throw error when API unavailable")
-    public void getProvinceCapitalWeatherdataShouldThrowErrorWhenApiUnavailable() {
+    public void getProvinceCapitalWeatherDataShouldThrowErrorWhenApiUnavailable() {
         // Given
         String province = "Hamburg";
         String openWeatherUrl = "http://api.openweathermap.org/data/2.5/weather?q=Hamburg&appid=awesomeApiKey&units=metric&lang=DE";
