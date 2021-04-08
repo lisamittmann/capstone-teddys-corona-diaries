@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("auth")
-public class GoogleLoginController {
+public class UserController {
 
     private final GoogleOAuthConfig googleOAuthConfig;
 
-    public GoogleLoginController(GoogleOAuthConfig googleOAuthConfig) {
+    public UserController(GoogleOAuthConfig googleOAuthConfig) {
         this.googleOAuthConfig = googleOAuthConfig;
     }
 
