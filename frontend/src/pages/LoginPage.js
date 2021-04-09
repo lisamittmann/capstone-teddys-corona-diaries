@@ -1,23 +1,28 @@
 import OverviewPageLayout from "../components/PageLayoutComponents/OverviewPageLayout";
 import PageHeader from "../components/PageLayoutComponents/PageHeader";
 import LoginWithGoogle from "../components/LoginComponents/LoginWithGoogle";
-import LogoutWithGoogle from "../components/LoginComponents/LogoutWithGoogle";
 import styled from 'styled-components/macro'
-import {useState} from "react";
 import {useAuth} from "../components/LoginComponents/AuthContext";
+import {Redirect} from 'react-router-dom'
 
 export default function LoginPage() {
 
-    const { token, setToken } = useAuth()
+    const {token} = useAuth()
 
+    if (token) {
+        return <Redirect to="/me"/>
+    }
 
     return (
         <OverviewPageLayout>
-            <PageHeader>Mein Bereich</PageHeader>
+            <PageHeader>Login</PageHeader>
             <section>
+                <Logo src="https://storage.googleapis.com/teddys-corona-diaries-images/teddy-frontcover.jpg"
+                      alt="Logo"/>
                 <LoginButtonWrapper>
-                    <LoginWithGoogle setImageUrl={setImageUrl}/>
-                    <LogoutWithGoogle setImageUrl={setImageUrl}/>
+                    <p>Willkommen</p>
+                    <p>Bitte logge Dich ein</p>
+                    <LoginWithGoogle/>
                 </LoginButtonWrapper>
             </section>
         </OverviewPageLayout>
@@ -27,9 +32,30 @@ export default function LoginPage() {
 }
 
 
-
 const LoginButtonWrapper = styled.section`
   display: flex;
-  flex-flow: nowrap;
-  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 25px;
+  font-family: Roboto;
+
+  p:nth-child(1) {
+    font-weight: bold;
+  }
+
+  p:nth-child(2) {
+    font-size: 14px;
+    margin-bottom: 25px;
+  }
+`
+
+const Logo = styled.img`
+  width: 150px;
+  border-radius: 50%;
+  height: 150px;
+  object-fit: cover;
+  display: block;
+  margin-top: 25px;
+  margin-left: auto;
+  margin-right: auto;
 `

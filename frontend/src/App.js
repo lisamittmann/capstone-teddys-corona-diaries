@@ -9,6 +9,8 @@ import Homepage from "./pages/Homepage";
 import CoronaActivitiesPage from "./pages/CoronaActivitiesPage";
 import LoginPage from "./pages/LoginPage";
 import AuthProvider from "./components/LoginComponents/AuthProvider";
+import ProtectedRoute from "./components/LoginComponents/ProtectedRoute";
+import UserAccountPage from "./pages/UserAccountPage";
 
 function App() {
     return (
@@ -23,6 +25,7 @@ function App() {
                     <Route path="/coronadetails" component={CoronaOverview}/>
                     <Route path="/activities" component={CoronaActivitiesPage}/>
                     <Route path="/login" component={LoginPage}/>
+                    <ProtectedRoute path="/me" component={UserAccountPage}/>
                     <NavigationBar/>
                 </PageLayoutWithNavigation>
             </Switch>
