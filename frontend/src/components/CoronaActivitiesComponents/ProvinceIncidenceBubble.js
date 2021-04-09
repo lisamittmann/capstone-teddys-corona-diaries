@@ -29,8 +29,8 @@ const Bubble = styled.span`
   background-color: ${props => props.coronaColor};
   border-radius: 50%;
   @media (max-width: 499px) {
-    width: 100px;
-    line-height: 100px;
+    width: 130px;
+    line-height: 130px;
   }
   
   @media (min-width: 500px) {

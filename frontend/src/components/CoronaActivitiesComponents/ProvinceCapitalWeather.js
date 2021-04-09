@@ -11,35 +11,54 @@ export default function ProvinceCapitalWeather({province}) {
         getWeatherDetails(province).then(setWeatherDetails)
     }, [province])
 
-    if(!weatherDetails) {
+    if (!weatherDetails) {
         return <WeatherWrapper/>;
     }
 
     return (
         <WeatherWrapper>
-                <p>{weatherDetails.capital} ({weatherDetails.weatherState})</p>
+            <Headline>
+                <p>{weatherDetails.capital}</p>
+                <p>{weatherDetails.weatherState}</p>
+            </Headline>
+            <CurrentWeather>
                 <img src={weatherDetails.weatherIconUrl} alt={weatherDetails.weatherState}/>
-                <MinMaxTemp>
-                    <p>Min: {weatherDetails.minTemperature}°</p>
-                    <p>Max: {weatherDetails.maxTemperature}°</p>
-                </MinMaxTemp>
+                <p>{weatherDetails.currentTemperature}°</p>
+            </CurrentWeather>
+            <MinMaxTemp>
+                <p>Min: {weatherDetails.minTemperature}°</p>
+                <p>Max: {weatherDetails.maxTemperature}°</p>
+            </MinMaxTemp>
         </WeatherWrapper>
     )
 }
 
 const WeatherWrapper = styled.section`
   ${GridPanel}
-
-  img {
-    width: 30%;
-    height: auto;
-  }
-  
   p {
     font-family: Roboto;
     font-size: var(--standard-font-size);
     font-weight: bold;
     align-self: center;
+  }
+`
+
+const Headline = styled.section`
+  text-align: center;
+  p + p {
+  margin-top: 0px;
+  }
+`
+
+const CurrentWeather = styled.section`
+  display: flex;
+  flex-flow: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  
+  p {
+    font-size: 24px;
   }
 `
 

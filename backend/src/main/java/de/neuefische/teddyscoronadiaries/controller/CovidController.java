@@ -1,7 +1,6 @@
 package de.neuefische.teddyscoronadiaries.controller;
 
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetails;
-import de.neuefische.teddyscoronadiaries.model.covid.Provinces;
 import de.neuefische.teddyscoronadiaries.model.covid.IncidenceDetailsProvince;
 
 import de.neuefische.teddyscoronadiaries.service.CovidService;
