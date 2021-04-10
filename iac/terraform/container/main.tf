@@ -22,6 +22,14 @@ resource "google_cloud_run_service" "cloud-run-service" {
           name = "openweather.key"
           value= var.openweatherkey
         }
+        env {
+          name = "google.auth.client-id"
+          value= var.googleauthclientid
+        }
+        env {
+          name = "security.jwt.secret"
+          value = var.jwtsecret
+        }
         ports {
           container_port = "8080"
         }
