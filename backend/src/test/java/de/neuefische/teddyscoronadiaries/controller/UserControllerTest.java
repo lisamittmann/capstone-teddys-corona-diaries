@@ -10,7 +10,6 @@ import de.neuefische.teddyscoronadiaries.model.user.GoogleProfileObject;
 import de.neuefische.teddyscoronadiaries.model.user.UserSavedRecipes;
 import de.neuefische.teddyscoronadiaries.security.AppUser;
 import de.neuefische.teddyscoronadiaries.security.AppUserMongoDb;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,7 @@ import org.springframework.http.*;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -68,7 +67,7 @@ class UserControllerTest {
     public void getRecipeStatusShouldReturnRecipeStatus(){
         // Given
         String recipeId = "awesomeId";
-        userSavedRecipesMongoDb.save(new UserSavedRecipes("awesomeGoogleId", List.of(recipeId)));
+        userSavedRecipesMongoDb.save(new UserSavedRecipes("awesomeGoogleId", new ArrayList<>() {{add(recipeId);}}));
 
         //WHEN
         String jwtToken = loginToApp();
@@ -106,7 +105,7 @@ class UserControllerTest {
     @DisplayName("Get saved recipes should return list of saved recipe card details")
     public void getSavedRecipesShouldReturnListOfSavedRecipeCardDetails() {
         // Given
-        userSavedRecipesMongoDb.save(new UserSavedRecipes("awesomeGoogleId", List.of("No1", "No2", "No3")));
+        userSavedRecipesMongoDb.save(new UserSavedRecipes("awesomeGoogleId", new ArrayList<>() {{add("No1"); add("No2"); add("No3");}}));
         recipeMongoDb.save(getRecipe("No1"));
         recipeMongoDb.save(getRecipe("No3"));
 

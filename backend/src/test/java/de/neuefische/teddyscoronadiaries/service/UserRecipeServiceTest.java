@@ -11,14 +11,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class UserRecipeServiceTest {
 
@@ -45,14 +45,16 @@ class UserRecipeServiceTest {
 
     private static Stream<Arguments> getSavedRecipes() {
         return Stream.of(
-                Arguments.of(Optional.of(new UserSavedRecipes("awesomeUserId", List.of(
-                        "awesomeRecipeId",
-                        "awesomeRecipeId2",
-                        "awesomeRecipeId3"
-                ))), "saved"),
-                Arguments.of(Optional.of(new UserSavedRecipes("awesomeUserId", List.of(
-                        "awesomeRecipeId2",
-                        "awesomeRecipeId3"
+                Arguments.of(Optional.of(new UserSavedRecipes("awesomeUserId",
+                        new ArrayList<>() {{
+                            add("awesomeRecipeId");
+                            add("awesomeRecipeId2");
+                            add("awesomeRecipeId3");
+                        }})), "saved",
+                Arguments.of(Optional.of(new UserSavedRecipes("awesomeUserId", new ArrayList<>() {{
+                    add("awesomeRecipeId2");
+                    add("awesomeRecipeId3");
+                }}
                 ))), "not-saved"),
                 Arguments.of(
                         Optional.empty(),
@@ -67,11 +69,13 @@ class UserRecipeServiceTest {
         // Given
         String userId = "awesomeUserId";
 
-        when(userSavedRecipesMongoDb.findById(userId)).thenReturn(Optional.of(new UserSavedRecipes("awesomeUserId", List.of(
-                "recipe1",
-                "recipe2",
-                "recipe3"
-        ))));
+        when(userSavedRecipesMongoDb.findById(userId)).thenReturn(Optional.of(new UserSavedRecipes("awesomeUserId",
+                new ArrayList<>() {{
+                    add("recipe1");
+                    add("recipe2");
+                    add("recipe3");
+                }}
+        )));
 
         when(recipeMongoDb.findById("recipe1")).thenReturn(Optional.of(getRecipe("1")));
         when(recipeMongoDb.findById("recipe2")).thenReturn(Optional.of(getRecipe("2")));
@@ -87,6 +91,47 @@ class UserRecipeServiceTest {
         )));
 
 
+    }
+
+    @Test
+    @DisplayName("Save recipe should update user saved recipes DB")
+    public void saveRecipeShouldUpdateListOfSavedRecipes() {
+        // Given
+        String userId = "awesomeUserId";
+        String recipeId = "awesomeRecipeId";
+
+        when(userSavedRecipesMongoDb.findById(userId)).thenReturn(Optional.of(
+                new UserSavedRecipes("awesomeUserId", new ArrayList<>() {{add("recipe1"); add("recipe2");}}
+        )));
+
+        // When
+        userRecipeService.saveRecipe(userId, recipeId);
+
+        // Then
+        verify(userSavedRecipesMongoDb).save(
+                new UserSavedRecipes(userId, new ArrayList<>() {{add("recipe1"); add("recipe2"); add(recipeId);}}
+        ));
+
+    }
+
+    @Test
+    @DisplayName("Save recipe should not save duplicate recipe")
+    public void saveRecipeShouldNotSaveDuplicateRecipe() {
+        // Given
+        String userId = "awesomeUserId";
+        String recipeId = "awesomeRecipeId";
+
+        when(userSavedRecipesMongoDb.findById(userId)).thenReturn(Optional.of(
+                new UserSavedRecipes("awesomeUserId", new ArrayList<>() {{add("recipe1"); add(recipeId);}}
+                )));
+
+        // When
+        userRecipeService.saveRecipe(userId, recipeId);
+
+        // Then
+        verify(userSavedRecipesMongoDb).save(
+                new UserSavedRecipes(userId, new ArrayList<>() {{add("recipe1"); add(recipeId);}}
+                ));
     }
 
     private Recipe getRecipe(String id) {

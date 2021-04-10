@@ -8,8 +8,7 @@ import de.neuefische.teddyscoronadiaries.model.user.UserSavedRecipes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,8 +27,8 @@ public class UserRecipeService {
 
         Optional<UserSavedRecipes> savedRecipes = userSavedRecipesMongoDb.findById(userId);
 
-        if(savedRecipes.isEmpty()) {
-            userSavedRecipesMongoDb.save(new UserSavedRecipes(userId, List.of()));
+        if (savedRecipes.isEmpty()) {
+            userSavedRecipesMongoDb.save(new UserSavedRecipes(userId, new ArrayList<>()));
             return "not-saved";
         }
 
@@ -37,7 +36,7 @@ public class UserRecipeService {
                 .filter(userList -> userList.equals(recipeId))
                 .findAny();
 
-        if(recipeStatus.isPresent()) {
+        if (recipeStatus.isPresent()) {
             return "saved";
         }
 
@@ -48,13 +47,13 @@ public class UserRecipeService {
 
         Optional<UserSavedRecipes> savedRecipes = userSavedRecipesMongoDb.findById(userId);
 
-        if(savedRecipes.isEmpty()) {
-            userSavedRecipesMongoDb.save(new UserSavedRecipes(userId, List.of()));
+        if (savedRecipes.isEmpty()) {
+            userSavedRecipesMongoDb.save(new UserSavedRecipes(userId, new ArrayList<>()));
             return List.of();
         }
 
-        List<RecipeCardDetails> recipeList = savedRecipes.get().getSavedRecipeIds().stream()
-                .map(recipeId -> recipeMongoDb.findById(recipeId))
+        return savedRecipes.get().getSavedRecipeIds().stream()
+                .map(recipeMongoDb::findById)
                 .map(recipeOptional -> {
                     if (recipeOptional.isPresent()) {
                         Recipe recipe = recipeOptional.get();
@@ -63,11 +62,30 @@ public class UserRecipeService {
                         return null;
                     }
                 })
-                .filter(recipeCardDetails -> recipeCardDetails != null)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
+    }
 
-        return recipeList;
+    public void saveRecipe(String userId, String recipeId) {
 
+        Optional<UserSavedRecipes> savedUserRecipes = userSavedRecipesMongoDb.findById(userId);
+
+        if (savedUserRecipes.isEmpty()) {
+            userSavedRecipesMongoDb.save(new UserSavedRecipes(userId, new ArrayList<>() {{
+                add(recipeId);
+            }}));
+        }
+
+        if (savedUserRecipes.isPresent()) {
+            ArrayList<String> savedRecipes = savedUserRecipes.get().getSavedRecipeIds();
+            if (!savedRecipes.contains(recipeId)) {
+                savedRecipes.add(recipeId);
+            }
+
+            userSavedRecipesMongoDb.save(savedUserRecipes.get().toBuilder()
+                    .savedRecipeIds(savedRecipes)
+                    .build());
+        }
     }
 
 }
