@@ -16,7 +16,7 @@ function CoronaActivitiesDetails({location}) {
 
     useEffect(() => {
         getActivities(weatherCategory, coronaDetails.incidenceLevel).then(setActivities)
-    }, [weatherCategory])
+    }, [weatherCategory, coronaDetails.incidenceLevel])
 
 
     console.log(activities)
