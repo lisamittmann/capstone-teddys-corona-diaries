@@ -9,7 +9,10 @@ export default function CoronaProvinceSelect({provinces, setSelectedProvince}) {
                 <option value="" disabled hidden>
                     Deine Region
                 </option>
-                {provinces.map(province => (
+                {provinces
+                    .slice()
+                    .sort((oneProvince, anotherProvince) => oneProvince.localeCompare(anotherProvince))
+                    .map(province => (
                     <option key={province} value={province}>{province}</option>
                 ))}
             </ProvinceSelector>
