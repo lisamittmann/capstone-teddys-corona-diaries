@@ -1,12 +1,10 @@
 package de.neuefische.teddyscoronadiaries.controller;
 
 import de.neuefische.teddyscoronadiaries.model.recipe.RecipeCardDetails;
+import de.neuefische.teddyscoronadiaries.model.recipe.SaveRecipeDto;
 import de.neuefische.teddyscoronadiaries.service.UserRecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -30,5 +28,10 @@ public class UserController {
     @GetMapping("recipes")
     public List<RecipeCardDetails> getSavedRecipes(Principal principal) {
         return userRecipeService.getSavedRecipes(principal.getName());
+    }
+
+    @PostMapping("recipe")
+    public void saveRecipe(@RequestBody SaveRecipeDto recipeToSave, Principal principal) {
+        userRecipeService.saveRecipe(principal.getName(), recipeToSave.getRecipeId());
     }
 }

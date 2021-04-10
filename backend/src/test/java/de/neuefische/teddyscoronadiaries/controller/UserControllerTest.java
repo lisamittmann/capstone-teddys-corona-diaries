@@ -5,6 +5,7 @@ import de.neuefische.teddyscoronadiaries.db.UserSavedRecipesMongoDb;
 import de.neuefische.teddyscoronadiaries.googleoauth.model.VerifyTokenResponse;
 import de.neuefische.teddyscoronadiaries.model.recipe.Recipe;
 import de.neuefische.teddyscoronadiaries.model.recipe.RecipeCardDetails;
+import de.neuefische.teddyscoronadiaries.model.recipe.SaveRecipeDto;
 import de.neuefische.teddyscoronadiaries.model.user.GoogleOAuthUserDTO;
 import de.neuefische.teddyscoronadiaries.model.user.GoogleProfileObject;
 import de.neuefische.teddyscoronadiaries.model.user.UserSavedRecipes;
@@ -122,6 +123,50 @@ class UserControllerTest {
                 new RecipeCardDetails("No1", "awesomeNameNo1", "imageUrlNo1", 12),
                 new RecipeCardDetails("No3", "awesomeNameNo3", "imageUrlNo3", 12)
         }));
+
+    }
+
+    @Test
+    @DisplayName("Save recipe should save recipe to DB")
+    public void saveRecipeShouldSaveRecipeToDb() {
+        // Given
+        SaveRecipeDto recipeDto = new SaveRecipeDto("awesomeRecipeId");
+        userSavedRecipesMongoDb.save(new UserSavedRecipes("awesomeGoogleId", new ArrayList<>() {{add("No1"); add("No2");}}));
+
+        // When
+        String jwtToken = loginToApp();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(jwtToken);
+        HttpEntity<SaveRecipeDto> entity = new HttpEntity<>(recipeDto, headers);
+        ResponseEntity<Void> response = testRestTemplate.postForEntity(getUrl() + "/recipe", entity, Void.class);
+
+        // Then
+        assertThat(response.getStatusCode(), is(HttpStatus.OK));
+        assertThat(userSavedRecipesMongoDb.findById("awesomeGoogleId").get(), is(
+                new UserSavedRecipes("awesomeGoogleId", new ArrayList<>() {{add("No1"); add("No2"); add("awesomeRecipeId");}})
+        ));
+
+    }
+
+    @Test
+    @DisplayName("Save recipe should not save duplicate recipe to DB")
+    public void saveRecipeShouldNotSaveDuplicateRecipeToDb() {
+        // Given
+        SaveRecipeDto recipeDto = new SaveRecipeDto("No2");
+        userSavedRecipesMongoDb.save(new UserSavedRecipes("awesomeGoogleId", new ArrayList<>() {{add("No1"); add("No2");}}));
+
+        // When
+        String jwtToken = loginToApp();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(jwtToken);
+        HttpEntity<SaveRecipeDto> entity = new HttpEntity<>(recipeDto, headers);
+        ResponseEntity<Void> response = testRestTemplate.postForEntity(getUrl() + "/recipe", entity, Void.class);
+
+        // Then
+        assertThat(response.getStatusCode(), is(HttpStatus.OK));
+        assertThat(userSavedRecipesMongoDb.findById("awesomeGoogleId").get(), is(
+                new UserSavedRecipes("awesomeGoogleId", new ArrayList<>() {{add("No1"); add("No2");}})
+        ));
 
     }
 
