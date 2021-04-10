@@ -23,7 +23,7 @@ public class AppUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User does not exist: " + username));
 
         return User.builder()
-                .username(appUser.getGoogleId())
+                .username(appUser.getId())
                 .authorities("user")
                 .build();
     }

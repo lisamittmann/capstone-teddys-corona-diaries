@@ -13,7 +13,7 @@ import java.util.Optional;
 public class GoogleOAuthService {
 
     private final RestTemplate restTemplate;
-    private final String baseUrl = "https://oauth2.googleapis.com/tokeninfo";
+    private static final String GOOGLE_TOKEN_BASE_URL = "https://oauth2.googleapis.com/tokeninfo";
 
     @Autowired
     public GoogleOAuthService(RestTemplate restTemplate) {
@@ -22,7 +22,7 @@ public class GoogleOAuthService {
 
     public Optional<VerifyTokenResponse> verifyToken(String token) {
 
-        String url = baseUrl + "?id_token=" + token;
+        String url = GOOGLE_TOKEN_BASE_URL + "?id_token=" + token;
 
         try {
             ResponseEntity<VerifyTokenResponse> verifyTokenResponse = restTemplate.getForEntity(url, VerifyTokenResponse.class);

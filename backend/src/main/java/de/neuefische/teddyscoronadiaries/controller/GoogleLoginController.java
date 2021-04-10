@@ -6,23 +6,23 @@ import de.neuefische.teddyscoronadiaries.service.LoginService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("auth")
-public class UserController {
+@RequestMapping("auth/login/google")
+public class GoogleLoginController {
 
     private final GoogleOAuthConfig googleOAuthConfig;
     private final LoginService loginService;
 
-    public UserController(GoogleOAuthConfig googleOAuthConfig, LoginService loginService) {
+    public GoogleLoginController(GoogleOAuthConfig googleOAuthConfig, LoginService loginService) {
         this.googleOAuthConfig = googleOAuthConfig;
         this.loginService = loginService;
     }
 
-    @GetMapping("login/google/clientid")
+    @GetMapping("clientid")
     public String getClientId() {
         return googleOAuthConfig.getClientId();
     }
 
-    @PostMapping("login/google")
+    @PostMapping
     public String loginWithGoogle(@RequestBody GoogleOAuthUserDTO userDTO) {
         return loginService.loginWithGoogleUser(userDTO);
     }

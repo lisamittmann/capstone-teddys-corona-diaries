@@ -15,7 +15,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -55,9 +54,9 @@ public class LoginService {
                 getEmailSha(userDTO.getProfile().getEmail())
         );
 
-        appUserMongoDb.findById(appUser.getGoogleId()).orElse(appUserMongoDb.save(appUser));
+        appUserMongoDb.findById(appUser.getId()).orElse(appUserMongoDb.save(appUser));
 
-        return jwtUtils.createToken(appUser.getGoogleId(), new HashMap<>());
+        return jwtUtils.createToken(appUser.getId(), new HashMap<>());
 
     }
 

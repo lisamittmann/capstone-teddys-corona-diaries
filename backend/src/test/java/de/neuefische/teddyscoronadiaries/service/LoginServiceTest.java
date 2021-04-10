@@ -8,7 +8,6 @@ import de.neuefische.teddyscoronadiaries.model.user.GoogleProfileObject;
 import de.neuefische.teddyscoronadiaries.security.AppUser;
 import de.neuefische.teddyscoronadiaries.security.AppUserMongoDb;
 import de.neuefische.teddyscoronadiaries.security.JwtUtils;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -58,7 +57,7 @@ class LoginServiceTest {
 
         // Then
         assertThat(result, is("awesomeJwtToken"));
-        verify(appUserMongoDb).findById(getAppUser().getGoogleId());
+        verify(appUserMongoDb).findById(getAppUser().getId());
     }
 
     @Test

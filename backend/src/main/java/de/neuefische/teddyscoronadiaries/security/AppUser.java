@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class AppUser {
 
     @Id
-    private String googleId;
+    private String id;
     private String name;
     private String emailSha256;
 }
