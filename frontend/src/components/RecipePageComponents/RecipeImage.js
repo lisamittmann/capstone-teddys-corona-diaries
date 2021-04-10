@@ -30,4 +30,5 @@ const CloseButton = styled(Link)`
   justify-content: center;
   align-items: center;
   display: flex;
+  color: black;
 `

@@ -45,6 +45,7 @@ public class WeatherService {
 
         return new ProvinceCapitalWeatherData(
                 capital,
+                weatherData.getWeather().get(0).getCategory(),
                 weatherData.getWeather().get(0).getDescription(),
                 (int)Math.round(weatherData.getTemperature().getMinTemperature()),
                 (int)Math.round(weatherData.getTemperature().getMaxTemperature()),

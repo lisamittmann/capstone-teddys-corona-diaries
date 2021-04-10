@@ -3,13 +3,17 @@ import {useEffect, useState} from "react";
 import {getWeatherDetails} from "../../service/weatherApiService";
 import {GridPanel} from "./gridPanelCss";
 
-export default function ProvinceCapitalWeather({province}) {
+export default function ProvinceCapitalWeather({province, setWeatherCategory}) {
 
     const [weatherDetails, setWeatherDetails] = useState()
 
     useEffect(() => {
         getWeatherDetails(province).then(setWeatherDetails)
     }, [province])
+
+    if(weatherDetails) {
+        setWeatherCategory(weatherDetails.weatherCategory)
+    }
 
     if (!weatherDetails) {
         return <WeatherWrapper/>;
@@ -45,8 +49,12 @@ const WeatherWrapper = styled.section`
 
 const Headline = styled.section`
   text-align: center;
+  p {
+    padding: 0px 12px;
+  }
   p + p {
   margin-top: 0px;
+    margin-bottom: 5px;
   }
 `
 
