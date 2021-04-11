@@ -10,3 +10,6 @@ export const getRecipeStatus = (recipeId) =>
 
 export const postSaveRecipe = (recipeId) =>
     axiosConfig.axiosInstance.post(`${baseUrl}/recipe`, {recipeId}).then(response => response.data)
+
+export const deleteRecipe = (recipeId) =>
+    axiosConfig.axiosInstance.delete(`${baseUrl}/recipe/${recipeId}`).then(response => response.data)

@@ -2,7 +2,7 @@ import styled from 'styled-components/macro'
 import {useAuth} from "../LoginComponents/AuthContext";
 import {AiFillHeart, AiOutlineHeart} from 'react-icons/ai';
 import {useEffect, useState} from "react";
-import {getRecipeStatus, postSaveRecipe} from "../../service/userApiService";
+import {deleteRecipe, getRecipeStatus, postSaveRecipe} from "../../service/userApiService";
 
 export default function RecipeHeader({recipeName, recipeDescription, recipeId}) {
 
@@ -11,8 +11,14 @@ export default function RecipeHeader({recipeName, recipeDescription, recipeId}) 
     const [recipeStatus, setRecipeStatus] = useState()
 
     const saveRecipe = () => {
+
         const updatedStatus = recipeStatus === "saved" ? "not-saved" : "saved"
-        postSaveRecipe(recipeId).then(() => setRecipeStatus(updatedStatus))
+        if(recipeStatus === "saved") {
+            deleteRecipe(recipeId).then(() => setRecipeStatus(updatedStatus))
+        } else {
+            postSaveRecipe(recipeId).then(() => setRecipeStatus(updatedStatus))
+        }
+
     }
 
     useEffect(() => {

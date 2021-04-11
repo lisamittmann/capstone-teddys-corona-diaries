@@ -28,8 +28,6 @@ export default function UserAccountPage() {
                     <RecipeList>
                         {savedRecipes &&
                         savedRecipes
-                            .slice()
-                            .sort((oneRecipe, anotherRecipe) => oneRecipe.quarantineDay - anotherRecipe.quarantineDay)
                             .map(recipe => <RecipeCard recipeCardDetails={recipe} key={recipe.quarantineDay} from={"me"}/>)
                         }
                     </RecipeList>
