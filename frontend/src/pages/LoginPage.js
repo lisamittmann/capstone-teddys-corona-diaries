@@ -4,28 +4,25 @@ import LoginWithGoogle from "../components/LoginComponents/LoginWithGoogle";
 import styled from 'styled-components/macro'
 import {useAuth} from "../components/LoginComponents/AuthContext";
 import {Redirect} from 'react-router-dom'
+import PageLayoutWithNavigation from "../components/NavigationComponents/PageLayoutWithNavigation";
 
 export default function LoginPage() {
 
-    const {token} = useAuth()
-
-    if (token) {
-        return <Redirect to="/me"/>
-    }
-
     return (
-        <OverviewPageLayout>
-            <PageHeader>Login</PageHeader>
-            <section>
-                <Logo src="https://storage.googleapis.com/teddys-corona-diaries-images/teddy-frontcover.jpg"
-                      alt="Logo"/>
-                <LoginButtonWrapper>
-                    <p>Willkommen</p>
-                    <p>Bitte logge Dich ein</p>
-                    <LoginWithGoogle/>
-                </LoginButtonWrapper>
-            </section>
-        </OverviewPageLayout>
+        <PageLayoutWithNavigation>
+            <OverviewPageLayout>
+                <PageHeader>Login</PageHeader>
+                <section>
+                    <Logo src="https://storage.googleapis.com/teddys-corona-diaries-images/teddy-frontcover.jpg"
+                          alt="Logo"/>
+                    <LoginButtonWrapper>
+                        <p>Willkommen</p>
+                        <p>Bitte logge Dich ein</p>
+                        <LoginWithGoogle/>
+                    </LoginButtonWrapper>
+                </section>
+            </OverviewPageLayout>
+        </PageLayoutWithNavigation>
     )
 
 

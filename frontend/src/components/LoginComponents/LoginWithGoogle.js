@@ -2,11 +2,13 @@ import {getClientId, loginUserWithGoogle} from "../../service/googleAuthService"
 import {useEffect, useState} from "react";
 import GoogleLogin from "react-google-login";
 import {useAuth} from "./AuthContext";
+import {useHistory} from "react-router";
 
 export default function LoginWithGoogle() {
 
-    const { token, setToken } = useAuth()
+    const { setToken } = useAuth()
     const [clientId, setClientId] = useState()
+    const history = useHistory()
 
     useEffect(() => {
         getClientId().then(setClientId)
@@ -14,8 +16,7 @@ export default function LoginWithGoogle() {
 
     const onSuccess = (res) => {
         const loginDto = {profileObj: res.profileObj, tokenId: res.tokenId}
-        loginUserWithGoogle(loginDto).then(setToken)
-        console.log("Token: ", token)
+        loginUserWithGoogle(loginDto).then(setToken).then(() => history.push("/me"))
     }
 
     const onFailure = (res) => {
