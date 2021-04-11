@@ -68,6 +68,7 @@ class WeatherControllerTest {
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
         assertThat(response.getBody(), is(new ProvinceCapitalWeatherData(
                 "Hamburg",
+                "Rain",
                 "Leichter Regen",
                 11,
                 20,

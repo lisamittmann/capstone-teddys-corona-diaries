@@ -42,6 +42,7 @@ class WeatherServiceTest {
         // Then
         assertThat(provinceCapitalWeatherData, is(new ProvinceCapitalWeatherData(
                 "Hamburg",
+                "Drizzle",
                 "Leichter Regen",
                 11,
                 20,
@@ -95,6 +96,7 @@ class WeatherServiceTest {
         // Then
         assertThat(result, is(new ProvinceCapitalWeatherData(
                 "Hamburg",
+                "Drizzle",
                 "Leichter Regen",
                 11,
                 20,
@@ -106,7 +108,7 @@ class WeatherServiceTest {
 
 
     private Weather getWeather() {
-        return new Weather(List.of(new WeatherStatus("Rain", "Leichter Regen", "01d")),
+        return new Weather(List.of(new WeatherStatus("Drizzle", "Leichter Regen", "01d")),
                 new Temperature(16.56, 18.87, 10.93, 20.34));
     }
 

@@ -1,15 +1,7 @@
 import styled from "styled-components/macro";
-import {useEffect, useState} from "react";
-import {getWeatherDetails} from "../../service/weatherApiService";
 import {GridPanel} from "./gridPanelCss";
 
-export default function ProvinceCapitalWeather({province}) {
-
-    const [weatherDetails, setWeatherDetails] = useState()
-
-    useEffect(() => {
-        getWeatherDetails(province).then(setWeatherDetails)
-    }, [province])
+export default function ProvinceCapitalWeather({weatherDetails}) {
 
     if (!weatherDetails) {
         return <WeatherWrapper/>;
@@ -45,8 +37,12 @@ const WeatherWrapper = styled.section`
 
 const Headline = styled.section`
   text-align: center;
+  p {
+    padding: 0px 12px;
+  }
   p + p {
   margin-top: 0px;
+    margin-bottom: 5px;
   }
 `
 

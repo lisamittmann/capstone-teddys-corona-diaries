@@ -18,20 +18,24 @@ export default function CoronaProvinceCard({province}) {
         <div>
             <ProvinceName>{province}</ProvinceName>
             {coronaDetails &&
-            <CoronaCard>
-                <Rectangle coronaColor={getColorCode(coronaDetails.incidenceLevel)}/>
-                <DetailsList>
-                    <li key={coronaDetails.incidenceValue}>
-                        <span>7-Tage Inzidenzwert: </span>
-                        {coronaDetails.incidenceValue}
-                    </li>
-                    <li key={coronaDetails.totalCases}>
-                        <span>Fallzahl gesamt bisher: </span>
-                        {coronaDetails.totalCases}
-                    </li>
-                </DetailsList>
-            </CoronaCard>}
-            <ActivityButton to={{pathname:"/activities", state: {coronaDetails: coronaDetails, province: province}}}>Was kann ich heute machen?</ActivityButton>
+            <>
+                <CoronaCard>
+                    <Rectangle coronaColor={getColorCode(coronaDetails.incidenceLevel)}/>
+                    <DetailsList>
+                        <li key={coronaDetails.incidenceValue}>
+                            <span>7-Tage Inzidenzwert: </span>
+                            {coronaDetails.incidenceValue}
+                        </li>
+                        <li key={coronaDetails.totalCases}>
+                            <span>Fallzahl gesamt bisher: </span>
+                            {coronaDetails.totalCases}
+                        </li>
+                    </DetailsList>
+                </CoronaCard>
+                <ActivityButton
+                    to={{pathname: "/activities", state: {coronaDetails: coronaDetails, province: province}}}>Was kann
+                    ich heute machen?</ActivityButton>
+            </>}
         </div>
     )
 }
@@ -84,7 +88,7 @@ const ActivityButton = styled(Link)`
   font-size: 14px;
   width: auto;
   text-align: center;
-  padding: 14px 20px; 
+  padding: 14px 20px;
   box-shadow: 2.5px 2.5px 2.5px var(--color-battleship-grey);
   border-radius: 3px;
   font-family: Roboto;

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class ProvinceCapitalWeatherData {
 
     private String capital;
+    private String weatherCategory;
     private String weatherState;
     private int minTemperature;
     private int maxTemperature;
