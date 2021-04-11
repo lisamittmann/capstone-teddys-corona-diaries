@@ -25,7 +25,7 @@ export default function RecipePage() {
             {recipe &&
             <RecipeWrapper>
                 <RecipeImage imageUrl={recipe.imageUrl} from={from}/>
-                <RecipeHeader recipeName={recipe.name} recipeDescription={recipe.diaryEntry}/>
+                <RecipeHeader recipeName={recipe.name} recipeDescription={recipe.diaryEntry} recipeId={recipe.id}/>
                 <RecipeCoronaDetails quarantineDay={recipe.quarantineDay}/>
                 <RecipePreparation {...recipe}/>
             </RecipeWrapper>

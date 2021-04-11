@@ -2,9 +2,9 @@ import styled from 'styled-components/macro'
 import {Link} from "react-router-dom"
 import RecipeCardImage from "./RecipeCardImage";
 
-export default function RecipeCard({recipeCardDetails}) {
+export default function RecipeCard({recipeCardDetails, from}) {
     return (
-        <CardWrapper to={`/recipe/${recipeCardDetails.id}/?from=recipes`} key={recipeCardDetails.id}>
+        <CardWrapper to={`/recipe/${recipeCardDetails.id}/?from=${from}`} key={recipeCardDetails.id}>
             <p>{recipeCardDetails.name}</p>
             <RecipeCardImage imageUrl={recipeCardDetails.imageUrl} quarantineDay={recipeCardDetails.quarantineDay}/>
         </CardWrapper>

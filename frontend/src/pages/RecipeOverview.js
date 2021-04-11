@@ -23,7 +23,7 @@ export default function RecipeOverview() {
                     recipes
                         .slice()
                         .sort((oneRecipe, anotherRecipe) => oneRecipe.quarantineDay - anotherRecipe.quarantineDay)
-                        .map(recipe => <RecipeCard recipeCardDetails={recipe} key={recipe.quarantineDay}/>)
+                        .map(recipe => <RecipeCard recipeCardDetails={recipe} key={recipe.quarantineDay} from={"recipes"}/>)
                     }
                 </RecipeList>
             </OverviewPageLayout>
