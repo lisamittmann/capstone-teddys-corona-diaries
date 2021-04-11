@@ -4,6 +4,7 @@ import {getRecipes} from "../service/recipeApiService";
 import RecipeCard from "../components/RecipeCardComponents/RecipeCard";
 import PageHeader from "../components/PageLayoutComponents/PageHeader";
 import OverviewPageLayout from "../components/PageLayoutComponents/OverviewPageLayout";
+import PageLayoutWithNavigation from "../components/NavigationComponents/PageLayoutWithNavigation";
 
 export default function RecipeOverview() {
     const [recipes, setRecipes] = useState()
@@ -14,17 +15,19 @@ export default function RecipeOverview() {
 
 
     return (
-        <OverviewPageLayout>
-            <PageHeader>Rezept Übersicht</PageHeader>
-            <RecipeList>
-                {recipes &&
-                recipes
-                    .slice()
-                    .sort((oneRecipe, anotherRecipe) => oneRecipe.quarantineDay - anotherRecipe.quarantineDay)
-                    .map(recipe => <RecipeCard recipeCardDetails={recipe} key={recipe.quarantineDay}/>)
-                }
-            </RecipeList>
-        </OverviewPageLayout>
+        <PageLayoutWithNavigation>
+            <OverviewPageLayout>
+                <PageHeader>Rezept Übersicht</PageHeader>
+                <RecipeList>
+                    {recipes &&
+                    recipes
+                        .slice()
+                        .sort((oneRecipe, anotherRecipe) => oneRecipe.quarantineDay - anotherRecipe.quarantineDay)
+                        .map(recipe => <RecipeCard recipeCardDetails={recipe} key={recipe.quarantineDay} from={"recipes"}/>)
+                    }
+                </RecipeList>
+            </OverviewPageLayout>
+        </PageLayoutWithNavigation>
     )
 }
 

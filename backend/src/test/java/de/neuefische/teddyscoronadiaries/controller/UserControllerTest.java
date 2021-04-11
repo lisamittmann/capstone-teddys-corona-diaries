@@ -24,6 +24,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -167,6 +168,49 @@ class UserControllerTest {
         assertThat(userSavedRecipesMongoDb.findById("awesomeGoogleId").get(), is(
                 new UserSavedRecipes("awesomeGoogleId", new ArrayList<>() {{add("No1"); add("No2");}})
         ));
+
+    }
+
+    @Test
+    @DisplayName("Delete recipe should delete recipe")
+    public void deleteRecipeShouldDeleteRecipe() {
+        // Given
+        String recipeId = "awesomeRecipeId";
+        userSavedRecipesMongoDb.save(new UserSavedRecipes("awesomeGoogleId", new ArrayList<>() {{add("No1"); add("No2"); add(recipeId);}}));
+
+        // When
+        String jwtToken = loginToApp();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(jwtToken);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+        ResponseEntity<String> response = testRestTemplate
+                .exchange(getUrl() + "/recipe/" + recipeId, HttpMethod.DELETE, entity, String.class);
+
+        // Then
+        assertThat(response.getStatusCode(), is(HttpStatus.OK));
+        assertThat(response.getBody(), is(recipeId));
+        assertThat(userSavedRecipesMongoDb.findById("awesomeGoogleId"), is(Optional.of(
+                new UserSavedRecipes("awesomeGoogleId", new ArrayList<>() {{add("No1"); add("No2");}})
+        )));
+
+    }
+
+    @Test
+    @DisplayName("Delete recipe for unknown user should throw error")
+    public void deleteRecipeForUnknownUserShouldThrowError() {
+        // Given
+        String recipeId = "awesomeRecipeId";
+
+        // When
+        String jwtToken = loginToApp();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(jwtToken);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+        ResponseEntity<String> response = testRestTemplate
+                .exchange(getUrl() + "/recipe/" + recipeId, HttpMethod.DELETE, entity, String.class);
+
+        // Then
+        assertThat(response.getStatusCode(), is (HttpStatus.BAD_REQUEST));
 
     }
 

@@ -6,7 +6,9 @@ import de.neuefische.teddyscoronadiaries.model.recipe.Recipe;
 import de.neuefische.teddyscoronadiaries.model.recipe.RecipeCardDetails;
 import de.neuefische.teddyscoronadiaries.model.user.UserSavedRecipes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -86,6 +88,29 @@ public class UserRecipeService {
                     .savedRecipeIds(savedRecipes)
                     .build());
         }
+    }
+
+    public String deleteRecipe(String userId, String recipeId) {
+
+        Optional<UserSavedRecipes> savedUserRecipes = userSavedRecipesMongoDb.findById(userId);
+
+        if(savedUserRecipes.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unknown user");
+        }
+
+        if (savedUserRecipes.isPresent()) {
+            ArrayList<String> savedRecipes = savedUserRecipes.get().getSavedRecipeIds();
+
+            ArrayList<String> updatedSavedRecipes = new ArrayList<>(savedRecipes.stream()
+                    .filter(listItem -> !listItem.equals(recipeId))
+                    .collect(Collectors.toList()));
+
+            userSavedRecipesMongoDb.save(savedUserRecipes.get().toBuilder()
+                    .savedRecipeIds(updatedSavedRecipes)
+                    .build());
+        }
+
+        return recipeId;
     }
 
 }
