@@ -6,31 +6,33 @@ import ProvinceIncidenceBubble from "./ProvinceIncidenceBubble";
 import ProvinceCapitalWeather from "./ProvinceCapitalWeather";
 import {getActivities} from "../../service/activityApiService";
 import ActivityCard from "./ActivityCard";
+import {getWeatherDetails} from "../../service/weatherApiService";
 
 function CoronaActivitiesDetails({location}) {
 
     const [activities, setActivities] = useState()
-    const [weatherCategory, setWeatherCategory] = useState()
+    const [weatherDetails, setWeatherDetails] = useState()
 
     const {coronaDetails, province} = location.state;
 
     useEffect(() => {
-        getActivities(weatherCategory, coronaDetails.incidenceLevel).then(setActivities)
-    }, [weatherCategory, coronaDetails.incidenceLevel])
+        getWeatherDetails(province).then(setWeatherDetails)
+    }, [province])
 
-
-    console.log(activities)
+    if(weatherDetails) {
+        getActivities(weatherDetails.weatherCategory, coronaDetails.incidenceLevel).then(setActivities)
+    }
 
     return (
         <ActivityWrapper>
             <IncidenceWeatherBox>
                 <ProvinceIncidenceBubble province={province} incidenceLevel={coronaDetails.incidenceLevel}
                                          incidenceValue={coronaDetails.incidenceValue}/>
-                <ProvinceCapitalWeather province={province} setWeatherCategory={setWeatherCategory}/>
+                <ProvinceCapitalWeather province={province} weatherDetails={weatherDetails}/>
             </IncidenceWeatherBox>
 
             {activities &&
-            activities.map(activity => <ActivityCard activity={activity}/>)
+            activities.map(activity => <ActivityCard activity={activity} key={activity.name}/>)
             }
 
         </ActivityWrapper>)

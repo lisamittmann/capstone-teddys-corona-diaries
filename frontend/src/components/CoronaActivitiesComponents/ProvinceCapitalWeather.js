@@ -1,19 +1,7 @@
 import styled from "styled-components/macro";
-import {useEffect, useState} from "react";
-import {getWeatherDetails} from "../../service/weatherApiService";
 import {GridPanel} from "./gridPanelCss";
 
-export default function ProvinceCapitalWeather({province, setWeatherCategory}) {
-
-    const [weatherDetails, setWeatherDetails] = useState()
-
-    useEffect(() => {
-        getWeatherDetails(province).then(setWeatherDetails)
-    }, [province])
-
-    if(weatherDetails) {
-        setWeatherCategory(weatherDetails.weatherCategory)
-    }
+export default function ProvinceCapitalWeather({weatherDetails}) {
 
     if (!weatherDetails) {
         return <WeatherWrapper/>;
