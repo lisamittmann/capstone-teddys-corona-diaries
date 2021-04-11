@@ -4,6 +4,7 @@ import axiosConfig from "../../service/axiosConfig";
 
 export default function AuthProvider({ children }) {
     const [token, setToken] = useState('')
+    const [userInfo, setUserInfo] = useState('')
 
     useEffect(() => {
         if (token) {
@@ -12,7 +13,7 @@ export default function AuthProvider({ children }) {
     }, [token])
 
     return (
-        <AuthContext.Provider value={{ token, setToken }}>
+        <AuthContext.Provider value={{ token, setToken, userInfo, setUserInfo }}>
             {children}
         </AuthContext.Provider>
     )

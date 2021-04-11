@@ -6,7 +6,7 @@ import {useHistory} from "react-router";
 
 export default function LoginWithGoogle() {
 
-    const { setToken } = useAuth()
+    const { setToken, setUserInfo } = useAuth()
     const [clientId, setClientId] = useState()
     const history = useHistory()
 
@@ -16,6 +16,8 @@ export default function LoginWithGoogle() {
 
     const onSuccess = (res) => {
         const loginDto = {profileObj: res.profileObj, tokenId: res.tokenId}
+        const userInfo = {name: res.profileObj.givenName, avatarUrl: res.profileObj.imageUrl}
+        setUserInfo(userInfo)
         loginUserWithGoogle(loginDto).then(setToken).then(() => history.push("/me"))
     }
 

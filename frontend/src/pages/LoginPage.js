@@ -2,8 +2,6 @@ import OverviewPageLayout from "../components/PageLayoutComponents/OverviewPageL
 import PageHeader from "../components/PageLayoutComponents/PageHeader";
 import LoginWithGoogle from "../components/LoginComponents/LoginWithGoogle";
 import styled from 'styled-components/macro'
-import {useAuth} from "../components/LoginComponents/AuthContext";
-import {Redirect} from 'react-router-dom'
 import PageLayoutWithNavigation from "../components/NavigationComponents/PageLayoutWithNavigation";
 
 export default function LoginPage() {
