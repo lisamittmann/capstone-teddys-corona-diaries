@@ -34,4 +34,9 @@ public class UserController {
     public void saveRecipe(@RequestBody SaveRecipeDto recipeToSave, Principal principal) {
         userRecipeService.saveRecipe(principal.getName(), recipeToSave.getRecipeId());
     }
+
+    @DeleteMapping("recipe/{recipeId}")
+    public String deleteRecipe(@PathVariable String recipeId, Principal principal) {
+        return userRecipeService.deleteRecipe(principal.getName(), recipeId);
+    }
 }

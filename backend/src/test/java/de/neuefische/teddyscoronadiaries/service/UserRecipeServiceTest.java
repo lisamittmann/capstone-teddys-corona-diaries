@@ -5,11 +5,13 @@ import de.neuefische.teddyscoronadiaries.db.UserSavedRecipesMongoDb;
 import de.neuefische.teddyscoronadiaries.model.recipe.Recipe;
 import de.neuefische.teddyscoronadiaries.model.recipe.RecipeCardDetails;
 import de.neuefische.teddyscoronadiaries.model.user.UserSavedRecipes;
+import io.swagger.models.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
 
@@ -132,6 +135,40 @@ class UserRecipeServiceTest {
         verify(userSavedRecipesMongoDb).save(
                 new UserSavedRecipes(userId, new ArrayList<>() {{add("recipe1"); add(recipeId);}}
                 ));
+    }
+
+    @Test
+    @DisplayName("Delete recipe should remove recipe from saved list")
+    public void deleteRecipeShouldDeleteRecipe() {
+        // Given
+        String userId = "awesomeUserId";
+        String recipeId = "awesomeRecipeId";
+
+        when(userSavedRecipesMongoDb.findById(userId)).thenReturn(Optional.of(
+                new UserSavedRecipes("awesomeUserId", new ArrayList<>() {{add("recipe1"); add(recipeId);}}
+                )));
+
+        // When
+        String result = userRecipeService.deleteRecipe(userId, recipeId);
+
+        // Then
+        assertThat(result, is(recipeId));
+        verify(userSavedRecipesMongoDb).save(new UserSavedRecipes("awesomeUserId", new ArrayList<>() {{add("recipe1");}}));
+    }
+
+    @Test
+    @DisplayName("Delete recipe for unknown user should throw error")
+    public void deleteRecipeForUnknownUserShouldThrowError() {
+        // Given
+        String userId = "awesomeUserId";
+        String recipeId = "awesomeRecipeId";
+
+        when(userSavedRecipesMongoDb.findById(userId)).thenReturn(Optional.empty());
+
+        // Then
+        assertThrows(ResponseStatusException.class, () -> {
+           userRecipeService.deleteRecipe(userId, recipeId);
+        });
     }
 
     private Recipe getRecipe(String id) {
