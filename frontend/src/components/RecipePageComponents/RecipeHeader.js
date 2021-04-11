@@ -11,18 +11,18 @@ export default function RecipeHeader({recipeName, recipeDescription, recipeId}) 
     const [recipeStatus, setRecipeStatus] = useState()
 
     const saveRecipe = () => {
-
         const updatedStatus = recipeStatus === "saved" ? "not-saved" : "saved"
         if(recipeStatus === "saved") {
             deleteRecipe(recipeId).then(() => setRecipeStatus(updatedStatus))
         } else {
             postSaveRecipe(recipeId).then(() => setRecipeStatus(updatedStatus))
         }
-
     }
 
     useEffect(() => {
-        getRecipeStatus(recipeId).then(setRecipeStatus)
+        if(token) {
+            getRecipeStatus(recipeId).then(setRecipeStatus)
+        }
     }, [recipeId])
 
     return (
